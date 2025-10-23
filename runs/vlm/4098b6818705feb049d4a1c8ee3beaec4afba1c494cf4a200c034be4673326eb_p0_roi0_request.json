@@ -1,0 +1,20 @@
+{
+  "roi_id" : "page",
+  "page_index" : 0,
+  "schema" : "vlm.request.v1",
+  "hints" : {
+    "numeric_density" : 0.5886699507389163,
+    "deskew_deg" : 0,
+    "binarize" : 0,
+    "script_conflict_rate" : 0.2248062015503876,
+    "columns_est" : 6
+  },
+  "roi" : {
+    "pw" : 608,
+    "py" : 0,
+    "ph" : 774,
+    "px" : 0
+  },
+  "doc_sha256" : "4098b6818705feb049d4a1c8ee3beaec4afba1c494cf4a200c034be4673326eb",
+  "image_path" : "\/Users\/jryear\/Desktop\/NativeOCR\/runs\/vlm\/4098b6818705feb049d4a1c8ee3beaec4afba1c494cf4a200c034be4673326eb_p0_roi0.png"
+}

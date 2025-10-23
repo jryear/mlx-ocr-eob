@@ -1,0 +1,36 @@
+payer: "__default__"
+detect:
+  name_regex: ""
+  header_left_hints: []
+  header_right_hints: []
+tables:
+  - id: "default"
+    header_row: 0
+    column_map:
+      date:        { field: service_date,   type: date }
+      code:        { field: procedure_code, type: dcode }
+      tooth:       { field: tooth_number,   type: tooth }
+      surface:     { field: tooth_surface,  type: tooth_surface }
+      description: { field: remark_description, type: text }
+      charge:      { field: charged_amount, type: money }
+      allowed:     { field: allowed_amount, type: money }
+      paid:        { field: insurance_paid, type: money }
+      patient:     { field: patient_responsibility, type: money }
+    header_aliases:
+      "svc date": date
+      "dos": date
+      "procedure": code
+      "proc": code
+      "code": code
+      "tooth #": tooth
+      "tooth": tooth
+      "surface": surface
+      "description": description
+      "charge": charge
+      "billed": charge
+      "allowed": allowed
+      "paid": paid
+      "patient": patient
+kv:
+  header_left: {}
+  header_right: {}

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nativeocr.dev/schemas/vlm/request.v1.json",
+  "title": "VLM Request v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "doc_sha256", "page_index", "roi_id", "image_path", "roi"],
+  "properties": {
+    "schema": { "const": "vlm.request.v1" },
+    "doc_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "page_index": { "type": "integer", "minimum": 0 },
+    "roi_id": { "type": "string" },
+    "image_path": { "type": "string" },
+    "roi": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["px", "py", "pw", "ph"],
+      "properties": {
+        "px": { "type": "integer", "minimum": 0 },
+        "py": { "type": "integer", "minimum": 0 },
+        "pw": { "type": "integer", "minimum": 1 },
+        "ph": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "hints": {
+      "type": ["object", "null"],
+      "additionalProperties": { "type": "number" }
+    }
+  }
+}
+

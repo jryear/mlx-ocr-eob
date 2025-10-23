@@ -1,0 +1,50 @@
+payer: 'Aetna'
+detect:
+  name_regex: '(?i)aetna'
+  header_left_hints: ['provider', 'npi', 'tax']
+  header_right_hints: ['claim', 'member', 'subscriber', 'group']
+tables:
+  - id: 'main'
+    header_row: 0
+    column_map:
+      date:        { field: service_date,   type: date,   patterns: ['%m/%d/%Y', '%Y-%m-%d'] }
+      code:        { field: procedure_code, type: dcode }
+      tooth:       { field: tooth_number,   type: tooth }
+      surface:     { field: tooth_surface,  type: tooth_surface }
+      description: { field: remark_description, type: text }
+      charge:      { field: charged_amount, type: money }
+      allowed:     { field: allowed_amount, type: money }
+      paid:        { field: insurance_paid, type: money }
+      patient:     { field: patient_responsibility, type: money }
+    header_aliases:
+      'svc date': date
+      'dos': date
+      'proc': code
+      'procedure': code
+      'cpt/d-cd': code
+      'tooth #': tooth
+      'tooth': tooth
+      'surface': surface
+      'billed': charge
+      'charge': charge
+      'allowed amt': allowed
+      'allowed': allowed
+      'ins paid': paid
+      'paid': paid
+      'pt resp': patient
+      'patient': patient
+kv:
+  header_left:
+    provider_name:
+      regex: '(?i)provider\s*[:#]?\s*(.+)'
+    npi:
+      regex: '(?i)NPI\s*[:#]?\s*(\d{10})'
+    tax_id:
+      regex: '(?i)(?:TIN|Tax ID)\s*[:#]?\s*(\d{2}-?\d{7}|\d{9})'
+  header_right:
+    claim_number:
+      regex: '(?i)claim\s*(?:#|number)?\s*[:#]?\s*([A-Z0-9\-]+)'
+    subscriber_id:
+      regex: '(?i)(?:member|subscriber)\s*(?:ID|#)?\s*[:#]?\s*([A-Z0-9\-]+)'
+    group_number:
+      regex: '(?i)group\s*(?:#|number)?\s*[:#]?\s*([A-Z0-9\-]+)'

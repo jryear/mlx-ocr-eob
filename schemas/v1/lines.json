@@ -1,0 +1,218 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "NativeOCR v1 Line OCR Schema",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "source_path",
+    "page_index",
+    "width",
+    "height",
+    "lines",
+    "meta"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "enum": ["1.0"]
+    },
+    "source_path": {
+      "type": "string"
+    },
+    "page_index": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "width": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "height": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "lines": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["text", "confidence", "box", "pixel_box"],
+        "properties": {
+          "text": {"type": "string"},
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "box": {
+            "$ref": "#/definitions/box"
+          },
+          "pixel_box": {
+            "$ref": "#/definitions/pixel_box"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "layout_text": {
+      "type": ["string", "null"]
+    },
+    "regions": {
+      "$ref": "#/definitions/regions"
+    },
+    "meta": {
+      "type": "object",
+      "required": [
+        "dpi",
+        "engine",
+        "revision",
+        "mode",
+        "lang",
+        "duration_ms",
+        "line_count",
+        "min_text_height",
+        "crc32",
+        "timestamp"
+      ],
+      "properties": {
+        "dpi": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "engine": {"type": "string"},
+        "revision": {"type": "string"},
+        "mode": {
+          "type": "string",
+          "enum": ["text"]
+        },
+        "lang": {
+          "type": "array",
+          "items": {"type": "string"},
+          "minItems": 1
+        },
+        "duration_ms": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "mean_confidence": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "line_density": {
+          "type": ["number", "null"],
+          "minimum": 0
+        },
+        "line_spacing_var": {
+          "type": ["number", "null"],
+          "minimum": 0
+        },
+        "column_count": {
+          "type": ["integer", "null"],
+          "minimum": 0
+        },
+        "line_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "numeric_density": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "tau_conf": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "min_text_height": {
+          "type": "number",
+          "minimum": 0
+        },
+        "crc32": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{8}$"
+        },
+        "route": {
+          "type": ["string", "null"],
+          "enum": ["text", "vlm", "skip", null]
+        },
+        "non_content": {
+          "type": ["boolean", "null"]
+        },
+        "mode_fallback": {
+          "type": ["boolean", "null"]
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false
+    },
+    "route": {
+      "type": ["string", "null"],
+      "enum": ["text", "vlm", "skip", null]
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "box": {
+      "type": "object",
+      "required": ["x", "y", "w", "h"],
+      "properties": {
+        "x": {"type": "number", "minimum": 0, "maximum": 1},
+        "y": {"type": "number", "minimum": 0, "maximum": 1},
+        "w": {"type": "number", "minimum": 0, "maximum": 1},
+        "h": {"type": "number", "minimum": 0, "maximum": 1}
+      },
+      "additionalProperties": false
+    },
+    "pixel_box": {
+      "type": "object",
+      "required": ["x", "y", "w", "h"],
+      "properties": {
+        "x": {"type": "integer", "minimum": 0},
+        "y": {"type": "integer", "minimum": 0},
+        "w": {"type": "integer", "minimum": 1},
+        "h": {"type": "integer", "minimum": 1}
+      },
+      "additionalProperties": false
+    },
+    "regions": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "type": "object",
+          "properties": {
+            "left": {"$ref": "#/definitions/region"},
+            "right": {"$ref": "#/definitions/region"}
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "region": {
+      "type": "object",
+      "required": ["box", "line_indices", "text"],
+      "properties": {
+        "box": {"$ref": "#/definitions/region_box"},
+        "line_indices": {
+          "type": "array",
+          "items": {"type": "integer", "minimum": 0}
+        },
+        "text": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "region_box": {
+      "type": "object",
+      "required": ["normalized", "pixel"],
+      "properties": {
+        "normalized": {"$ref": "#/definitions/box"},
+        "pixel": {"$ref": "#/definitions/pixel_box"}
+      },
+      "additionalProperties": false
+    }
+  }
+}

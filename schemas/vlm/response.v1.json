@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nativeocr.dev/schemas/vlm/response.v1.json",
+  "title": "VLM Response v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schema"],
+  "properties": {
+    "schema": { "const": "vlm.response.v1" },
+    "page_index": { "type": "integer", "minimum": 0 },
+    "roi_id": { "type": "string" },
+    "tables": { "type": ["array", "null"], "items": { "type": "object" } },
+    "text_blocks": { "type": ["array", "null"], "items": { "type": "object" } },
+    "kv": { "type": ["array", "null"], "items": { "type": "object" } },
+    "model_meta": { "type": ["object", "null"] }
+  }
+}
+

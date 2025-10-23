@@ -1,0 +1,45 @@
+name: NativeOCR CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-and-smoke:
+    runs-on: macos-15
+    env:
+      HOME: ${{ github.workspace }}
+      SWIFT_MODULE_CACHE_PATH: ${{ github.workspace }}/.build/swift-module-cache
+      CLANG_MODULE_CACHE_PATH: ${{ github.workspace }}/.build/clang-module-cache
+      MODULE_CACHE_DIR: ${{ github.workspace }}/.build/module-cache
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install tooling
+        run: |
+          brew install jq
+          npm install -g ajv-cli
+
+      - name: Build release CLI
+        run: |
+          swift build -c release --disable-sandbox
+        working-directory: vision-ocr-cli
+
+      - name: Generate sample PDF
+        run: |
+          swift scripts/make_sample_pdf.swift fixtures/sample.pdf
+
+      - name: Smoke run (document mode)
+        run: |
+          mkdir -p tmp
+          vision-ocr-cli/.build/release/vision-ocr-cli fixtures/sample.pdf --dpi 300 --mode document --ndjson tmp/smoke.jsonl --log-run runs/ci_smoke.json
+
+      - name: Validate NDJSON structure
+        run: |
+          make schema-check RAW_DOC=tmp/smoke.jsonl
+
+      - name: Show run manifest
+        run: |
+          cat runs/ci_smoke.json

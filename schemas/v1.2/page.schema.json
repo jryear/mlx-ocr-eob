@@ -1,0 +1,239 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nativeocr.dev/schemas/v1.2/page.schema.json",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "engine",
+    "mode",
+    "mode_fallback",
+    "page_index",
+    "width",
+    "height",
+    "lines",
+    "meta",
+    "routing",
+    "non_content"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.2" },
+    "engine": { "type": "string" },
+    "mode": { "type": "string" },
+    "mode_fallback": { "type": "boolean" },
+    "source_path": { "type": "string" },
+    "page_index": { "type": "integer", "minimum": 0 },
+    "width": { "type": "integer", "minimum": 1 },
+    "height": { "type": "integer", "minimum": 1 },
+    "layout_text": { "type": ["string", "null"] },
+    "regions": { "$ref": "#/defs/regions" },
+    "reading_order": {
+      "type": ["array", "null"],
+      "items": { "type": "string" }
+    },
+    "kv": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["key", "value", "source"],
+        "properties": {
+          "key": { "type": "string" },
+          "value": { "type": "string" },
+          "source": { "type": "string", "enum": ["vision", "vlm"] },
+          "confidence": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+          "box_px": { "$ref": "#/defs/pixel_box" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "lines": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["text", "confidence", "box", "pixel_box"],
+        "properties": {
+          "text": { "type": "string" },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+          "box": { "$ref": "#/defs/box" },
+          "pixel_box": { "$ref": "#/defs/pixel_box" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "paragraphs": {
+      "type": ["array", "null"],
+      "items": {
+        "type": "object",
+        "required": ["text", "box", "pixel_box"],
+        "properties": {
+          "text": { "type": "string" },
+          "confidence": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+          "box": { "$ref": "#/defs/box" },
+          "pixel_box": { "$ref": "#/defs/pixel_box" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "tables": {
+      "type": ["array", "null"],
+      "items": {
+        "type": "object",
+        "required": ["id", "rows", "cols", "box", "cells", "stats"],
+        "properties": {
+          "id": { "type": "string" },
+          "rows": { "type": "integer", "minimum": 1 },
+          "cols": { "type": "integer", "minimum": 1 },
+          "box": { "$ref": "#/defs/box" },
+          "cells": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["r", "c", "text", "box", "pixel_box"],
+              "properties": {
+                "r": { "type": "integer", "minimum": 0 },
+                "c": { "type": "integer", "minimum": 0 },
+                "row_span": { "type": ["integer", "null"], "minimum": 1 },
+                "col_span": { "type": ["integer", "null"], "minimum": 1 },
+                "text": { "type": "string" },
+                "box": { "$ref": "#/defs/box" },
+                "pixel_box": { "$ref": "#/defs/pixel_box" },
+                "confidence": { "type": ["number", "null"], "minimum": 0, "maximum": 1 }
+              },
+              "additionalProperties": false
+            }
+          },
+          "stats": {
+            "type": "object",
+            "required": ["cell_count", "median_cell_conf"],
+            "properties": {
+              "cell_count": { "type": "integer", "minimum": 0 },
+              "median_cell_conf": { "type": ["number", "null"], "minimum": 0, "maximum": 1 }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "meta": {
+      "type": "object",
+      "required": [
+        "dpi",
+        "revision",
+        "lang",
+        "duration_ms",
+        "line_count",
+        "min_text_height",
+        "crc32",
+        "timestamp"
+      ],
+      "properties": {
+        "dpi": { "type": "integer", "minimum": 1 },
+        "revision": { "type": "string" },
+        "lang": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "duration_ms": { "type": "integer", "minimum": 0 },
+        "mean_confidence": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+        "line_density": { "type": ["number", "null"], "minimum": 0 },
+        "line_spacing_var": { "type": ["number", "null"], "minimum": 0 },
+        "column_count": { "type": ["integer", "null"], "minimum": 0 },
+        "line_count": { "type": "integer", "minimum": 0 },
+        "numeric_density": { "type": ["number", "null"], "minimum": 0 },
+        "tau_conf": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+        "script_conflict_rate": { "type": ["number", "null"], "minimum": 0 },
+        "script_conflict_rate_max": { "type": ["number", "null"], "minimum": 0 },
+        "paragraph_median_conf": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+        "min_text_height": { "type": "number", "minimum": 0 },
+        "crc32": { "type": "string", "pattern": "^[0-9a-fA-F]{8}$" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": false
+    },
+    "routing": {
+      "type": "object",
+      "required": ["decision", "features", "minimum_text_height"],
+      "properties": {
+        "decision": { "type": "string", "enum": ["text", "vlm", "skip"] },
+        "features": {
+          "type": "object",
+          "properties": {
+            "tau_conf": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+            "est_cols": { "type": ["integer", "null"], "minimum": 0 },
+            "numeric_density": { "type": ["number", "null"], "minimum": 0 },
+            "script_conflict_rate": { "type": ["number", "null"], "minimum": 0 },
+            "script_conflict_rate_max": { "type": ["number", "null"], "minimum": 0 },
+            "paragraph_median_conf": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+            "median_cell_conf": { "type": ["number", "null"], "minimum": 0, "maximum": 1 }
+          },
+          "additionalProperties": true
+        },
+        "minimum_text_height": { "type": "number", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "non_content": { "type": "boolean" }
+  },
+  "additionalProperties": false,
+  "defs": {
+    "box": {
+      "type": "object",
+      "required": ["x", "y", "w", "h"],
+      "properties": {
+        "x": { "type": "number", "minimum": 0, "maximum": 1 },
+        "y": { "type": "number", "minimum": 0, "maximum": 1 },
+        "w": { "type": "number", "minimum": 0, "maximum": 1 },
+        "h": { "type": "number", "minimum": 0, "maximum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "pixel_box": {
+      "type": "object",
+      "required": ["x", "y", "w", "h"],
+      "properties": {
+        "x": { "type": "integer", "minimum": 0 },
+        "y": { "type": "integer", "minimum": 0 },
+        "w": { "type": "integer", "minimum": 1 },
+        "h": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "regions": {
+      "type": ["object", "null"],
+      "properties": {
+        "header": {
+          "type": "object",
+          "properties": {
+            "left": { "$ref": "#/defs/region" },
+            "right": { "$ref": "#/defs/region" }
+          },
+          "additionalProperties": false
+        },
+        "footer": { "$ref": "#/defs/region" }
+      },
+      "additionalProperties": false
+    },
+    "region": {
+      "type": "object",
+      "required": ["box", "line_indices", "text"],
+      "properties": {
+        "box": {
+          "type": "object",
+          "required": ["normalized", "pixel"],
+          "properties": {
+            "normalized": { "$ref": "#/defs/box" },
+            "pixel": { "$ref": "#/defs/pixel_box" }
+          },
+          "additionalProperties": false
+        },
+        "line_indices": {
+          "type": "array",
+          "items": { "type": "integer", "minimum": 0 }
+        },
+        "text": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

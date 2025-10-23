@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nativeocr.dev/schemas/run.v1.2.json",
+  "title": "NativeOCR Run Manifest v1.2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "timestamp",
+    "argv",
+    "macOS",
+    "input_path",
+    "input_sha256",
+    "ndjson_path",
+    "schema_version",
+    "dpi",
+    "mode",
+    "lang",
+    "page_count",
+    "duration_ms",
+    "engine",
+    "revision",
+    "min_text_height",
+    "routing",
+    "pages"
+  ],
+  "properties": {
+    "timestamp": { "type": "string", "format": "date-time" },
+    "argv": { "type": "array", "items": { "type": "string" } },
+    "macOS": { "type": "string" },
+    "swift_version": { "type": ["string", "null"] },
+    "xcode_version": { "type": ["string", "null"] },
+    "cli_git_sha": { "type": ["string", "null"], "pattern": "^[0-9a-f]{40}$" },
+    "input_path": { "type": "string" },
+    "input_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "ndjson_path": { "type": "string" },
+    "ndjson_crc32": { "type": ["string", "null"], "pattern": "^[0-9a-fA-F]{8}$" },
+    "ndjson_line_count": { "type": ["integer", "null"], "minimum": 0 },
+    "schema_version": { "const": "1.2" },
+    "dpi": { "type": "integer", "minimum": 1 },
+    "mode": { "type": "string", "enum": ["text", "document"] },
+    "mode_fallback": { "type": "boolean" },
+    "lang": { "type": "array", "items": { "type": "string" } },
+    "timeout_ms": { "type": ["integer", "null"], "minimum": 1 },
+    "page_count": { "type": "integer", "minimum": 0 },
+    "duration_ms": { "type": "integer", "minimum": 0 },
+    "engine": { "type": "string" },
+    "revision": { "type": "string" },
+    "min_text_height": { "type": "number", "minimum": 0, "maximum": 1 },
+    "routing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "features"],
+      "properties": {
+        "version": { "type": "string" },
+        "tau_conf": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+        "median_confidence": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+        "features": {
+          "type": "object",
+          "additionalProperties": { "type": "boolean" }
+        }
+      }
+    },
+    "vlm_runs": {
+      "type": ["array", "null"],
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["page_index", "roi_id"],
+        "properties": {
+          "page_index": { "type": "integer", "minimum": 0 },
+          "roi_id": { "type": "string" },
+          "image_path": { "type": "string" },
+          "request_path": { "type": "string" },
+          "response_path": { "type": ["string", "null"] },
+          "request_crc32": { "type": "string", "pattern": "^[0-9a-fA-F]{8}$" },
+          "response_crc32": { "type": ["string", "null"], "pattern": "^[0-9a-fA-F]{8}$" },
+          "runner_status": { "type": "string" },
+          "preprocess_ops": { "type": ["array", "null"], "items": { "type": "string" } }
+        }
+      }
+    },
+    "pages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "page_index",
+          "crc32",
+          "duration_ms",
+          "line_count"
+        ],
+        "properties": {
+          "page_index": { "type": "integer", "minimum": 0 },
+          "crc32": { "type": "string", "pattern": "^[0-9a-fA-F]{8}$" },
+          "duration_ms": { "type": "integer", "minimum": 0 },
+          "mean_confidence": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+          "tau_conf": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+          "line_count": { "type": "integer", "minimum": 0 },
+          "route": { "type": ["string", "null"], "enum": ["text", "vlm", "skip", null] },
+          "non_content": { "type": ["boolean", "null"] }
+        }
+      }
+    }
+  }
+}
