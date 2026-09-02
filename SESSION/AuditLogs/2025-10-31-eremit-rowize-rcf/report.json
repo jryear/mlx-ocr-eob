@@ -1,0 +1,26 @@
+{
+  "suite": "EREMIT Rowize RCF",
+  "doc": "eobs/tests/EREMIT60pg.pdf",
+  "out": "/Users/jryear/Desktop/NativeOCR/out/eremit_rowize_rcf",
+  "capture": {
+    "wall_s": null,
+    "p95_ms": null
+  },
+  "assembly": {
+    "services": 78,
+    "rows_3of4": 33,
+    "complete_rows": 25,
+    "conservation_rate": 0.19230769230769232,
+    "locked_pct": 0.3076923076923077
+  },
+  "ring": {},
+  "deterministic": true,
+  "hash": {
+    "run_a": "7ebfe882d3896f8cb4bb01ad209c7916f41b7261c5f5ba473f7f605791bcbeb4",
+    "run_b": "7ebfe882d3896f8cb4bb01ad209c7916f41b7261c5f5ba473f7f605791bcbeb4"
+  },
+  "wall": {
+    "run_a_s": 5.766,
+    "run_b_s": 5.784
+  }
+}

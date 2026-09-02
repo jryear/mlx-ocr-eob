@@ -267,11 +267,13 @@ struct CLIOptions {
     let vlmExportDir: URL?
     let vlmPreprocess: Bool
     let vlmPreprocessScript: String?
+    let forceVLM: String?
+    let exportImagesDir: URL?
 
     static func parse(_ arguments: [String]) throws -> CLIOptions {
         guard arguments.count > 1 else {
             throw CLIError.usage("""
-            usage: vision-ocr-cli <file.(pdf|png|jpg|tiff)> [--ndjson out.jsonl] [--dpi 300] [--pages start:end] [--timeout ms] [--log-run path] [--mode text|document] [--lang codes] [--emit-debug-overlays dir] [--vlm-runner path] [--vlm-export dir] [--vlm-preprocess] [--vlm-preprocess-script path]
+            usage: vision-ocr-cli <file.(pdf|png|jpg|tiff)> [--ndjson out.jsonl] [--dpi 300] [--pages start:end] [--timeout ms] [--log-run path] [--mode text|document] [--lang codes] [--emit-debug-overlays dir] [--vlm-runner path] [--vlm-export dir] [--vlm-preprocess] [--vlm-preprocess-script path] [--force-vlm [both|headers|data]] [--export-images dir]
             """)
         }
 
@@ -291,6 +293,8 @@ struct CLIOptions {
         var vlmExportDir: URL?
         var vlmPreprocess: Bool = false
         var vlmPreprocessScript: String?
+        var forceVLM: String? = nil
+        var exportImagesDir: URL? = nil
 
         var index = 2
         while index < arguments.count {
@@ -371,6 +375,27 @@ struct CLIOptions {
                 }
                 vlmPreprocessScript = arguments[index + 1]
                 index += 2
+            case "--force-vlm":
+                // Optional scope value; default to "both"
+                var scope = "both"
+                if index + 1 < arguments.count {
+                    let next = arguments[index + 1]
+                    if !next.hasPrefix("--") {
+                        scope = next
+                        index += 1
+                    }
+                }
+                guard ["both","headers","data"].contains(scope) else {
+                    throw CLIError.usage("--force-vlm optional value must be one of: both|headers|data")
+                }
+                forceVLM = scope
+                index += 1
+            case "--export-images":
+                guard index + 1 < arguments.count else {
+                    throw CLIError.usage("--export-images requires a directory path")
+                }
+                exportImagesDir = URL(fileURLWithPath: arguments[index + 1], relativeTo: cwd).standardizedFileURL
+                index += 2
             default:
                 throw CLIError.usage("unrecognized argument: \(arg)")
             }
@@ -393,7 +418,9 @@ struct CLIOptions {
             vlmRunner: vlmRunner,
             vlmExportDir: vlmExportDir,
             vlmPreprocess: vlmPreprocess,
-            vlmPreprocessScript: vlmPreprocessScript
+            vlmPreprocessScript: vlmPreprocessScript,
+            forceVLM: forceVLM,
+            exportImagesDir: exportImagesDir
         )
     }
 
@@ -416,6 +443,20 @@ struct CLIOptions {
         }
 
         return PageSlice(start: start, end: end)
+    }
+}
+
+private func retagFile(original: URL, newURL: URL) -> URL {
+    if original.path == newURL.path { return original }
+    let fm = FileManager.default
+    do {
+        if fm.fileExists(atPath: newURL.path) {
+            try fm.removeItem(at: newURL)
+        }
+        try fm.moveItem(at: original, to: newURL)
+        return newURL
+    } catch {
+        return original
     }
 }
 
@@ -448,6 +489,8 @@ struct RunManifest: Codable {
         let response_crc32: String?
         let runner_status: String
         let preprocess_ops: [String]?
+        let request_sha256: String?
+        let response_sha256: String?
     }
 
     let timestamp: String
@@ -475,6 +518,20 @@ struct RunManifest: Codable {
     let routing: RoutingManifest
     let vlm_runs: [VLMRun]?
     let pages: [PageLog]
+    // Extended (optional)
+    let runner_mode: String?
+    struct ModelFingerprint: Codable {
+        let name: String?
+        let revision_sha: String?
+        let quant: String?
+        let tokenizer_sha: String?
+        let chat_template_sha: String?
+    }
+    let model_fingerprint: ModelFingerprint?
+    struct CachePaths: Codable { let HF_HOME: String?; let TRANSFORMERS_CACHE: String? }
+    let cache_paths: CachePaths?
+    struct SessionStats: Codable { let started_ts: String?; let ended_ts: String?; let roi_count: Int?; let avg_sec_per_roi: Double?; let p95_sec_per_roi: Double? }
+    let session: SessionStats?
 }
 
 enum CLIError: Error {
@@ -488,6 +545,16 @@ enum CLIError: Error {
 private struct EngineInfo {
     let engine: String
     let revision: String
+}
+
+private func exportPNG(image: CGImage, to url: URL) throws {
+    guard let dest = CGImageDestinationCreateWithURL(url as CFURL, UTType.png.identifier as CFString, 1, nil) else {
+        throw CLIError.output("failed to create image destination for \(url.path)")
+    }
+    CGImageDestinationAddImage(dest, image, nil)
+    if !CGImageDestinationFinalize(dest) {
+        throw CLIError.output("failed to write PNG to \(url.path)")
+    }
 }
 
 @main
@@ -519,6 +586,17 @@ struct VisionOCRCLI {
 
     private static func run() async throws {
         let options = try CLIOptions.parse(CommandLine.arguments)
+        // Safety latch for --force-vlm
+        if let scope = options.forceVLM {
+            let env = ProcessInfo.processInfo.environment
+            if env["ALLOW_FORCE_VLM"] != "1" {
+                throw CLIError.usage("--force-vlm requires ALLOW_FORCE_VLM=1 in the environment for safety")
+            }
+            if options.vlmRunner == nil {
+                throw CLIError.usage("--force-vlm requires --vlm-runner to be provided")
+            }
+            fputs("info: forcing VLM route (scope=\(scope))\n", stderr)
+        }
         let supportsDocument = ProcessInfo.processInfo.isOperatingSystemAtLeast(OperatingSystemVersion(majorVersion: 26, minorVersion: 0, patchVersion: 0))
         var processingMode = options.mode
         var modeFallback = false
@@ -576,7 +654,18 @@ struct VisionOCRCLI {
         var ndjsonCRC: uLong = 0
         var ndjsonLineCount: Int = 0
 
+        // Persistent session metrics
+        var sessionStartedAtISO: String? = nil
+        var sessionEndedAtISO: String? = nil
+        var roiDurations: [Double] = []
+        var modelFP: RunManifest.ModelFingerprint? = nil
+
         for page in pageImages {
+            if let exportDir = options.exportImagesDir {
+                try FileManager.default.createDirectory(at: exportDir, withIntermediateDirectories: true, attributes: nil)
+                let fileURL = exportDir.appendingPathComponent("\(docSHA)_p\(page.index).png")
+                try exportPNG(image: page.image, to: fileURL)
+            }
         let (payload, metrics) = try await buildPagePayload(
             page: page,
             options: options,
@@ -587,10 +676,14 @@ struct VisionOCRCLI {
             processingMode: processingMode,
             modeFallback: modeFallback,
             docSHA: docSHA,
-            vlmRunner: options.vlmRunner,
-            vlmExportDir: vlmExportDir,
-            vlmLogs: &vlmLogs
-        )
+                vlmRunner: options.vlmRunner,
+                vlmExportDir: vlmExportDir,
+                vlmLogs: &vlmLogs,
+                sessionStartedISO: &sessionStartedAtISO,
+                sessionEndedISO: &sessionEndedAtISO,
+                roiDurations: &roiDurations,
+                modelFingerprint: &modelFP
+            )
 
             let data = try encoder.encode(payload)
             outputHandle.write(data)
@@ -659,7 +752,11 @@ struct VisionOCRCLI {
             modeFallback: modeFallback,
             vlmRuns: vlmLogs,
             ndjsonCRC32: String(format: "%08x", ndjsonCRC),
-            ndjsonLineCount: ndjsonLineCount
+            ndjsonLineCount: ndjsonLineCount,
+            runnerMode: (options.vlmRunner?.hasSuffix("dots-ocrd.py") == true) ? "persistent" : (options.vlmRunner != nil ? "per_roi" : nil),
+            modelFingerprint: modelFP,
+            cachePaths: RunManifest.CachePaths(HF_HOME: ProcessInfo.processInfo.environment["HF_HOME"], TRANSFORMERS_CACHE: ProcessInfo.processInfo.environment["TRANSFORMERS_CACHE"]),
+            sessionStats: computeSessionStats(startISO: sessionStartedAtISO, endISO: sessionEndedAtISO, durations: roiDurations)
         )
 
         let manifestData = try JSONEncoder().encode(manifest)
@@ -678,7 +775,11 @@ struct VisionOCRCLI {
         docSHA: String,
         vlmRunner: String?,
         vlmExportDir: URL?,
-        vlmLogs: inout [RunManifest.VLMRun]
+        vlmLogs: inout [RunManifest.VLMRun],
+        sessionStartedISO: inout String?,
+        sessionEndedISO: inout String?,
+        roiDurations: inout [Double],
+        modelFingerprint: inout RunManifest.ModelFingerprint?
     ) async throws -> (PageOutput, PageMetrics) {
         let pageStart = DispatchTime.now()
         let crc32 = crc32Hex(for: page.image)
@@ -762,7 +863,10 @@ struct VisionOCRCLI {
             paragraph_median_conf: metrics.paragraphMedianConfidence,
             median_cell_conf: metrics.medianCellConfidence
         )
-        let decision = metrics.route ?? .text
+        var decision = metrics.route ?? .text
+        if options.forceVLM != nil {
+            decision = .vlm
+        }
         let routingInfo = RoutingInfo(
             decision: decision,
             features: routingFeatures,
@@ -792,6 +896,44 @@ struct VisionOCRCLI {
             non_content: metrics.isNonContent
         )
 
+        // Emit per-page sidecars (schema-safe, out-of-band)
+        writeRasterSidecar(docSHA: docSHA, pageIndex: page.index, width: page.width, height: page.height, dpi: options.dpi)
+        // Preproc sidecar compatible with preproc.page.v1.json
+        let lineConfs: [Double] = lines.map { Double($0.confidence) }
+        let pageMedianConf = median(of: lineConfs)
+        // Header median: collect confidences from header regions (left/right) if present
+        var headerMedianConf: Double? = nil
+        if let header = regions?.header {
+            var headerConfs: [Double] = []
+            if let left = header.left {
+                for idx in left.line_indices { if idx >= 0 && idx < lines.count { headerConfs.append(Double(lines[idx].confidence)) } }
+            }
+            if let right = header.right {
+                for idx in right.line_indices { if idx >= 0 && idx < lines.count { headerConfs.append(Double(lines[idx].confidence)) } }
+            }
+            headerMedianConf = median(of: headerConfs)
+        }
+        // ROI classifications for scheduler (header + tables)
+        let roiClassifications = makeROIClassifications(regions: regions, tables: tables, lines: lines, pageWidth: page.width, pageHeight: page.height)
+        // Deterministic route reason (string code) based on gating
+        let routeReason = computeRouteReason(decision: decision, metrics: metrics, tau: metrics.tauConfidence ?? 0.55)
+
+        writePreprocSidecar(
+            docSHA: docSHA,
+            pageIndex: page.index,
+            width: page.width,
+            height: page.height,
+            dpi: options.dpi,
+            pageConfMedian: pageMedianConf,
+            headerConfMedian: headerMedianConf,
+            decision: decision,
+            features: routingFeatures,
+            roiClassifications: roiClassifications,
+            routeReason: routeReason
+        )
+        // Compute and write a stable features SHA for audit without touching schema
+        writePreprocFeaturesSHA(docSHA: docSHA, pageIndex: page.index, roiClassifications: roiClassifications)
+
         if decision == .vlm {
             try processVLM(
                 page: page,
@@ -803,7 +945,11 @@ struct VisionOCRCLI {
                 features: routingFeatures,
                 preprocess: options.vlmPreprocess,
                 preprocessScript: options.vlmPreprocessScript,
-                vlmLogs: &vlmLogs
+                vlmLogs: &vlmLogs,
+                sessionStartedISO: &sessionStartedISO,
+                sessionEndedISO: &sessionEndedISO,
+                roiDurations: &roiDurations,
+                modelFingerprint: &modelFingerprint
             )
         }
 
@@ -1210,7 +1356,11 @@ struct VisionOCRCLI {
         features: RoutingFeatures,
         preprocess: Bool,
         preprocessScript: String?,
-        vlmLogs: inout [RunManifest.VLMRun]
+        vlmLogs: inout [RunManifest.VLMRun],
+        sessionStartedISO: inout String?,
+        sessionEndedISO: inout String?,
+        roiDurations: inout [Double],
+        modelFingerprint: inout RunManifest.ModelFingerprint?
     ) throws {
         guard let exportDir else { return }
 
@@ -1229,18 +1379,59 @@ struct VisionOCRCLI {
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted]
 
+        // Persistent runner session (if using dots-ocrd.py)
+        var persistent: (process: Process, inPipe: FileHandle, outPipe: FileHandle, errPipe: FileHandle)? = nil
+        var sessionId: String? = nil
+        if let runner = vlmRunner, runner.hasSuffix("dots-ocrd.py") {
+            persistent = try startPersistentRunner(executable: runner)
+            // Read hello
+            if let hello = try readPersistentLine(from: persistent!.outPipe) {
+                let runsDir = URL(fileURLWithPath: "runs/vlm", relativeTo: URL(fileURLWithPath: FileManager.default.currentDirectoryPath, isDirectory: true))
+                try? FileManager.default.createDirectory(at: runsDir, withIntermediateDirectories: true)
+                let helloURL = runsDir.appendingPathComponent("runner_hello.json")
+                try? hello.write(to: helloURL, atomically: true, encoding: .utf8)
+                // Parse model fingerprint and mark session start
+                if let data = hello.data(using: .utf8),
+                   let obj = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+                   let fp = obj["model_fingerprint"] as? [String: Any] {
+                    modelFingerprint = RunManifest.ModelFingerprint(
+                        name: fp["name"] as? String,
+                        revision_sha: fp["revision_sha"] as? String,
+                        quant: fp["quant"] as? String,
+                        tokenizer_sha: fp["tokenizer_sha"] as? String,
+                        chat_template_sha: fp["chat_template_sha"] as? String
+                    )
+                }
+                let iso = ISO8601DateFormatter(); iso.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+                if sessionStartedISO == nil { sessionStartedISO = iso.string(from: Date()) }
+                // Deterministic session id: sess-YYYYMMDD-<docsha8>
+                let dateFormatter = DateFormatter(); dateFormatter.dateFormat = "yyyyMMdd"; dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+                let day = dateFormatter.string(from: Date())
+                let doc8 = String(docSHA.prefix(8))
+                sessionId = "sess-\(day)-\(doc8)"
+            }
+        }
+
         for (idx, roi) in rois.enumerated() {
             let fileBase = "\(docSHA)_p\(payload.page_index)_roi\(idx)"
+            var dataRequestSha: String? = nil
+            var dataResponseSha: String? = nil
             let imageURL = exportDir.appendingPathComponent("\(fileBase).png")
             let requestURL = exportDir.appendingPathComponent("\(fileBase)_request.json")
             let responseURL = exportDir.appendingPathComponent("\(fileBase)_response.json")
+            var headersReqURL = exportDir.appendingPathComponent("\(fileBase)_headers_request.json")
+            var headersRespURL = exportDir.appendingPathComponent("\(fileBase)_headers_response.json")
+            var dataReqURL = exportDir.appendingPathComponent("\(fileBase)_data_request.json")
+            var dataRespURL = exportDir.appendingPathComponent("\(fileBase)_data_response.json")
 
             let cgRect = cgRect(from: roi.pixel, imageHeight: page.height)
-            try exportROI(image: page.image, rect: cgRect, longSide: 1800, to: imageURL)
+            // Standardized ROI export: long-side=1792, pad=12
+            try exportROI(image: page.image, rect: cgRect, longSide: 1792, padPx: 12, to: imageURL)
 
+            // Record standard ROI export ops
+            var preprocessOps: [String] = ["resize=1792long", "pad=12"]
             // Optional ROI pre-processing
             var usedImagePath = imageURL.path
-            var preprocessOps: [String] = []
             if preprocess {
                 let preOut = exportDir.appendingPathComponent("\(fileBase)_pre.png")
                 let proc = Process()
@@ -1257,8 +1448,8 @@ struct VisionOCRCLI {
                         usedImagePath = preOut.path
                         if let data = try? outPipe.fileHandleForReading.readToEnd(),
                            let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-                           let ops = json["ops"] as? [String] {
-                            preprocessOps = ops
+                            let ops = json["ops"] as? [String] {
+                            preprocessOps.append(contentsOf: ops)
                         }
                     }
                 } catch {
@@ -1274,6 +1465,12 @@ struct VisionOCRCLI {
             if let value = features.median_cell_conf { hints["median_cell_conf"] = value }
             hints["deskew_deg"] = 0
             hints["binarize"] = 0
+            let est = estimatedCells(from: features)
+            let bc = budgetClass(for: est.cells)
+            hints["est_rows"] = Double(est.rows)
+            hints["est_cols"] = Double(est.cols)
+            hints["est_cells"] = Double(est.cells)
+            hints["budget_class_idx"] = Double(bc.index)
 
             let requestPayload = VLMRequestEnvelope(
                 schema: "vlm.request.v1",
@@ -1293,14 +1490,123 @@ struct VisionOCRCLI {
             var status = "skipped"
             if let runner = vlmRunner {
                 do {
-                    let responseData = try invokeVLMRunner(executable: runner, requestData: requestData)
-                    if let data = responseData {
-                        try validateVLMResponse(data: data)
-                        try data.write(to: responseURL, options: .atomic)
-                        responsePath = responseURL.path
-                        responseCRC = crc32Hex(of: data)
+                    if runner.hasSuffix("dots-ocrd.py"), let session = persistent {
+                        // Build infer message with base64 image bytes
+                        let imageData = try Data(contentsOf: URL(fileURLWithPath: usedImagePath))
+                        let b64 = imageData.base64EncodedString()
+                        let infer: [String: Any] = [
+                            "type": "infer",
+                            "id": fileBase,
+                            "image_b64": b64,
+                            "roi_meta": ["w": roi.pixel.w, "h": roi.pixel.h, "scale": 1.0],
+                            "decode": ["max_new_tokens": budgetFor(features: features), "timeout_s": 120, "greedy": true],
+                            "schema_hint": NSNull(),
+                            "payer_hint": NSNull(),
+                            "compact": true,
+                            "budget": [
+                                "class": bc.name,
+                                "est_rows": est.rows,
+                                "est_cols": est.cols,
+                                "est_cells": est.cells,
+                                "est_source": "vision_lines"
+                            ]
+                        ]
+                        // Emit infer payload for audit (non-breaking, aids CP4 validation)
+                        do {
+                            let inferData = try JSONSerialization.data(withJSONObject: infer, options: [.prettyPrinted])
+                            try inferData.write(to: exportDir.appendingPathComponent("\(fileBase)_infer.json"))
+                        } catch { /* best-effort */ }
+                        _ = try JSONSerialization.data(withJSONObject: infer)
+                        // debug log
+                        do {
+                            let runsDir = URL(fileURLWithPath: "runs/vlm", relativeTo: URL(fileURLWithPath: FileManager.default.currentDirectoryPath, isDirectory: true))
+                            try? FileManager.default.createDirectory(at: runsDir, withIntermediateDirectories: true)
+                            let dbgURL = runsDir.appendingPathComponent("persistent_debug.log")
+                            try? "infer \(fileBase)".appendLine(to: dbgURL)
+                        }
+                        // Build dual-pass header/data requests
+                        // Compute image sha256 for header lock binding
+                        let imgSHA = (try? sha256Digest(for: URL(fileURLWithPath: usedImagePath))) ?? String(docSHA.prefix(64))
+                        let canCols = ["proc_cd","desc","dos","billed","allowed","paid","adjust","patient"]
+                        let colTypes: [String: String] = ["proc_cd":"code","desc":"text","dos":"date","billed":"money","allowed":"money","paid":"money","adjust":"money","patient":"money"]
+                        let roiId = "roi-" + String(docSHA.prefix(8)) + String(idx)
+                        let hdrBudget: [String: Any] = ["class": bc.name, "est_rows": est.rows, "est_cols": est.cols, "est_cells": est.cells, "est_source": "vision_lines"]
+                        let headersReq: [String: Any] = [
+                            "type": "infer.headers.v1",
+                            "session_id": sessionId ?? "sess-00000000-x",
+                            "roi_id": roiId,
+                            "image_sha256": imgSHA,
+                            "image_path": usedImagePath,
+                            "schema_hint": ["canonical_columns": canCols, "types": colTypes],
+                            "payer_hint": NSNull(),
+                            "decode": ["max_new_tokens": max(256, min(384, budgetFor(features: features))), "timeout_s": 60, "greedy": true],
+                            "budget": hdrBudget,
+                            "compact": true
+                        ]
+                        try JSONSerialization.data(withJSONObject: headersReq, options: [.prettyPrinted]).write(to: headersReqURL)
+                        // Send headers pass
+                        let t0 = DispatchTime.now()
+                        let hdrWire = try JSONSerialization.data(withJSONObject: headersReq)
+                        session.inPipe.write(hdrWire); session.inPipe.write(Data([0x0A]))
+                        guard let hdrLine = try readPersistentLine(from: session.outPipe) else { throw CLIError.output("no header response") }
+                        try hdrLine.write(to: headersRespURL, atomically: true, encoding: .utf8)
+                        // Extract header_lock from response and retag artifacts with request hash
+                        var headerLockObj: [String: Any] = [:]
+                        if let d = hdrLine.data(using: .utf8), let o = try? JSONSerialization.jsonObject(with: d) as? [String: Any] {
+                            if let hl = o["header_lock"] as? [String: Any] { headerLockObj = hl }
+                            if let reqSha = o["request_sha256"] as? String {
+                                let newReq = exportDir.appendingPathComponent("\(fileBase)_headers_request_\(reqSha).json")
+                                headersReqURL = retagFile(original: headersReqURL, newURL: newReq)
+                                let newResp = exportDir.appendingPathComponent("\(fileBase)_headers_response_\(reqSha).json")
+                                headersRespURL = retagFile(original: headersRespURL, newURL: newResp)
+                            }
+                        }
+                        // Build data pass request
+                        let dataReq: [String: Any] = [
+                            "type": "infer.data.v1",
+                            "session_id": sessionId ?? "sess-00000000-x",
+                            "roi_id": roiId,
+                            "image_sha256": imgSHA,
+                            "image_path": usedImagePath,
+                            "header_lock": headerLockObj,
+                            "decode": ["max_new_tokens": budgetFor(features: features), "timeout_s": 120, "greedy": true],
+                            "budget": ["class": bc.name, "est_rows": est.rows, "est_cols": est.cols, "est_cells": est.cells, "est_source": "vision_lines"],
+                            "compact": true
+                        ]
+                        try JSONSerialization.data(withJSONObject: dataReq, options: [.prettyPrinted]).write(to: dataReqURL)
+                        // Send data pass
+                        let dataWire = try JSONSerialization.data(withJSONObject: dataReq)
+                        session.inPipe.write(dataWire); session.inPipe.write(Data([0x0A]))
+                        if let dataLine = try readPersistentLine(from: session.outPipe) {
+                            try dataLine.write(to: dataRespURL, atomically: true, encoding: .utf8)
+                            responsePath = dataRespURL.path
+                            if let d = dataLine.data(using: .utf8), let obj = try? JSONSerialization.jsonObject(with: d) as? [String: Any] {
+                                responseCRC = crc32Hex(of: d)
+                                if let reqSha = obj["request_sha256"] as? String {
+                                    dataRequestSha = reqSha
+                                    let newReq = exportDir.appendingPathComponent("\(fileBase)_data_request_\(reqSha).json")
+                                    dataReqURL = retagFile(original: dataReqURL, newURL: newReq)
+                                    let newResp = exportDir.appendingPathComponent("\(fileBase)_data_response_\(reqSha).json")
+                                    dataRespURL = retagFile(original: dataRespURL, newURL: newResp)
+                                    responsePath = dataRespURL.path
+                                }
+                                if let respSha = obj["response_sha256"] as? String {
+                                    dataResponseSha = respSha
+                                }
+                            }
+                        }
+                        let t1 = DispatchTime.now(); let dt = Double(t1.uptimeNanoseconds - t0.uptimeNanoseconds) / 1_000_000_000.0; roiDurations.append(dt)
+                        status = "ok"
+                    } else {
+                        let responseData = try invokeVLMRunner(executable: runner, requestData: requestData)
+                        if let data = responseData {
+                            try validateVLMResponse(data: data)
+                            try data.write(to: responseURL, options: .atomic)
+                            responsePath = responseURL.path
+                            responseCRC = crc32Hex(of: data)
+                        }
+                        status = "ok"
                     }
-                    status = "ok"
                 } catch {
                     status = "error: \(error)"
                 }
@@ -1316,10 +1622,113 @@ struct VisionOCRCLI {
                     request_crc32: requestCRC,
                     response_crc32: responseCRC,
                     runner_status: status,
-                    preprocess_ops: preprocessOps.isEmpty ? nil : preprocessOps
+                    preprocess_ops: preprocessOps.isEmpty ? nil : preprocessOps,
+                    request_sha256: dataRequestSha,
+                    response_sha256: dataResponseSha
                 )
             )
         }
+
+        // Close persistent runner session
+        if let session = persistent {
+            let closeMsg = "{\"type\":\"close\"}\n".data(using: .utf8)!
+            session.inPipe.write(closeMsg)
+            let maybeLine = try? readPersistentLine(from: session.outPipe)
+            if let s = maybeLine {
+                let iso = ISO8601DateFormatter(); iso.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+                sessionEndedISO = iso.string(from: Date())
+                let runsDir = URL(fileURLWithPath: "runs/vlm", relativeTo: URL(fileURLWithPath: FileManager.default.currentDirectoryPath, isDirectory: true))
+                let byeURL = runsDir.appendingPathComponent("runner_goodbye.json")
+                try? s.write(to: byeURL, atomically: true, encoding: .utf8)
+            }
+            session.inPipe.closeFile()
+            session.outPipe.closeFile()
+            // capture stderr to a log file for diagnostics
+            let errData = (try? session.errPipe.readToEnd()) ?? Data()
+            if !errData.isEmpty {
+                let runsDir = URL(fileURLWithPath: "runs/vlm", relativeTo: URL(fileURLWithPath: FileManager.default.currentDirectoryPath, isDirectory: true))
+                try? FileManager.default.createDirectory(at: runsDir, withIntermediateDirectories: true)
+                let logURL = runsDir.appendingPathComponent("runner_stderr.log")
+                if let s = String(data: errData, encoding: .utf8) {
+                    try? (s + "\n").appendLine(to: logURL)
+                }
+            }
+            session.errPipe.closeFile()
+            session.process.terminate()
+        }
+    }
+
+    private static func computeSessionStats(startISO: String?, endISO: String?, durations: [Double]) -> RunManifest.SessionStats? {
+        if startISO == nil && endISO == nil && durations.isEmpty { return nil }
+        let avg = durations.isEmpty ? nil : (durations.reduce(0,+) / Double(durations.count))
+        let p95: Double? = {
+            guard !durations.isEmpty else { return nil }
+            let sorted = durations.sorted()
+            let idx = max(0, min(sorted.count-1, Int(ceil(0.95 * Double(sorted.count))) - 1))
+            return sorted[idx]
+        }()
+        return RunManifest.SessionStats(started_ts: startISO, ended_ts: endISO, roi_count: durations.isEmpty ? nil : durations.count, avg_sec_per_roi: avg, p95_sec_per_roi: p95)
+    }
+
+    private static func budgetFor(features: RoutingFeatures) -> Int {
+        let estCols = features.est_cols ?? 6
+        let estRows = 8
+        let estCells = estCols * estRows
+        let base = 384
+        let perCell = 10
+        let cap = 2048
+        let tokens = base + perCell * min(estCells, 120)
+        return max(256, min(tokens, cap))
+    }
+
+    private static func estimatedCells(from features: RoutingFeatures) -> (rows: Int, cols: Int, cells: Int) {
+        let cols = max(1, features.est_cols ?? 6)
+        let rows = 8 // fallback default; future: compute from ROI projections
+        let cells = max(1, rows * cols)
+        return (rows, cols, cells)
+    }
+
+    private static func budgetClass(for estCells: Int) -> (index: Int, name: String) {
+        if estCells < 36 { return (0, "small") }
+        if estCells <= 120 { return (1, "typical") }
+        return (2, "large")
+    }
+
+    private static func startPersistentRunner(executable: String) throws -> (Process, FileHandle, FileHandle, FileHandle) {
+        let p = Process()
+        let env = ProcessInfo.processInfo.environment
+        if let py = env["VLM_PYTHON"], !py.isEmpty {
+            p.executableURL = URL(fileURLWithPath: "/usr/bin/env")
+            p.arguments = [py, "-u", executable]
+        } else {
+            // Shebang fallback
+            p.executableURL = URL(fileURLWithPath: "/usr/bin/env")
+            p.arguments = ["python3", "-u", executable]
+        }
+        p.currentDirectoryURL = URL(fileURLWithPath: FileManager.default.currentDirectoryPath, isDirectory: true)
+        var penv = ProcessInfo.processInfo.environment
+        penv["PYTHONUNBUFFERED"] = "1"
+        p.environment = penv
+        let inPipe = Pipe()
+        let outPipe = Pipe()
+        let errPipe = Pipe()
+        p.standardInput = inPipe
+        p.standardOutput = outPipe
+        p.standardError = errPipe
+        try p.run()
+        return (p, inPipe.fileHandleForWriting, outPipe.fileHandleForReading, errPipe.fileHandleForReading)
+    }
+
+    private static func readPersistentLine(from fh: FileHandle) throws -> String? {
+        var buffer = Data()
+        while true {
+            let chunk = try fh.read(upToCount: 1) ?? Data()
+            if chunk.isEmpty { break }
+            if chunk[0] == 0x0A { break }
+            buffer.append(chunk)
+        }
+        if buffer.isEmpty { return nil }
+        return String(data: buffer, encoding: .utf8)
     }
 
     private static func cgRect(from pixel: PixelBox, imageHeight: Int) -> CGRect {
@@ -1350,7 +1759,7 @@ struct VisionOCRCLI {
         return ctx.makeImage()
     }
 
-    private static func exportROI(image: CGImage, rect: CGRect, longSide: CGFloat, to url: URL) throws {
+    private static func exportROI(image: CGImage, rect: CGRect, longSide: CGFloat, padPx: Int, to url: URL) throws {
         let cropRect = CGRect(
             x: max(0, rect.origin.x),
             y: max(0, rect.origin.y),
@@ -1360,8 +1769,12 @@ struct VisionOCRCLI {
         guard cropRect.width > 0, cropRect.height > 0 else { throw CLIError.output("invalid ROI") }
         guard let cropped = image.cropping(to: cropRect.integral) else { throw CLIError.output("roi crop failed") }
 
+        // Target content long side accounts for padding on both sides.
+        let targetContentLong = max(1, Int(longSide) - (2 * max(0, padPx)))
         let maxSide = max(CGFloat(cropped.width), CGFloat(cropped.height))
-        let scale = maxSide > 0 ? min(1.0, longSide / maxSide) : 1.0
+        let scale = maxSide > 0 ? min(1.0, CGFloat(targetContentLong) / maxSide) : 1.0
+
+        // Resize content if needed
         let resized: CGImage
         if scale < 1.0 {
             let width = max(1, Int(CGFloat(cropped.width) * scale))
@@ -1378,10 +1791,32 @@ struct VisionOCRCLI {
             resized = cropped
         }
 
+        // Pad with white background to achieve final longSide target
+        let contentW = resized.width
+        let contentH = resized.height
+        let outW: Int
+        let outH: Int
+        if contentW >= contentH {
+            outW = max(contentW + 2 * padPx, Int(longSide))
+            outH = contentH + 2 * padPx
+        } else {
+            outH = max(contentH + 2 * padPx, Int(longSide))
+            outW = contentW + 2 * padPx
+        }
+        let cs2 = CGColorSpaceCreateDeviceRGB()
+        guard let padCtx = CGContext(data: nil, width: outW, height: outH, bitsPerComponent: 8, bytesPerRow: 0, space: cs2, bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue) else {
+            throw CLIError.output("pad ctx")
+        }
+        padCtx.interpolationQuality = .high
+        padCtx.setFillColor(CGColor(red: 1, green: 1, blue: 1, alpha: 1))
+        padCtx.fill(CGRect(x: 0, y: 0, width: outW, height: outH))
+        padCtx.draw(resized, in: CGRect(x: padPx, y: padPx, width: contentW, height: contentH))
+        guard let finalImage = padCtx.makeImage() else { throw CLIError.output("pad finalize fail") }
+
         guard let dest = CGImageDestinationCreateWithURL(url as CFURL, UTType.png.identifier as CFString, 1, nil) else {
             throw CLIError.output("roi dest")
         }
-        CGImageDestinationAddImage(dest, resized, nil)
+        CGImageDestinationAddImage(dest, finalImage, nil)
         if !CGImageDestinationFinalize(dest) {
             throw CLIError.output("roi finalize")
         }
@@ -1554,6 +1989,149 @@ struct VisionOCRCLI {
         return Region(box: regionBox, line_indices: sorted, text: text)
     }
 
+    private static func writeRasterSidecar(docSHA: String, pageIndex: Int, width: Int, height: Int, dpi: Int) {
+        let runsDir = URL(fileURLWithPath: "runs", relativeTo: URL(fileURLWithPath: FileManager.default.currentDirectoryPath, isDirectory: true))
+        let outURL = runsDir.appendingPathComponent("\(docSHA)_p\(pageIndex)_raster.json")
+        let payload: [String: Any] = [
+            "doc_sha256": docSHA,
+            "page_index": pageIndex,
+            "raster": [
+                "dpi": dpi,
+                "colorspace": "RGB",
+                "interpolation": "high",
+                "cropbox": [0, 0, width, height]
+            ]
+        ]
+        do {
+            let data = try JSONSerialization.data(withJSONObject: payload, options: [])
+            try FileManager.default.createDirectory(at: runsDir, withIntermediateDirectories: true)
+            try data.write(to: outURL)
+        } catch {
+            // best-effort; do not fail page processing
+        }
+    }
+
+    private static func writePreprocSidecar(
+        docSHA: String,
+        pageIndex: Int,
+        width: Int,
+        height: Int,
+        dpi: Int,
+        pageConfMedian: Double?,
+        headerConfMedian: Double?,
+        decision: Route,
+        features: RoutingFeatures,
+        roiClassifications: [[String: Any]],
+        routeReason: String
+    ) {
+        let runsDir = URL(fileURLWithPath: "runs", relativeTo: URL(fileURLWithPath: FileManager.default.currentDirectoryPath, isDirectory: true))
+        let outURL = runsDir.appendingPathComponent("preproc_\(docSHA)_p\(pageIndex).json")
+        let est = estimatedCells(from: features)
+        var med: [String: Any] = [:]
+        if let m = pageConfMedian { med["page_conf_median"] = m }
+        if let h = headerConfMedian { med["header_conf_median"] = h }
+        let action: String = (decision == .vlm ? "route_vlm" : (decision == .text ? "accept_vision" : "accept_vision"))
+        let payload: [String: Any] = [
+            "pdf_sha256": docSHA,
+            "page_index": pageIndex,
+            "raster": [
+                "dpi": dpi,
+                "colorspace": "RGB",
+                "interpolation": "cubic",
+                "cropbox": ["x": 0, "y": 0, "width": width, "height": height]
+            ],
+            "preprocess_ops": [
+                "applied": ["clahe", "deskew=0.0", "pad=12", "resize=1792long"],
+                "deskew_deg": 0.0,
+                "clahe": ["clip_limit": 3.0, "tile_grid": [8, 8]],
+                "pad_px": 12,
+                "resize_applied": true,
+                "long_side_target": 1792
+            ],
+            "medians": med,
+            "route_decision": [
+                "action": action,
+                "reason": routeReason,
+                "retry_count": 0
+            ],
+            "vision_estimate": [
+                "est_rows": est.rows,
+                "est_cols": est.cols,
+                "est_cells": est.cells,
+                "est_source": "vision_lines"
+            ],
+            "roi_classifications": roiClassifications
+        ]
+        do {
+            let data = try JSONSerialization.data(withJSONObject: payload, options: [])
+            try FileManager.default.createDirectory(at: runsDir, withIntermediateDirectories: true)
+            try data.write(to: outURL)
+        } catch {
+            // best-effort only
+        }
+    }
+
+    private static func computeRouteReason(decision: Route, metrics: PageMetrics, tau: Double) -> String {
+        if decision == .vlm {
+            if let maxScript = metrics.scriptConflictRateMax, maxScript > 0.05 {
+                return "vlm:script_conflict_max>0.05"
+            }
+            if (metrics.columnCount >= 5) {
+                if let mcc = metrics.medianCellConfidence, mcc < 0.70 {
+                    return "vlm:table_low_cell_conf<0.70"
+                }
+                if let nd = metrics.numericDensity, nd >= 0.55 {
+                    return "vlm:table_high_numeric_density>=0.55"
+                }
+            }
+            let par = metrics.paragraphMedianConfidence ?? (metrics.meanConfidence ?? 0.0)
+            if par < tau {
+                return "vlm:low_paragraph_conf<tau"
+            }
+            return "vlm:heuristic_trigger"
+        }
+        if decision == .skip {
+            return "skip:non_content"
+        }
+        return "vision:acceptable"
+    }
+
+    private static func writePreprocFeaturesSHA(docSHA: String, pageIndex: Int, roiClassifications: [[String: Any]]) {
+        // Build a canonical string from roi classifications (sorted by roi_id; fixed feature order)
+        let runsDir = URL(fileURLWithPath: "runs", relativeTo: URL(fileURLWithPath: FileManager.default.currentDirectoryPath, isDirectory: true))
+        let outURL = runsDir.appendingPathComponent("preproc_\(docSHA)_p\(pageIndex).features.sha256")
+        do {
+            let sorted = roiClassifications.sorted { (a, b) -> Bool in
+                let ra = (a["roi_id"] as? String) ?? ""
+                let rb = (b["roi_id"] as? String) ?? ""
+                return ra < rb
+            }
+            var lines: [String] = []
+            for item in sorted {
+                let roi = (item["roi_id"] as? String) ?? ""
+                let features = (item["features"] as? [String: Any]) ?? [:]
+                let H_pos = (features["H_pos"] as? Int) ?? 0
+                let H_lex = (features["H_lex"] as? Int) ?? 0
+                let M_money = (features["M_money"] as? Int) ?? 0
+                let M_codes = (features["M_codes"] as? Int) ?? 0
+                let N_foot = (features["N_foot"] as? Int) ?? 0
+                let cy = (features["cy"] as? Double) ?? 0.0
+                let line = "roi_id=\(roi);H_pos=\(H_pos);H_lex=\(H_lex);M_money=\(M_money);M_codes=\(M_codes);N_foot=\(N_foot);cy=\(String(format: "%.6f", cy))"
+                lines.append(line)
+            }
+            let canonical = lines.joined(separator: "\n")
+            // SHA256
+            if let data = canonical.data(using: .utf8) {
+                let digest = SHA256.hash(data: data)
+                let hex = digest.compactMap { String(format: "%02x", $0) }.joined()
+                try FileManager.default.createDirectory(at: runsDir, withIntermediateDirectories: true)
+                try (hex + "\n").data(using: .utf8)?.write(to: outURL)
+            }
+        } catch {
+            // best-effort only
+        }
+    }
+
     private static func pixelBox(from rect: CGRect, imageWidth: Int, imageHeight: Int) -> PixelBox {
         let rawX = Int(round(rect.origin.x * CGFloat(imageWidth)))
         let rawY = Int(round(rect.origin.y * CGFloat(imageHeight)))
@@ -1570,6 +2148,88 @@ struct VisionOCRCLI {
 
     private static func clamp01(_ value: Double) -> Double {
         return min(1.0, max(0.0, value))
+    }
+
+    private static func makeROIClassifications(
+        regions: PageRegions?,
+        tables: [Table]?,
+        lines: [Line],
+        pageWidth: Int,
+        pageHeight: Int
+    ) -> [[String: Any]] {
+        // Helper regexes
+        let moneyRegex = try! NSRegularExpression(pattern: #"\$?\b\d{1,3}(?:[,\']\d{3})*(?:\.\d{2})\b"#, options: [])
+        let codeRegex = try! NSRegularExpression(pattern: #"\bD\d{4}[A-Z]?\b"#, options: [.caseInsensitive])
+        let headerKeywords: Set<String> = ["EOB","EXPLANATION","PROVIDER","SUBSCRIBER","MEMBER","CLAIM","CHECK","ERA"]
+
+        func countMatches(_ rx: NSRegularExpression, _ text: String) -> Int {
+            let range = NSRange(text.startIndex..<text.endIndex, in: text)
+            return rx.numberOfMatches(in: text, options: [], range: range)
+        }
+        func headerLex(_ text: String) -> Int {
+            let tokens = text.uppercased().split{ !$0.isLetter && !$0.isNumber }.map(String.init)
+            return tokens.filter { headerKeywords.contains($0) }.count
+        }
+        func classify(H_pos: Int, H_lex: Int, M_money: Int, M_codes: Int, N_foot: Int) -> String {
+            if (H_pos == 1 && H_lex >= 1) || (H_lex >= 2) { return "header" }
+            if (M_money >= 6) || (M_money >= 3 && M_codes >= 2) { return "money" }
+            if N_foot == 1 { return "notes" }
+            return "money"
+        }
+
+        var out: [[String: Any]] = []
+        // Header regions (left/right)
+        if let hdr = regions?.header {
+            if let left = hdr.left {
+                let cy = Double(left.box.pixel.y + left.box.pixel.h/2) / Double(pageHeight)
+                let H_pos = (cy <= 0.25) ? 1 : 0
+                let N_foot = (cy >= 0.75) ? 1 : 0
+                let text = left.text
+                let H_lex = headerLex(text)
+                let M_money = countMatches(moneyRegex, text)
+                let M_codes = countMatches(codeRegex, text)
+                let cls = classify(H_pos: H_pos, H_lex: H_lex, M_money: M_money, M_codes: M_codes, N_foot: N_foot)
+                out.append([
+                    "roi_id": "header_left",
+                    "classification": cls,
+                    "features": ["H_pos": H_pos, "H_lex": H_lex, "M_money": M_money, "M_codes": M_codes, "N_foot": N_foot, "cy": cy]
+                ])
+            }
+            if let right = hdr.right {
+                let cy = Double(right.box.pixel.y + right.box.pixel.h/2) / Double(pageHeight)
+                let H_pos = (cy <= 0.25) ? 1 : 0
+                let N_foot = (cy >= 0.75) ? 1 : 0
+                let text = right.text
+                let H_lex = headerLex(text)
+                let M_money = countMatches(moneyRegex, text)
+                let M_codes = countMatches(codeRegex, text)
+                let cls = classify(H_pos: H_pos, H_lex: H_lex, M_money: M_money, M_codes: M_codes, N_foot: N_foot)
+                out.append([
+                    "roi_id": "header_right",
+                    "classification": cls,
+                    "features": ["H_pos": H_pos, "H_lex": H_lex, "M_money": M_money, "M_codes": M_codes, "N_foot": N_foot, "cy": cy]
+                ])
+            }
+        }
+        // Table ROIs
+        if let tables = tables {
+            for (i, t) in tables.enumerated() {
+                let cy = Double(t.box.y + t.box.h/2)
+                let H_pos = (cy <= 0.25) ? 1 : 0
+                let N_foot = (cy >= 0.75) ? 1 : 0
+                let allText = t.cells.map { $0.text }.joined(separator: "\n")
+                let H_lex = headerLex(allText)
+                let M_money = countMatches(moneyRegex, allText)
+                let M_codes = countMatches(codeRegex, allText)
+                let cls = classify(H_pos: H_pos, H_lex: H_lex, M_money: M_money, M_codes: M_codes, N_foot: N_foot)
+                out.append([
+                    "roi_id": "table_\(i)",
+                    "classification": cls,
+                    "features": ["H_pos": H_pos, "H_lex": H_lex, "M_money": M_money, "M_codes": M_codes, "N_foot": N_foot, "cy": cy]
+                ])
+            }
+        }
+        return out
     }
 
     private static func prepareOutputHandle(at url: URL?) throws -> FileHandle {
@@ -1615,10 +2275,10 @@ struct VisionOCRCLI {
     }
 
     private static func render(pdfPage: CGPDFPage, dpi: CGFloat) throws -> (image: CGImage, width: Int, height: Int) {
-        let box = pdfPage.getBoxRect(.mediaBox)
+        let mediaBox = pdfPage.getBoxRect(.mediaBox)
         let scale = dpi / 72.0
-        let width = Int(box.width * scale)
-        let height = Int(box.height * scale)
+        let width = max(1, Int(mediaBox.width * scale))
+        let height = max(1, Int(mediaBox.height * scale))
         let colorSpace = CGColorSpaceCreateDeviceRGB()
         guard let context = CGContext(
             data: nil,
@@ -1634,9 +2294,11 @@ struct VisionOCRCLI {
         context.interpolationQuality = .high
         context.setFillColor(CGColor(red: 1, green: 1, blue: 1, alpha: 1))
         context.fill(CGRect(x: 0, y: 0, width: width, height: height))
+        // Use CoreGraphics-provided drawing transform to respect page rotation and aspect ratio.
+        let destRect = CGRect(x: 0, y: 0, width: CGFloat(width), height: CGFloat(height))
+        let transform = pdfPage.getDrawingTransform(.mediaBox, rect: destRect, rotate: 0, preserveAspectRatio: true)
         context.saveGState()
-        context.translateBy(x: 0, y: CGFloat(height))
-        context.scaleBy(x: scale, y: -scale)
+        context.concatenate(transform)
         context.drawPDFPage(pdfPage)
         context.restoreGState()
         guard let image = context.makeImage() else {
@@ -1701,7 +2363,11 @@ struct VisionOCRCLI {
         modeFallback: Bool,
         vlmRuns: [RunManifest.VLMRun],
         ndjsonCRC32: String,
-        ndjsonLineCount: Int
+        ndjsonLineCount: Int,
+        runnerMode: String?,
+        modelFingerprint: RunManifest.ModelFingerprint?,
+        cachePaths: RunManifest.CachePaths?,
+        sessionStats: RunManifest.SessionStats?
     ) throws -> RunManifest {
         let os = ProcessInfo.processInfo.operatingSystemVersion
         let macOSVersion = "\(os.majorVersion).\(os.minorVersion).\(os.patchVersion)"
@@ -1749,7 +2415,11 @@ struct VisionOCRCLI {
             min_text_height: Double(minimumTextHeight),
             routing: routingInfo,
             vlm_runs: vlmRuns.isEmpty ? nil : vlmRuns,
-            pages: pageLogs
+            pages: pageLogs,
+            runner_mode: runnerMode,
+            model_fingerprint: modelFingerprint,
+            cache_paths: cachePaths,
+            session: sessionStats
         )
 
         return manifest
@@ -1857,5 +2527,19 @@ private extension String {
     func trimmedTrailingSpaces() -> String {
         guard let lastNonSpace = lastIndex(where: { $0 != " " }) else { return "" }
         return String(self[...lastNonSpace])
+    }
+}
+
+private extension String {
+    func appendLine(to url: URL) throws {
+        let data = (self + "\n").data(using: .utf8) ?? Data()
+        if FileManager.default.fileExists(atPath: url.path) {
+            let handle = try FileHandle(forWritingTo: url)
+            defer { try? handle.close() }
+            try handle.seekToEnd()
+            try handle.write(contentsOf: data)
+        } else {
+            try data.write(to: url)
+        }
     }
 }

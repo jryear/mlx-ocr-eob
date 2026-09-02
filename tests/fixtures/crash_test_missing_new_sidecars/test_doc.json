@@ -1,0 +1,31 @@
+{
+  "metadata": {
+    "document_id": "test_missing_sidecars_00000000",
+    "schema_ref": "DentalEOBSchema.v1.2"
+  },
+  "claim": {
+    "claim_number": "TEST-MISSING-SIDECARS",
+    "payer_name": "TestPayer",
+    "status": "Complete"
+  },
+  "patient": {
+    "patient_name": "Test Patient"
+  },
+  "services": [
+    {
+      "procedure_code": "D2740",
+      "service_date": "2025-01-15",
+      "charged_amount": "800.00",
+      "allowed_amount": "600.00",
+      "insurance_paid": "480.00",
+      "patient_responsibility": "120.00",
+      "_row_locked": true
+    }
+  ],
+  "totals": {
+    "total_charged": "800.00",
+    "total_allowed": "600.00",
+    "total_paid": "480.00",
+    "total_patient_responsibility": "120.00"
+  }
+}

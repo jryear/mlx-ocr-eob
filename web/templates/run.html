@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2>Run</h2>
+  {% if error %}
+    <div class="error">{{ error }}</div>
+  {% else %}
+    <p>Run submitted.</p>
+  {% endif %}
+{% endblock %}
+

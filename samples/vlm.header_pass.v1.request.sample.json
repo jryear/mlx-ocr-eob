@@ -1,0 +1,33 @@
+{
+  "type": "infer.headers.v1",
+  "session_id": "sess-20251023-abc123",
+  "roi_id": "roi-000123",
+  "image_sha256": "4098b6818705feb049d4a1c8ee3beaec4afba1c494cf4a200c034be4673326eb",
+  "image_b64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+  "schema_hint": {
+    "canonical_columns": ["proc_cd", "desc", "dos", "billed", "allowed", "paid", "adjust", "patient"],
+    "types": {
+      "proc_cd": "code",
+      "dos": "date",
+      "billed": "money",
+      "allowed": "money",
+      "paid": "money",
+      "adjust": "money",
+      "patient": "money"
+    }
+  },
+  "payer_hint": "PPO_ACME",
+  "decode": {
+    "max_new_tokens": 512,
+    "timeout_s": 60,
+    "greedy": true
+  },
+  "budget": {
+    "class": "typical",
+    "est_rows": 8,
+    "est_cols": 7,
+    "est_cells": 56,
+    "est_source": "vision_lines"
+  },
+  "compact": true
+}

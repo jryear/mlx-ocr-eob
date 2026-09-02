@@ -1,0 +1,145 @@
+{
+  "version": 1,
+  "description": "Gold set v1 for CI gates and non-regression testing",
+  "count": 10,
+  "strata": {
+    "simple": 3,
+    "typical": 4,
+    "complex": 2,
+    "fax": 1
+  },
+  "strata_definitions": {
+    "simple": "Single-page, <20 rows, high DPI (≥300), clean scans",
+    "typical": "Multi-page, 20-60 rows, standard DPI (300), typical print quality",
+    "complex": "Multi-page, >60 rows, dense tables, small fonts",
+    "fax": "Low DPI (≤150), heavy dithering, skew, artifacts"
+  },
+  "slo_targets": {
+    "simple": {
+      "money_conservation": 0.99,
+      "teds": 0.98,
+      "kv_f1": 0.98,
+      "cer": 0.015
+    },
+    "typical": {
+      "money_conservation": 0.99,
+      "teds": 0.96,
+      "kv_f1": 0.97,
+      "cer": 0.020
+    },
+    "complex": {
+      "money_conservation": 0.99,
+      "teds": 0.94,
+      "kv_f1": 0.96,
+      "cer": 0.025
+    },
+    "fax": {
+      "money_conservation": 0.85,
+      "teds": 0.90,
+      "kv_f1": 0.92,
+      "cer": 0.040
+    }
+  },
+  "items": [
+    {
+      "id": "eob_0001",
+      "sha256_pdf": "",
+      "stratum": "simple",
+      "payer": "TBD",
+      "pages": 1,
+      "rows": 12,
+      "description": "Single page dental EOB, clean scan",
+      "has_truth": false
+    },
+    {
+      "id": "eob_0002",
+      "sha256_pdf": "",
+      "stratum": "simple",
+      "payer": "TBD",
+      "pages": 1,
+      "rows": 8,
+      "description": "Single page medical EOB, clear headers",
+      "has_truth": false
+    },
+    {
+      "id": "eob_0003",
+      "sha256_pdf": "",
+      "stratum": "simple",
+      "payer": "TBD",
+      "pages": 1,
+      "rows": 15,
+      "description": "Single page vision EOB",
+      "has_truth": false
+    },
+    {
+      "id": "eob_0004",
+      "sha256_pdf": "",
+      "stratum": "typical",
+      "payer": "TBD",
+      "pages": 2,
+      "rows": 35,
+      "description": "Two-page dental EOB, multiple claims",
+      "has_truth": false
+    },
+    {
+      "id": "eob_0005",
+      "sha256_pdf": "",
+      "stratum": "typical",
+      "payer": "TBD",
+      "pages": 3,
+      "rows": 42,
+      "description": "Multi-page medical EOB, mixed procedures",
+      "has_truth": false
+    },
+    {
+      "id": "eob_0006",
+      "sha256_pdf": "",
+      "stratum": "typical",
+      "payer": "TBD",
+      "pages": 2,
+      "rows": 28,
+      "description": "Standard PPO EOB format",
+      "has_truth": false
+    },
+    {
+      "id": "eob_0007",
+      "sha256_pdf": "",
+      "stratum": "typical",
+      "payer": "TBD",
+      "pages": 2,
+      "rows": 31,
+      "description": "Typical dental EOB with adjustments",
+      "has_truth": false
+    },
+    {
+      "id": "eob_0008",
+      "sha256_pdf": "",
+      "stratum": "complex",
+      "payer": "TBD",
+      "pages": 4,
+      "rows": 78,
+      "description": "Dense table, small fonts, 8pt",
+      "has_truth": false
+    },
+    {
+      "id": "eob_0009",
+      "sha256_pdf": "",
+      "stratum": "complex",
+      "payer": "TBD",
+      "pages": 3,
+      "rows": 92,
+      "description": "Large EOB with multiple claims, compressed layout",
+      "has_truth": false
+    },
+    {
+      "id": "eob_0010",
+      "sha256_pdf": "",
+      "stratum": "fax",
+      "payer": "TBD",
+      "pages": 2,
+      "rows": 20,
+      "description": "Faxed EOB, 150 DPI, dithered, slight skew",
+      "has_truth": false
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nativeocr.dev/schemas/assign.proof.v1.json",
+  "title": "Assign Proof Sidecar v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "doc", "tables"],
+  "properties": {
+    "schema": { "type": "string", "const": "assign.proof.v1" },
+    "doc": { "type": "string" },
+    "tables": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["table_id", "page_index", "extraction_variant", "column_map", "alternatives", "costs"],
+        "properties": {
+          "table_id": { "type": "string" },
+          "page_index": { "type": "integer", "minimum": 0 },
+          "extraction_variant": { "type": "string", "enum": ["mapper", "him", "unknown"] },
+          "column_map": { "type": "object", "additionalProperties": { "type": "integer" } },
+          "alternatives": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["variant", "column_map"],
+              "properties": {
+                "variant": { "type": "string", "enum": ["mapper", "him", "ilp_runner_up"] },
+                "column_map": { "type": "object", "additionalProperties": { "type": "integer" } },
+                "certified_rows_sample": { "type": ["integer", "null"], "minimum": 0 }
+              }
+            }
+          },
+          "costs": { "type": "object" },
+          "ilp": {
+            "type": ["object", "null"],
+            "additionalProperties": false,
+            "properties": {
+              "best": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["column_map", "certified_rows_sample"],
+                "properties": {
+                  "column_map": { "type": "object", "additionalProperties": { "type": "integer" } },
+                  "certified_rows_sample": { "type": "integer", "minimum": 0 }
+                }
+              },
+              "runner_up": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["column_map", "certified_rows_sample"],
+                "properties": {
+                  "column_map": { "type": "object", "additionalProperties": { "type": "integer" } },
+                  "certified_rows_sample": { "type": "integer", "minimum": 0 }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

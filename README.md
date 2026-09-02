@@ -177,7 +177,7 @@ scripts/bench.py --cli vision-ocr-cli/.build/release/vision-ocr-cli --corpus cor
 ```
 make schema-check RAW_DOC=tmp/smoke.jsonl
 ```
-Validates NDJSON payloads against `schemas/v1.2/page.schema.json` (AJV, draft 2020-12).
+Validates NDJSON payloads against `schemas/page.v1.2.json` (AJV, draft 2020-12).
 
 Run manifest and VLM schemas are also available:
 
@@ -212,6 +212,63 @@ Contracts for the VLM seam are versioned and validated:
 
 Use `make schema-check-vlm` to validate recorded JSON logs.
 
+**VLM runner (MLX, deterministic)**
+
+Run a real model locally with MLX-VLM using `scripts/dots-ocr-runner.py`.
+
+```
+# Optional environment knobs
+export VLM_MODEL=mlx-community/Qwen2-VL-7B-bf16    # or smaller MLX variant
+export VLM_FORCE_GREEDY=1                          # greedy decode
+export VLM_MAX_NEW_TOKENS=2048                     # bound generation (also honors VLM_MAX_TOKENS)
+export VLM_MAX_TEXT=32768                          # cap text length
+export VLM_TIMEOUT_S=120                           # soft timeout in seconds
+# Enable schema validation in the runner (optional)
+export VLM_VALIDATE=1
+
+vision-ocr-cli/.build/release/vision-ocr-cli doc.pdf --mode document \
+  --vlm-runner scripts/dots-ocr-runner.py --vlm-export runs/vlm \
+  --vlm-preprocess --vlm-preprocess-script scripts/preprocess_roi.py
+```
+
+Determinism and provenance in the runner:
+- Greedy decode (or user-specified), NFC-normalized outputs, control chars stripped
+- Records `prompt_version`, `prompt_sha256`, `image_sha256`, ROI size, idempotency key
+- Records requested vs actual decode params, acceptance, attempts, template fingerprint
+- Self-validation against `schemas/vlm/response.v1.json` (optional); safe downgrade on failure
+- Caps text; newline-delimited JSON with `model_meta.response_sha256`
+- On error/timeout: emits empty arrays and writes sidecar `runs/vlm/errors/<idempotency>.err.txt`
+
+**Persistent runner (recommended)**
+
+For production speed, use the persistent STDIO daemon (loads model once and streams ROIs):
+
+```
+./.build/release/vision-ocr-cli doc.pdf --mode document \
+  --vlm-runner scripts/dots-ocrd.py --vlm-export runs/vlm --vlm-preprocess
+```
+
+The daemon prints a `hello` line, then one `result` per `infer`, and finally `goodbye`. Compact JSON, JSON extraction/repair, and rectangularization are applied; `model_meta.parse_repair` appears only when repairs are applied.
+
+Dual‑pass contracts (headers → data, schema‑first)
+
+When using the persistent runner, the CLI emits an audit trail for a dual‑pass protocol in addition to legacy request/response:
+
+- Header pass: `runs/vlm/*_headers_request.json` → `runs/vlm/*_headers_response.json` (schema: `schemas/vlm/header_pass.v1.json`)
+- Data pass:   `runs/vlm/*_data_request.json`    → `runs/vlm/*_data_response.json`    (schema: `schemas/vlm/data_pass.v1.json`)
+
+Key properties:
+- Header‑lock: `result.headers.v1.header_lock.lock_sha256 = sha256(canon({image_sha256, canonical_order, mapping}))`.
+- Data pass binds to headers via `header_lock_sha256` (must match the header lock). This eliminates header hallucination and pins column order deterministically.
+- Back‑compat is preserved: the traditional `vlm.request.v1/response.v1` files remain for existing tooling; the dual‑pass artifacts are additive.
+
+Validate with AJV:
+
+```
+npx ajv-cli -s schemas/vlm/header_pass.v1.json -d 'runs/vlm/*_headers_*.json' --spec=draft2020 --strict=false
+npx ajv-cli -s schemas/vlm/data_pass.v1.json   -d 'runs/vlm/*_data_*.json'    --spec=draft2020 --strict=false
+```
+
 **Run Manifest Contract (v1.2)**
 
 Schema: `schemas/run.v1.2.json`. Highlights:
@@ -229,6 +286,18 @@ make schema-check-eob
 ```
 Transforms page-level NDJSON (`bench/raw_doc/*.jsonl`) into consolidated claims under `out/eob/*.json` using `config/payers/*.yaml`, then validates each object with `schemas/DentalEOBSchema.v1.2.json`.
 
+**Chunking & Index (Stage D)**
+
+Deterministically chunk EOBs for retrieval:
+
+```
+make emit-chunks
+make schema-check-chunks
+make index-chunks
+```
+
+Schema: `schemas/rag/chunk.v1.json`. Each record includes canonical `text`, `chunk_uid`, `chunk_sha256` (scope excludes digest fields), and provenance.
+
 Template mapping lives in `config/payers/`. Each YAML file defines header regex hooks and table column mapping (see `config/payers/Aetna.yaml` for an example). `_common.yaml` provides the fallback.
 
 **Quality Gates (initial)**
@@ -239,6 +308,57 @@ Template mapping lives in `config/payers/`. Each YAML file defines header regex 
 
 **Routing Hook (future)**
 Current heuristics set `routing.decision = "vlm"` when table geometry, numeric density, or script conflicts trip. Downstream can use this to invoke dots.ocr (CoreML/MLX) for the flagged pages only.
+
+Preprocessing & Sidecars (deterministic)
+
+To preserve page schema stability while improving provenance, a separate preproc sidecar is emitted per page:
+
+- Path: `runs/preproc_<pdf_sha256>_p<page>.json`
+- Schema: `schemas/preproc.page.v1.json`
+- Contains:
+  - `raster{ dpi, colorspace, interpolation, cropbox }`
+  - `preprocess_ops{ applied[], deskew_deg, clahe{clip_limit,tile_grid}, pad_px, resize_applied, long_side_target }`
+  - `medians{ page_conf_median, header_conf_median }`
+  - `route_decision{ action, reason, retry_count }`
+  - `vision_estimate{ est_rows, est_cols, est_cells, est_source }`
+  - `roi_classifications[]` with deterministic features and labels
+
+An additional deterministic feature hash is written for audit:
+
+- Path: `runs/preproc_<pdf_sha256>_p<page>.features.sha256`
+- Content: SHA‑256 over a canonical serialization of ROI classification features.
+
+Validate sidecars with AJV:
+
+```
+npx ajv-cli -s schemas/preproc.page.v1.json -d 'runs/preproc_*.json' --spec=draft2020 --strict=false
+```
+
+Raster & ROI normalization
+
+- PDFs are rasterized via CoreGraphics at fixed DPI (e.g., 300 or 360) and logged in the preproc sidecar.
+- ROI export is standardized to `long_side=1792` with `pad=12px` (white). Ops are recorded in `preprocess_ops.applied` (e.g., `["clahe","deskew=0.0","pad=12","resize=1792long"]`).
+
+BudgetPolicy (deterministic)
+
+- Cell‑based heuristic: `max_new_tokens = clamp(384 + 10*min(est_cells,120), 256, 2048)`.
+- Thresholds: `small < 36`, `typical ≤ 120`, else `large`.
+- Provenance: `budget{ class, est_rows, est_cols, est_cells, est_source }` present in infer payloads and mirrored in `model_meta` on responses; numeric hints are also included for backward‑compatible request validation.
+
+Determinism & provenance
+
+- `header_lock_sha256` must be identical across reruns for the same ROI when using dual‑pass; data results carry the lock hash.
+- NDJSON stream provenance: per‑page CRC32 plus NDJSON CRC32/line‑count in the run manifest.
+- Sidecars are byte‑identical across reruns (no timestamps inside); feature hashes provide quick diff.
+
+Session artifacts
+
+For each ROI under persistent mode you should see:
+
+- ROI image: `runs/vlm/<doc>_p<idx>_roi<k>.png`
+- Legacy request/response: `*_request.json`, `*_response.json`
+- Dual‑pass audit: `*_headers_request.json`, `*_headers_response.json`, `*_data_request.json`, `*_data_response.json`
+- Infer payload (legacy): `*_infer.json`
 
 **Repo Skeleton**
 

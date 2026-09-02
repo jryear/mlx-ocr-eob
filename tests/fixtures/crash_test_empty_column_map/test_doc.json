@@ -1,0 +1,21 @@
+{
+  "metadata": {
+    "document_id": "test_empty_colmap_00000000",
+    "schema_ref": "DentalEOBSchema.v1.2"
+  },
+  "claim": {
+    "claim_number": "TEST-EMPTY-COLMAP",
+    "payer_name": "TestPayer",
+    "status": "Pending"
+  },
+  "patient": {
+    "patient_name": "Test Patient"
+  },
+  "services": [],
+  "totals": {
+    "total_charged": "0.00",
+    "total_allowed": "0.00",
+    "total_paid": "0.00",
+    "total_patient_responsibility": "0.00"
+  }
+}

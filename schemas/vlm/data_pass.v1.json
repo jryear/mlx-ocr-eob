@@ -1,0 +1,203 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nativeocr.dev/schemas/vlm/data_pass.v1.json",
+  "title": "VLM Data Pass v1",
+  "description": "Request and response schemas for data extraction pass with locked headers",
+  "oneOf": [
+    {
+      "title": "Data Pass Request",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "session_id", "roi_id", "image_sha256", "header_lock", "decode", "budget", "compact"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "infer.data.v1"
+        },
+        "session_id": {
+          "type": "string",
+          "pattern": "^sess-[0-9]{8}-[a-z0-9]+$"
+        },
+        "roi_id": {
+          "type": "string",
+          "pattern": "^roi-[0-9a-f]{6,}$"
+        },
+        "image_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "image_b64": {
+          "type": "string",
+          "description": "Base64-encoded image data (optional if image_path provided)"
+        },
+        "image_path": {
+          "type": "string",
+          "description": "Alternative to image_b64"
+        },
+        "header_lock": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["canonical_order", "mapping", "lock_sha256"],
+          "properties": {
+            "canonical_order": {
+              "type": "array",
+              "items": {"type": "string"},
+              "minItems": 1
+            },
+            "mapping": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["canonical", "det_idx"],
+                "properties": {
+                  "canonical": {"type": "string"},
+                  "det_idx": {"type": "integer", "minimum": 0}
+                }
+              }
+            },
+            "unmapped": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Optional: canonical columns that couldn't be mapped"
+            },
+            "lock_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          }
+        },
+        "decode": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["max_new_tokens", "timeout_s", "greedy"],
+          "properties": {
+            "max_new_tokens": {"type": "integer", "minimum": 256, "maximum": 2048},
+            "timeout_s": {"type": "integer", "minimum": 10, "maximum": 600},
+            "greedy": {"type": "boolean"}
+          }
+        },
+        "budget": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["class", "est_rows", "est_cols", "est_cells", "est_source"],
+          "properties": {
+            "class": {"type": "string", "enum": ["small", "typical", "large"]},
+            "est_rows": {"type": "integer", "minimum": 1},
+            "est_cols": {"type": "integer", "minimum": 1},
+            "est_cells": {"type": "integer", "minimum": 1},
+            "est_source": {"type": "string", "enum": ["vision_lines", "proj_peaks", "default"]}
+          }
+        },
+        "compact": {
+          "type": "boolean"
+        },
+        "retry_rows": {
+          "type": "array",
+          "items": {"type": "integer", "minimum": 0},
+          "description": "Optional: specific row indices to retry with increased budget"
+        },
+        "retry_budget_multiplier": {
+          "type": "number",
+          "minimum": 1.0,
+          "maximum": 2.0,
+          "description": "Optional: budget multiplier for retry (typically 1.25)"
+        }
+      }
+    },
+    {
+      "title": "Data Pass Response",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "session_id", "roi_id", "rows", "cols", "cells", "rectangularized", "model_meta", "header_lock_sha256", "status"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "result.data.v1"
+        },
+        "session_id": {
+          "type": "string",
+          "pattern": "^sess-[0-9]{8}-[a-z0-9]+$"
+        },
+        "roi_id": {
+          "type": "string",
+          "pattern": "^roi-[0-9a-f]{6,}$"
+        },
+        "rows": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of data rows extracted"
+        },
+        "cols": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of columns (matches header_lock.canonical_order length)"
+        },
+        "cells": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Flattened row-major cell array, length must equal rows * cols"
+        },
+        "rectangularized": {
+          "type": "boolean",
+          "description": "True if rows * cols == cells.length"
+        },
+        "model_meta": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["attempts", "response_sha256", "parse_repair", "budget_class", "est_cells", "est_source"],
+          "properties": {
+            "attempts": {"type": "integer", "minimum": 1},
+            "response_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+            "parse_repair": {
+              "type": "string",
+              "enum": ["none", "balanced_braces", "row_patch", "truncation"]
+            },
+            "budget_class": {"type": "string", "enum": ["small", "typical", "large"]},
+            "est_cells": {"type": "integer", "minimum": 1},
+            "est_source": {"type": "string", "enum": ["vision_lines", "proj_peaks", "default"]},
+            "sec": {"type": "number", "minimum": 0},
+            "chars_out": {"type": "integer", "minimum": 0},
+            "cells_out": {"type": "integer", "minimum": 0},
+            "decode_kwargs_accepted": {
+              "type": "object",
+              "properties": {
+                "max_new_tokens": {"type": "integer"}
+              }
+            },
+            "runner_mode": {"type": "string", "enum": ["persistent", "per_roi"]},
+            "model_fingerprint": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["name", "revision_sha", "quant"],
+              "properties": {
+                "name": {"type": "string"},
+                "revision_sha": {"type": "string"},
+                "quant": {"type": "string"}
+              }
+            }
+          }
+        },
+        "header_lock_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "description": "Must match the lock_sha256 from header pass"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["ok", "truncated", "invalid"]
+        },
+        "failed_rows": {
+          "type": "array",
+          "items": {"type": "integer", "minimum": 0},
+          "description": "Row indices that failed validation (e.g., money conservation)"
+        },
+        "incomplete_rows": {
+          "type": "array",
+          "items": {"type": "integer", "minimum": 0},
+          "description": "Row indices marked incomplete after retry exhaustion"
+        }
+      }
+    }
+  ]
+}

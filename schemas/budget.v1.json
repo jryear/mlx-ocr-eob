@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nativeocr.dev/schemas/budget.v1.json",
+  "title": "Budget Sidecar v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "ocr_calls_per_page", "p95_s_per_page"],
+  "properties": {
+    "schema": { "type": "string", "const": "budget.v1" },
+    "ocr_calls_per_page": { "type": "number", "minimum": 0 },
+    "calls_per_table": { "type": ["number", "null"], "minimum": 0 },
+    "p95_s_per_page": { "type": "number", "minimum": 0 }
+  }
+}
+

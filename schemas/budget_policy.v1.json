@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nativeocr.dev/schemas/budget_policy.v1.json",
+  "title": "Budget Policy v1",
+  "description": "VLM budget allocation policy with cell estimation and classification thresholds",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["budget_class", "est_rows", "est_cols", "est_cells", "est_source", "max_new_tokens"],
+  "properties": {
+    "budget_class": {
+      "type": "string",
+      "enum": ["small", "typical", "large"],
+      "description": "Budget classification based on estimated cells: small<36, typical≤120, large>120"
+    },
+    "est_rows": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1000,
+      "description": "Estimated number of rows in the table"
+    },
+    "est_cols": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100,
+      "description": "Estimated number of columns in the table"
+    },
+    "est_cells": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 4096,
+      "description": "Clamped product of est_rows * est_cols, used for budget calculation"
+    },
+    "est_source": {
+      "type": "string",
+      "enum": ["vision_lines", "proj_peaks", "default"],
+      "description": "Source of cell estimation: vision_lines (primary), proj_peaks (fallback 1), default (fallback 2)"
+    },
+    "max_new_tokens": {
+      "type": "integer",
+      "minimum": 256,
+      "maximum": 2048,
+      "description": "Computed token budget: clamp(384 + 10*min(est_cells,120), 256, 2048), adjusted for payer/density/retry"
+    },
+    "payer_multiplier": {
+      "type": "number",
+      "minimum": 1.0,
+      "maximum": 2.0,
+      "description": "Optional payer class multiplier (e.g., 1.15 for dense EOBs)"
+    },
+    "retry_multiplier": {
+      "type": "number",
+      "minimum": 1.0,
+      "maximum": 2.0,
+      "description": "Optional retry multiplier (1.25 for row-targeted retries)"
+    }
+  }
+}

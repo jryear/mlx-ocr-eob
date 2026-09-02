@@ -1,0 +1,67 @@
+version: 1
+payer: common
+detect:
+  name_regex: null
+
+tables:
+  - header_row: 0
+    column_map:
+      Billed Amount: { field: charged_amount }
+      Allowed Amount: { field: allowed_amount }
+      Insurance Paid: { field: insurance_paid }
+      Patient Responsibility: { field: patient_responsibility }
+      Procedure Code: { field: procedure_code }
+      Service Date: { field: service_date }
+
+    header_aliases:
+      # charged/billed
+      Billed: Billed Amount
+      Submitted: Billed Amount
+      Charge: Billed Amount
+      Provider Charge: Billed Amount
+      Total Charge: Billed Amount
+      Billed Amount: Billed Amount
+      Submitted Charges: Billed Amount
+      Fee: Billed Amount
+
+      # allowed/eligible/discount
+      Allowed: Allowed Amount
+      Plan Allowed: Allowed Amount
+      Eligible: Allowed Amount
+      Allowed Amount: Allowed Amount
+      Plan Benefit: Allowed Amount
+      Contracted: Allowed Amount
+      Negotiated: Allowed Amount
+      Discount: Allowed Amount
+      Plan Discount: Allowed Amount
+
+      # paid/benefit/payment
+      Insurance Paid: Insurance Paid
+      Ins Paid: Insurance Paid
+      Benefit Paid: Insurance Paid
+      Plan Payment: Insurance Paid
+      Amount Paid: Insurance Paid
+      Paid by Plan: Insurance Paid
+      Payment: Insurance Paid
+
+      # patient responsibility (total)
+      Patient Responsibility: Patient Responsibility
+      Member Responsibility: Patient Responsibility
+      Patient Portion: Patient Responsibility
+      Patient Balance: Patient Responsibility
+      Amount You Owe: Patient Responsibility
+      Subscriber Responsibility: Patient Responsibility
+
+      # dates
+      DOS: Service Date
+      Date of Service: Service Date
+      Service Date: Service Date
+      Date: Service Date
+
+      # procedure/code headers
+      ADA Code: Procedure Code
+      CDT Code: Procedure Code
+      Procedure Code: Procedure Code
+      CPT Code: Procedure Code
+      Code: Procedure Code
+

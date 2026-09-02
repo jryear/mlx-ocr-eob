@@ -1,0 +1,211 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nativeocr.dev/schemas/preproc.page.v1.json",
+  "title": "Preprocessing Page Metadata v1",
+  "description": "Per-page rasterization, preprocessing operations, Vision gating metrics, and routing decisions",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["pdf_sha256", "page_index", "raster", "preprocess_ops", "medians", "route_decision", "vision_estimate"],
+  "properties": {
+    "pdf_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "SHA256 hash of source PDF"
+    },
+    "page_index": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Zero-indexed page number"
+    },
+    "raster": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dpi", "colorspace", "interpolation", "cropbox"],
+      "properties": {
+        "dpi": {
+          "type": "integer",
+          "minimum": 300,
+          "maximum": 420,
+          "description": "Rasterization DPI (target 360, range 300-420)"
+        },
+        "colorspace": {
+          "type": "string",
+          "enum": ["Gray", "RGB", "CMYK"],
+          "description": "Output colorspace (prefer Gray for VLM)"
+        },
+        "interpolation": {
+          "type": "string",
+          "enum": ["none", "linear", "cubic", "lanczos"],
+          "description": "Scaling interpolation method"
+        },
+        "cropbox": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["x", "y", "width", "height"],
+          "properties": {
+            "x": {"type": "number"},
+            "y": {"type": "number"},
+            "width": {"type": "number", "minimum": 0},
+            "height": {"type": "number", "minimum": 0}
+          },
+          "description": "PDF cropbox in points"
+        },
+        "source_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "description": "SHA256 of rasterized grayscale master image"
+        }
+      }
+    },
+    "preprocess_ops": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["applied"],
+      "properties": {
+        "applied": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Ordered list of operations applied (e.g., ['clahe', 'deskew', 'pad=12', 'resize=1792long'])"
+        },
+        "deskew_deg": {
+          "type": "number",
+          "minimum": -12.0,
+          "maximum": 12.0,
+          "description": "Deskew angle in degrees (positive = clockwise)"
+        },
+        "dewarp_quad": {
+          "type": "array",
+          "items": {"type": "number"},
+          "minItems": 8,
+          "maxItems": 8,
+          "description": "Optional quadrilateral dewarp points [x1,y1,x2,y2,x3,y3,x4,y4]"
+        },
+        "clahe": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "clip_limit": {"type": "number", "minimum": 1.0, "maximum": 10.0},
+            "tile_grid": {
+              "type": "array",
+              "items": {"type": "integer"},
+              "minItems": 2,
+              "maxItems": 2,
+              "description": "CLAHE tile grid size [rows, cols], typically [8,8]"
+            }
+          }
+        },
+        "pad_px": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 50,
+          "description": "Padding added to ROIs in pixels"
+        },
+        "resize_applied": {
+          "type": "boolean",
+          "description": "Whether resize to long_side was applied"
+        },
+        "long_side_target": {
+          "type": "integer",
+          "minimum": 512,
+          "maximum": 4096,
+          "description": "Target long side in pixels (typically 1792)"
+        }
+      }
+    },
+    "medians": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["page_conf_median"],
+      "properties": {
+        "page_conf_median": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "Median Vision.Text confidence across all page text"
+        },
+        "header_conf_median": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "Median confidence for header ROIs (top 25% of page)"
+        }
+      }
+    },
+    "route_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["action", "reason"],
+      "properties": {
+        "action": {
+          "type": "string",
+          "enum": ["accept_vision", "preproc_retry", "route_vlm"],
+          "description": "Routing decision based on gating thresholds"
+        },
+        "reason": {
+          "type": "string",
+          "description": "Human-readable explanation (e.g., 'page_median<0.55', 'preproc_retry_failed', 'vision_acceptable')"
+        },
+        "retry_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2,
+          "description": "Number of preproc retries attempted"
+        }
+      }
+    },
+    "vision_estimate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["est_rows", "est_cols", "est_cells", "est_source"],
+      "properties": {
+        "est_rows": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000
+        },
+        "est_cols": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "est_cells": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4096
+        },
+        "est_source": {
+          "type": "string",
+          "enum": ["vision_lines", "proj_peaks", "default"]
+        }
+      }
+    },
+    "roi_classifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["roi_id", "classification", "features"],
+        "properties": {
+          "roi_id": {"type": "string"},
+          "classification": {
+            "type": "string",
+            "enum": ["header", "money", "notes"]
+          },
+          "features": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "H_pos": {"type": "integer", "enum": [0, 1]},
+              "H_lex": {"type": "integer", "minimum": 0},
+              "M_money": {"type": "integer", "minimum": 0},
+              "M_codes": {"type": "integer", "minimum": 0},
+              "N_foot": {"type": "integer", "enum": [0, 1]},
+              "cy": {"type": "number", "minimum": 0.0, "maximum": 1.0}
+            }
+          }
+        }
+      },
+      "description": "Per-ROI classification for scheduler batching"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+  <section class="upload">
+    <h2>Run a new PDF</h2>
+    <form method="post" action="/run" enctype="multipart/form-data">
+      <input type="file" name="upload" accept="application/pdf" required />
+      <button type="submit">Run Pipeline</button>
+    </form>
+  </section>
+  <section>
+    <h2>Available Results</h2>
+    {% if docs %}
+      <ul class="doclist">
+      {% for d in docs %}
+        <li><a href="/doc?path={{ d.path }}">{{ d.name }}</a></li>
+      {% endfor %}
+      </ul>
+    {% else %}
+      <p>No outputs found. Upload a PDF to run.</p>
+    {% endif %}
+  </section>
+{% endblock %}
+

@@ -1,0 +1,393 @@
+{
+  "dataset": "EOB_ZIP_2025Q3",
+  "count": 38,
+  "docs": [
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/1-2/Delta taylor.pdf",
+      "sha256": "c4e411c7c8944924a6ba8caf640344aed3923f9846a6f536641c9c653ed8422f",
+      "rows_3of4": [
+        0,
+        1
+      ],
+      "conservation_rate": 0.0,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/Delta_taylor.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/1-2/DMBA_2.pdf",
+      "sha256": "0a3ec0e2715ab4e0efb6c83e726f5427c2cfd5bde67b287f51db03bb518ed204",
+      "rows_3of4": [
+        0,
+        1
+      ],
+      "conservation_rate": 0.0,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/DMBA_2.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/1-2/DMBAwCheck.pdf",
+      "sha256": "0a3ec0e2715ab4e0efb6c83e726f5427c2cfd5bde67b287f51db03bb518ed204",
+      "rows_3of4": [
+        1,
+        1
+      ],
+      "conservation_rate": 1.0,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/DMBAwCheck.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/1-2/EMI_2.pdf",
+      "sha256": "5c4ccdc9525a94c590260c12f26d56c8df1c0f30f4018503e4979789a42a5074",
+      "rows_3of4": [
+        0,
+        1
+      ],
+      "conservation_rate": 0.0,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/EMI_2.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/1-2/eob guardian (1).pdf",
+      "sha256": "46f3bd6ae15520884c58a6a5a79dcdf5cfb3c33dae893a61d8c4935ab107985a",
+      "rows_3of4": [
+        0,
+        1
+      ],
+      "conservation_rate": 0.0,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/eob_guardian_1.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/1-2/incoming_689ca85fa5eaf95e02b47896_20250813_085952_721317178.pdf",
+      "sha256": "5ab2ce90daf6bb7d1f1675efd96eb9ae0200f6e230abc05532ef572848b207be",
+      "rows_3of4": [
+        0,
+        1
+      ],
+      "conservation_rate": 0.0,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/incoming_689ca85fa5eaf95e02b47896_20250813_085952_721317178.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/1-2/Metlife_2_IBUYPOWER.pdf",
+      "sha256": "1d453ce5755481b6ccde695056f76de9ff09508fbf8c841799879d9866864b17",
+      "rows_3of4": [
+        0,
+        1
+      ],
+      "conservation_rate": 0.0,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/Metlife_2_IBUYPOWER.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/1-2/Metlife_2_Secondary.pdf",
+      "sha256": "c98f8602a4c25da64e3370526143715b1ecb5ebf353828549772d86ee8035fd4",
+      "rows_3of4": [
+        0,
+        1
+      ],
+      "conservation_rate": 0.0,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/Metlife_2_Secondary.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/1-2/Regence_2.pdf",
+      "sha256": "5a0928b39ffa2707fa0746efa3f43d4c7f838251f8811b7a3b5b8047f2238102",
+      "rows_3of4": [
+        0,
+        1
+      ],
+      "conservation_rate": 0.0,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/Regence_2.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/1-2/Renaissance_2.pdf",
+      "sha256": "056699cd89dd5df1a68943dac67508cb20a1f97d2ec11702ad7f7b240db791fa",
+      "rows_3of4": [
+        0,
+        1
+      ],
+      "conservation_rate": 0.0,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/Renaissance_2.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/1-2/sample_2_page.pdf.pdf",
+      "sha256": "57d9a3c387f1ca148401e7a9da1ce0e9a995f7d4f3b860b9dd1b6887e7383b01",
+      "rows_3of4": [
+        2,
+        6
+      ],
+      "conservation_rate": 0.16666666666666666,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/sample_2_page_pdf.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/1-2/scan_02112025_120535_007316.pdf",
+      "sha256": "3df7c59f94765284b3e9bc72af21cae2c4da80a14193aa1e75a732400cbe37a2",
+      "rows_3of4": [
+        0,
+        1
+      ],
+      "conservation_rate": 0.0,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/scan_02112025_120535_007316.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/1-2/scan_02112025_120817_007321.pdf",
+      "sha256": "6a6050bb5f176d913507a9563767467765338cdc3ba0db3856aca05e11dc7dee",
+      "rows_3of4": [
+        0,
+        1
+      ],
+      "conservation_rate": 0.0,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/scan_02112025_120817_007321.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/1-2/scan_04012025_151544_008310.pdf",
+      "sha256": "f5f3b5e9e350ec8addcec592ca8515cc3551ef6c06900dd891f039a7cc92242b",
+      "rows_3of4": [
+        3,
+        4
+      ],
+      "conservation_rate": 0.0,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/scan_04012025_151544_008310.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/1-2/UnitedHC_2.pdf",
+      "sha256": "d667dd693c8d60c2fe139c95aa7c45ab1582dabfd6050861b76d00cec45d7747",
+      "rows_3of4": [
+        7,
+        8
+      ],
+      "conservation_rate": 0.0,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/UnitedHC_2.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/3-5/AetnaW:Check.pdf",
+      "sha256": "ad6108271e45c9483abbdcc02d62b5add36ba11c92fd72dae38b1bc34f744bc2",
+      "rows_3of4": [
+        3,
+        5
+      ],
+      "conservation_rate": 0.4,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/AetnaW_Check.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/3-5/DD_3.pdf",
+      "sha256": "4098b6818705feb049d4a1c8ee3beaec4afba1c494cf4a200c034be4673326eb",
+      "rows_3of4": [
+        7,
+        10
+      ],
+      "conservation_rate": 0.0,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/DD_3.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/3-5/DD_3_Ohio.pdf",
+      "sha256": "48a83b1144db6218cfc7d3fa44c02441230f622c81d604f9ed5058a7c969d0da",
+      "rows_3of4": [
+        2,
+        5
+      ],
+      "conservation_rate": 0.2,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/DD_3_Ohio.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/3-5/DD_5.pdf",
+      "sha256": "b680d4bf037fae32b00c87be2f34520c067e4b91a891ed1ac251c27fce2312c2",
+      "rows_3of4": [
+        30,
+        32
+      ],
+      "conservation_rate": 0.28125,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/DD_5.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/3-5/DMBA_3-compressed.pdf",
+      "sha256": "d6ea825abab747bbdc43e86a551e433caeddf8e57c701f2fb338ae5b554f3131",
+      "rows_3of4": [
+        10,
+        16
+      ],
+      "conservation_rate": 0.4375,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/DMBA_3_compressed.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/3-5/Guardian_4-compressed.pdf",
+      "sha256": "5ab31a5a3f4ce4ee527836a464514eee9a3f941bd1c9cef7d82673ea733b4af9",
+      "rows_3of4": [
+        0,
+        1
+      ],
+      "conservation_rate": 0.0,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/Guardian_4_compressed.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/3-5/jpg2pdf.pdf",
+      "sha256": "21c840bdd6390cfdc54a9cac2e94375debb42ddd2d76e474cf496fae8e59f482",
+      "rows_3of4": [
+        0,
+        1
+      ],
+      "conservation_rate": 0.0,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/jpg2pdf.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/3-5/scan_04012025_145820_008304.pdf",
+      "sha256": "26444f7b6a60bd4e99b2e6b7252cd1aa9dcc44caf75577d855d2de25986f0b9e",
+      "rows_3of4": [
+        0,
+        1
+      ],
+      "conservation_rate": 0.0,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/scan_04012025_145820_008304.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/6-10/DD_6.pdf",
+      "sha256": "a509cd3b99033953a739801d6c6f3f418ed2dd0ccffd6c287908b26970838585",
+      "rows_3of4": [
+        24,
+        35
+      ],
+      "conservation_rate": 0.08571428571428572,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/DD_6.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/6-10/DeltaDental_10-compressed.pdf",
+      "sha256": "2215d6f23d79432cdaf858beba34158396f50bec053858fab0fecdda0aa855f9",
+      "rows_3of4": [
+        28,
+        36
+      ],
+      "conservation_rate": 0.0,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/DeltaDental_10_compressed.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/>10/24_Page_Delta_Dental.pdf",
+      "sha256": "40ffde9d804d73eae01a24d9107518f23224b3ea663578c675e0bba660487f9e",
+      "rows_3of4": [
+        156,
+        210
+      ],
+      "conservation_rate": 0.22380952380952382,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/24_Page_Delta_Dental.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/Ameritas_3.pdf",
+      "sha256": "d7f90983211c97cf12c6db7149679d69c5816899ccbf5bc5a79666223a91dd4d",
+      "rows_3of4": [
+        0,
+        1
+      ],
+      "conservation_rate": 0.0,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/Ameritas_3.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/cigna_lush.pdf",
+      "sha256": "138821401217a4cb92c6cebdb2e5e31e9e5fceb9c1c2062e05c5be0e7306d585",
+      "rows_3of4": [
+        8,
+        14
+      ],
+      "conservation_rate": 0.21428571428571427,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/cigna_lush.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/DDW_4.pdf",
+      "sha256": "56a25a75fac35aab4639b14dcf88d4e1bfc0ed1a49bca32f7795eb9a0417672e",
+      "rows_3of4": [
+        0,
+        9
+      ],
+      "conservation_rate": 0.0,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/DDW_4.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/EMI_REGEX_TEST_LUSH.pdf",
+      "sha256": "a182e1c449d5e72f89fcdd07635785fd6624de7d93399317a6e1b18a42a96d8d",
+      "rows_3of4": [
+        0,
+        1
+      ],
+      "conservation_rate": 0.0,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/EMI_REGEX_TEST_LUSH.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/merged_pdf_test.pdf",
+      "sha256": "7a6be93d0578fa8fb82d0366952d2101d854133e5bf9778714d6071c6eb808b1",
+      "rows_3of4": [
+        14,
+        28
+      ],
+      "conservation_rate": 0.25,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/merged_pdf_test.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/merged_pdf_test2.pdf",
+      "sha256": "783d84072002a2be1c1d97321631f79fc089ec30ea9f9dcaecf1977027baa7b4",
+      "rows_3of4": [
+        15,
+        20
+      ],
+      "conservation_rate": 0.15,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/merged_pdf_test2.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/orientation/cigna.pdf",
+      "sha256": "15c42269adb4a40321fa87d4696b43deb3d8bda20122a99f46546cf41754bc89",
+      "rows_3of4": [
+        2,
+        7
+      ],
+      "conservation_rate": 0.2857142857142857,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/cigna.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/orientation/DD_Oregon&Alaska.pdf",
+      "sha256": "3617f91ac590a251f04bc8fef2bc69d3e1195265422533c182e2ba3ca46f5a96",
+      "rows_3of4": [
+        2,
+        8
+      ],
+      "conservation_rate": 0.0,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/DD_Oregon_Alaska.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/orientation/UnitedHC_1.pdf",
+      "sha256": "d71e494a0f56281fdd20be584dc908af96f8e3fae1dd7ef994a56124155c5431",
+      "rows_3of4": [
+        0,
+        1
+      ],
+      "conservation_rate": 0.0,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/UnitedHC_1.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/Principal_3.pdf",
+      "sha256": "70570f5b93afc8f32083a9ead399d8dd87fc0c82b8d3bf15bf9bf3aae9e055b0",
+      "rows_3of4": [
+        0,
+        1
+      ],
+      "conservation_rate": 0.0,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/Principal_3.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/Principal_4*.pdf",
+      "sha256": "1a7c0fb2f726ba23304daeb0c18abf526c9ca3ceaf33e7967632eb65a2b8da95",
+      "rows_3of4": [
+        3,
+        7
+      ],
+      "conservation_rate": 0.0,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/Principal_4.json"
+    },
+    {
+      "pdf": "/Users/jryear/Downloads/claimsTest/scrubbed/Cigna_EOB_4.pdf",
+      "sha256": "936c54456bae38cb94deaeac9150669a22720ce94057206b3ffce818c47cc1f0",
+      "rows_3of4": [
+        0,
+        1
+      ],
+      "conservation_rate": 0.0,
+      "eob": "/Users/jryear/Desktop/NativeOCR/out/holdout/EOB_ZIP_2025Q3/Cigna_EOB_4.json"
+    }
+  ],
+  "rows_3of4_sum": 317,
+  "services_sum": 480,
+  "conserved_sum": 0,
+  "conservation_sum": 3.6949404761904763,
+  "p95_ms_pages": [],
+  "rows_3of4_rate": 0.6604166666666667,
+  "conservation_mean": 0.09723527568922306
+}

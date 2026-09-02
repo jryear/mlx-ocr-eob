@@ -1,0 +1,68 @@
+{
+  "pdf_sha256": "4098b6818705feb049d4a1c8ee3beaec4afba1c494cf4a200c034be4673326eb",
+  "page_index": 0,
+  "raster": {
+    "dpi": 360,
+    "colorspace": "Gray",
+    "interpolation": "lanczos",
+    "cropbox": {
+      "x": 0.0,
+      "y": 0.0,
+      "width": 612.0,
+      "height": 792.0
+    },
+    "source_sha256": "a1b2c3d4e5f6789012345678901234567890123456789012345678901234abcd"
+  },
+  "preprocess_ops": {
+    "applied": ["clahe", "deskew", "pad=12", "resize=1792long"],
+    "deskew_deg": 2.3,
+    "clahe": {
+      "clip_limit": 3.0,
+      "tile_grid": [8, 8]
+    },
+    "pad_px": 12,
+    "resize_applied": true,
+    "long_side_target": 1792
+  },
+  "medians": {
+    "page_conf_median": 0.78,
+    "header_conf_median": 0.82
+  },
+  "route_decision": {
+    "action": "route_vlm",
+    "reason": "page_median<0.80_prefer_vlm",
+    "retry_count": 0
+  },
+  "vision_estimate": {
+    "est_rows": 8,
+    "est_cols": 7,
+    "est_cells": 56,
+    "est_source": "vision_lines"
+  },
+  "roi_classifications": [
+    {
+      "roi_id": "roi-000001",
+      "classification": "header",
+      "features": {
+        "H_pos": 1,
+        "H_lex": 3,
+        "M_money": 0,
+        "M_codes": 0,
+        "N_foot": 0,
+        "cy": 0.12
+      }
+    },
+    {
+      "roi_id": "roi-000002",
+      "classification": "money",
+      "features": {
+        "H_pos": 0,
+        "H_lex": 0,
+        "M_money": 12,
+        "M_codes": 4,
+        "N_foot": 0,
+        "cy": 0.45
+      }
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "type": "result.data.v1",
+  "session_id": "sess-20251023-abc123",
+  "roi_id": "roi-000123",
+  "rows": 2,
+  "cols": 8,
+  "cells": [
+    "D2740", "Crown", "2025-06-01", "110000", "80000", "20000", "-10000", "10000",
+    "D2750", "Crown", "2025-06-02", "120000", "90000", "30000", "0", "0"
+  ],
+  "rectangularized": true,
+  "model_meta": {
+    "attempts": 1,
+    "response_sha256": "c3d4e5f6a7b89012345678901234567890123456789012345678901234abcdef",
+    "parse_repair": "none",
+    "budget_class": "typical",
+    "est_cells": 56,
+    "est_source": "vision_lines",
+    "sec": 3.42,
+    "chars_out": 156,
+    "cells_out": 16,
+    "decode_kwargs_accepted": {
+      "max_new_tokens": 1024
+    },
+    "runner_mode": "persistent",
+    "model_fingerprint": {
+      "name": "mlx-community/Qwen2-VL-2B-Instruct-4bit",
+      "revision_sha": "abc123def456",
+      "quant": "int4"
+    }
+  },
+  "header_lock_sha256": "a1b2c3d4e5f6789012345678901234567890123456789012345678901234abcd",
+  "status": "ok"
+}

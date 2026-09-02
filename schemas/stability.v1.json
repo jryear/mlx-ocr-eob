@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nativeocr.dev/schemas/stability.v1.json",
+  "title": "Stability Sidecar v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "rerun_crc_equal"],
+  "properties": {
+    "schema": { "type": "string", "const": "stability.v1" },
+    "rerun_crc_equal": { "type": "boolean" },
+    "diff_count": { "type": ["integer", "null"], "minimum": 0 }
+  }
+}
+

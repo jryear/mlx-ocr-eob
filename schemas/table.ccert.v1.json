@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nativeocr.dev/schemas/table.ccert.v1.json",
+  "title": "Table Certificate v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "table_id", "certified_rows", "inequality_violations", "conservation"],
+  "properties": {
+    "schema": { "type": "string", "const": "table.ccert.v1" },
+    "table_id": { "type": "string" },
+    "certified_rows": { "type": "integer", "minimum": 0 },
+    "row_count": { "type": ["integer", "null"], "minimum": 0 },
+    "inequality_violations": { "type": "integer", "minimum": 0 },
+    "conservation": { "type": "number", "minimum": 0, "maximum": 1 },
+    "row_locked_pct": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+    "summary_alignment": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "residual_cents": { "type": "integer" },
+        "rounded_at": { "type": ["string", "null"] }
+      }
+    }
+  }
+}
+

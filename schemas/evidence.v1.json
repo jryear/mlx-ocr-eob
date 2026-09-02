@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nativeocr.dev/schemas/evidence.v1.json",
+  "title": "Evidence Sidecar v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "doc", "tables"],
+  "properties": {
+    "schema": { "type": "string", "const": "evidence.v1" },
+    "doc": { "type": "string" },
+    "tables": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["table_id", "page_index", "rows", "cols", "typedness", "quantization"],
+        "properties": {
+          "table_id": { "type": "string" },
+          "page_index": { "type": "integer", "minimum": 0 },
+          "rows": { "type": "integer", "minimum": 0 },
+          "cols": { "type": "integer", "minimum": 0 },
+          "typedness": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "money": { "type": "array", "items": { "type": "number" } },
+              "date": { "type": "array", "items": { "type": "number" } },
+              "code": { "type": "array", "items": { "type": "number" } }
+            }
+          },
+          "swap_test_deltas": { "type": ["array", "null"], "items": { "type": "number" } },
+          "swap_energy": {
+            "type": ["array", "null"],
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["cols", "delta_certified"],
+              "properties": {
+                "cols": { "type": "array", "items": { "type": "integer" }, "minItems": 2, "maxItems": 2 },
+                "delta_certified": { "type": "integer" }
+              }
+            }
+          },
+          "quantization": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["row_method", "col_method", "hash"],
+            "properties": {
+              "row_method": { "type": "string" },
+              "col_method": { "type": "string" },
+              "hash": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

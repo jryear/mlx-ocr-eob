@@ -1,0 +1,31 @@
+{
+  "metadata": {
+    "document_id": "test_null_ilp_00000000",
+    "schema_ref": "DentalEOBSchema.v1.2"
+  },
+  "claim": {
+    "claim_number": "TEST-NULL-ILP",
+    "payer_name": "TestPayer",
+    "status": "Pending"
+  },
+  "patient": {
+    "patient_name": "Test Patient"
+  },
+  "services": [
+    {
+      "procedure_code": "D1110",
+      "service_date": "2025-01-01",
+      "charged_amount": "100.00",
+      "allowed_amount": "80.00",
+      "insurance_paid": "64.00",
+      "patient_responsibility": "16.00",
+      "_row_locked": true
+    }
+  ],
+  "totals": {
+    "total_charged": "100.00",
+    "total_allowed": "80.00",
+    "total_paid": "64.00",
+    "total_patient_responsibility": "16.00"
+  }
+}

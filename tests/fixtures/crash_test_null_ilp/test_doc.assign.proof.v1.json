@@ -1,0 +1,26 @@
+{
+  "tables": [
+    {
+      "table_id": "table_0",
+      "page_index": 0,
+      "extraction_variant": "mapper",
+      "column_map": {
+        "procedure_code": 0,
+        "service_date": 1,
+        "charged_amount": 2,
+        "allowed_amount": 3,
+        "insurance_paid": 4,
+        "patient_responsibility": 5
+      },
+      "costs": {
+        "certified_rows_sample": 1,
+        "typedness_gap_sum": 0.5,
+        "header_match": 0.7
+      },
+      "ilp": {
+        "best": null,
+        "runner_up": null
+      }
+    }
+  ]
+}

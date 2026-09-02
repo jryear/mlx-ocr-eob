@@ -1,0 +1,16 @@
+{
+  "tables": [
+    {
+      "table_id": "table_0",
+      "page_index": 0,
+      "extraction_variant": "unknown",
+      "column_map": {},
+      "costs": {
+        "certified_rows_sample": 0,
+        "typedness_gap_sum": 1.0,
+        "header_match": 0.0
+      },
+      "ilp": null
+    }
+  ]
+}

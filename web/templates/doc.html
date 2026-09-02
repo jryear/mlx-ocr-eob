@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+  {% if error %}
+    <div class="error">{{ error }}</div>
+  {% else %}
+    <h2>{{ path }}</h2>
+    <section class="kpi">
+      <h3>KPIs</h3>
+      <ul>
+        <li>Rows with 3/4 money: {{ rows_3of4[0] }} / {{ rows_3of4[1] }}</li>
+        <li>Conservation rate: {{ conservation.conservation_rate or 0 }}</li>
+        <li>Row locked pct: {{ coherence.kpi.row_locked_pct if coherence.kpi else 0 }}</li>
+      </ul>
+    </section>
+    <details open>
+      <summary>Conservation</summary>
+      <pre class="code">{{ conservation | tojson(indent=2) }}</pre>
+    </details>
+    <details>
+      <summary>Coherence</summary>
+      <pre class="code">{{ coherence | tojson(indent=2) }}</pre>
+    </details>
+    <details>
+      <summary>Raw EOB</summary>
+      <pre class="code">{{ eob | tojson(indent=2) }}</pre>
+    </details>
+  {% endif %}
+{% endblock %}
+

@@ -1,0 +1,4 @@
+{
+  "allowed": ["PLAN ALLOWANCE", "ALLOWANCE"],
+  "dos": ["DATE OF SERVICE", "DOS"]
+}

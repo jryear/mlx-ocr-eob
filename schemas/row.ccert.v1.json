@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nativeocr.dev/schemas/row.ccert.v1.json",
+  "title": "Row Certificate v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["rows"],
+  "properties": {
+    "schema": { "type": "string", "const": "row.ccert.v1" },
+    "rows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["row_index", "law", "certified", "violation_energy"],
+        "properties": {
+          "row_index": { "type": "integer", "minimum": 0 },
+          "law": { "type": "string" },
+          "certified": { "type": "boolean" },
+          "violation_energy": { "type": "integer", "minimum": 0 },
+          "rounding_locus": { "type": ["string", "null"] },
+          "derived_terms": { "type": "object", "additionalProperties": { "type": "integer" } }
+        }
+      }
+    }
+  }
+}
+

@@ -1,0 +1,10 @@
+{
+  "budget_class": "typical",
+  "est_rows": 8,
+  "est_cols": 7,
+  "est_cells": 56,
+  "est_source": "vision_lines",
+  "max_new_tokens": 944,
+  "payer_multiplier": 1.15,
+  "retry_multiplier": 1.25
+}

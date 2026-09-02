@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nativeocr.dev/schemas/summary_box.v1.json",
+  "title": "Summary Box Sidecar v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema"],
+  "properties": {
+    "schema": { "type": "string", "const": "summary_box.v1" },
+    "found": { "type": "boolean" },
+    "totals": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "charged_cents": { "type": ["integer", "null"] },
+        "allowed_cents": { "type": ["integer", "null"] },
+        "paid_cents": { "type": ["integer", "null"] },
+        "patient_cents": { "type": ["integer", "null"] }
+      }
+    }
+  }
+}
+

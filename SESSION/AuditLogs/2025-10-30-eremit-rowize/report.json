@@ -1,0 +1,4558 @@
+{
+  "assembly": {
+    "conservation": {
+      "conservation_rate": 0.09734513274336283,
+      "conserved_rows": [
+        11,
+        15,
+        28,
+        34,
+        35,
+        51,
+        54,
+        55,
+        64,
+        74,
+        97
+      ],
+      "incomplete_rows": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9,
+        10,
+        13,
+        14,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        23,
+        24,
+        27,
+        29,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        52,
+        53,
+        56,
+        57,
+        58,
+        60,
+        61,
+        62,
+        65,
+        66,
+        68,
+        69,
+        71,
+        73,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        98,
+        100,
+        101,
+        102,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112
+      ],
+      "inconsistent_rows": [
+        6,
+        12,
+        22,
+        25,
+        26,
+        30,
+        31,
+        32,
+        33,
+        43,
+        50,
+        59,
+        63,
+        67,
+        70,
+        72,
+        83,
+        99,
+        103
+      ],
+      "rows": [
+        {
+          "reasons": [
+            "missing:charged,allowed,paid,patient"
+          ],
+          "row": 0,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,patient"
+          ],
+          "row": 1,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,patient"
+          ],
+          "row": 2,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,paid"
+          ],
+          "row": 3,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged"
+          ],
+          "row": 4,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged"
+          ],
+          "row": 5,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "allowed!=(paid+patient)"
+          ],
+          "row": 6,
+          "status": "inconsistent"
+        },
+        {
+          "reasons": [
+            "missing:allowed,patient"
+          ],
+          "row": 7,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:allowed,patient"
+          ],
+          "row": 8,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged"
+          ],
+          "row": 9,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,paid,patient"
+          ],
+          "row": 10,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [],
+          "row": 11,
+          "status": "conserved"
+        },
+        {
+          "reasons": [
+            "allowed!=(paid+patient)"
+          ],
+          "row": 12,
+          "status": "inconsistent"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,paid,patient"
+          ],
+          "row": 13,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,paid,patient"
+          ],
+          "row": 14,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [],
+          "row": 15,
+          "status": "conserved"
+        },
+        {
+          "reasons": [
+            "missing:charged"
+          ],
+          "row": 16,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,paid,patient"
+          ],
+          "row": 17,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,paid,patient"
+          ],
+          "row": 18,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged"
+          ],
+          "row": 19,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,paid,patient"
+          ],
+          "row": 20,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,paid,patient"
+          ],
+          "row": 21,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "allowed!=(paid+patient)"
+          ],
+          "row": 22,
+          "status": "inconsistent"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,paid,patient"
+          ],
+          "row": 23,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,paid,patient"
+          ],
+          "row": 24,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "allowed!=(paid+patient)"
+          ],
+          "row": 25,
+          "status": "inconsistent"
+        },
+        {
+          "reasons": [
+            "allowed!=(paid+patient)"
+          ],
+          "row": 26,
+          "status": "inconsistent"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,paid,patient"
+          ],
+          "row": 27,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [],
+          "row": 28,
+          "status": "conserved"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,paid,patient"
+          ],
+          "row": 29,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "allowed!=(paid+patient)"
+          ],
+          "row": 30,
+          "status": "inconsistent"
+        },
+        {
+          "reasons": [
+            "allowed!=(paid+patient)"
+          ],
+          "row": 31,
+          "status": "inconsistent"
+        },
+        {
+          "reasons": [
+            "allowed!=(paid+patient)"
+          ],
+          "row": 32,
+          "status": "inconsistent"
+        },
+        {
+          "reasons": [
+            "allowed!=(paid+patient)"
+          ],
+          "row": 33,
+          "status": "inconsistent"
+        },
+        {
+          "reasons": [],
+          "row": 34,
+          "status": "conserved"
+        },
+        {
+          "reasons": [],
+          "row": 35,
+          "status": "conserved"
+        },
+        {
+          "reasons": [
+            "missing:charged"
+          ],
+          "row": 36,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:allowed,patient"
+          ],
+          "row": 37,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged"
+          ],
+          "row": 38,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,paid,patient"
+          ],
+          "row": 39,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged"
+          ],
+          "row": 40,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,paid,patient"
+          ],
+          "row": 41,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,paid,patient"
+          ],
+          "row": 42,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "allowed!=(paid+patient)"
+          ],
+          "row": 43,
+          "status": "inconsistent"
+        },
+        {
+          "reasons": [
+            "missing:charged,paid,patient"
+          ],
+          "row": 44,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged"
+          ],
+          "row": 45,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged"
+          ],
+          "row": 46,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,patient"
+          ],
+          "row": 47,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,paid,patient"
+          ],
+          "row": 48,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:allowed,paid,patient"
+          ],
+          "row": 49,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "allowed!=(paid+patient)"
+          ],
+          "row": 50,
+          "status": "inconsistent"
+        },
+        {
+          "reasons": [],
+          "row": 51,
+          "status": "conserved"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,patient"
+          ],
+          "row": 52,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:allowed,patient"
+          ],
+          "row": 53,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [],
+          "row": 54,
+          "status": "conserved"
+        },
+        {
+          "reasons": [],
+          "row": 55,
+          "status": "conserved"
+        },
+        {
+          "reasons": [
+            "missing:charged"
+          ],
+          "row": 56,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged"
+          ],
+          "row": 57,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,paid,patient"
+          ],
+          "row": 58,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "allowed!=(paid+patient)"
+          ],
+          "row": 59,
+          "status": "inconsistent"
+        },
+        {
+          "reasons": [
+            "missing:allowed,paid,patient"
+          ],
+          "row": 60,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged"
+          ],
+          "row": 61,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:allowed,patient"
+          ],
+          "row": 62,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "allowed!=(paid+patient)"
+          ],
+          "row": 63,
+          "status": "inconsistent"
+        },
+        {
+          "reasons": [],
+          "row": 64,
+          "status": "conserved"
+        },
+        {
+          "reasons": [
+            "missing:allowed,paid,patient"
+          ],
+          "row": 65,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,paid"
+          ],
+          "row": 66,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "allowed!=(paid+patient)"
+          ],
+          "row": 67,
+          "status": "inconsistent"
+        },
+        {
+          "reasons": [
+            "missing:charged"
+          ],
+          "row": 68,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,paid,patient"
+          ],
+          "row": 69,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "allowed!=(paid+patient)"
+          ],
+          "row": 70,
+          "status": "inconsistent"
+        },
+        {
+          "reasons": [
+            "missing:charged"
+          ],
+          "row": 71,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "allowed!=(paid+patient)"
+          ],
+          "row": 72,
+          "status": "inconsistent"
+        },
+        {
+          "reasons": [
+            "missing:charged"
+          ],
+          "row": 73,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [],
+          "row": 74,
+          "status": "conserved"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,patient"
+          ],
+          "row": 75,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,paid,patient"
+          ],
+          "row": 76,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,paid,patient"
+          ],
+          "row": 77,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,paid,patient"
+          ],
+          "row": 78,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,paid"
+          ],
+          "row": 79,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:allowed,patient"
+          ],
+          "row": 80,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,paid"
+          ],
+          "row": 81,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,patient"
+          ],
+          "row": 82,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "allowed>charged"
+          ],
+          "row": 83,
+          "status": "inconsistent"
+        },
+        {
+          "reasons": [
+            "missing:paid,patient"
+          ],
+          "row": 84,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,paid,patient"
+          ],
+          "row": 85,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:allowed,paid,patient"
+          ],
+          "row": 86,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,patient"
+          ],
+          "row": 87,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,paid,patient"
+          ],
+          "row": 88,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,paid"
+          ],
+          "row": 89,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged"
+          ],
+          "row": 90,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged"
+          ],
+          "row": 91,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,paid,patient"
+          ],
+          "row": 92,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,paid,patient"
+          ],
+          "row": 93,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged"
+          ],
+          "row": 94,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,paid"
+          ],
+          "row": 95,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,patient"
+          ],
+          "row": 96,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [],
+          "row": 97,
+          "status": "conserved"
+        },
+        {
+          "reasons": [
+            "missing:allowed,paid"
+          ],
+          "row": 98,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "allowed>charged"
+          ],
+          "row": 99,
+          "status": "inconsistent"
+        },
+        {
+          "reasons": [
+            "missing:charged,paid,patient"
+          ],
+          "row": 100,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,patient"
+          ],
+          "row": 101,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:allowed,paid,patient"
+          ],
+          "row": 102,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "allowed!=(paid+patient)"
+          ],
+          "row": 103,
+          "status": "inconsistent"
+        },
+        {
+          "reasons": [
+            "missing:allowed,patient"
+          ],
+          "row": 104,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,paid"
+          ],
+          "row": 105,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,paid"
+          ],
+          "row": 106,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,paid"
+          ],
+          "row": 107,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged"
+          ],
+          "row": 108,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,paid,patient"
+          ],
+          "row": 109,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,paid,patient"
+          ],
+          "row": 110,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged"
+          ],
+          "row": 111,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,paid,patient"
+          ],
+          "row": 112,
+          "status": "incomplete"
+        }
+      ]
+    },
+    "conservation_rate": 0.09734513274336283,
+    "eob": "out/eremit_rowize/EREMIT60pg.json",
+    "rows_with_3of4_money": [
+      51,
+      113
+    ],
+    "services": 113,
+    "services_count": 113
+  },
+  "capture": {
+    "ndjson": "bench/eremit_rowize/eremit_rowize.jsonl",
+    "per_page_ms": {
+      "max_ms": 347,
+      "mean_ms": 233,
+      "min_ms": 102,
+      "p95_ms": 330,
+      "pages": 40
+    },
+    "run_manifest": "runs/eremit_rowize_run.json",
+    "wall_time_s": 11.695
+  },
+  "kpi": {
+    "deterministic_equal": true,
+    "ocr_calls_per_table_le_3": true,
+    "row_locked_pct": 0.17699115044247787,
+    "services_extracted": true,
+    "target_sub_1s_per_page": true
+  },
+  "micro": {
+    "doc": "/Users/jryear/Desktop/NativeOCR/eobs/tests/EREMIT60pg.pdf",
+    "doc_sha256": "c5982b5ba3c3584330db27a9f575b70a94f260f6444afef82a263707962f813b",
+    "doc_sha_source": "run_manifest",
+    "hashes": {
+      "atlas_sha256": [],
+      "header_lock_sha256": [],
+      "image_sha256": [],
+      "patch_atlas_sha256": [],
+      "patch_profile_sha256": [],
+      "request_sha256": []
+    },
+    "schema": "micro.stats.v1",
+    "summary": {
+      "cellvlm_cells_attempted": 0,
+      "micro_ocr_cells_attempted": 1024,
+      "page_ocr_calls": {
+        "0": 2,
+        "1": 2,
+        "10": 2,
+        "11": 2,
+        "12": 2,
+        "13": 1,
+        "14": 2,
+        "15": 2,
+        "16": 2,
+        "17": 2,
+        "18": 2,
+        "19": 2,
+        "2": 2,
+        "20": 2,
+        "21": 2,
+        "22": 2,
+        "23": 2,
+        "24": 0,
+        "25": 2,
+        "26": 2,
+        "27": 2,
+        "28": 2,
+        "29": 2,
+        "3": 2,
+        "30": 2,
+        "31": 2,
+        "32": 2,
+        "33": 2,
+        "34": 2,
+        "35": 2,
+        "36": 2,
+        "37": 0,
+        "38": 0,
+        "39": 0,
+        "4": 2,
+        "5": 2,
+        "6": 2,
+        "7": 2,
+        "8": 2,
+        "9": 2
+      },
+      "tables_count": 40
+    },
+    "tables": [
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 0,
+            "patch": 0
+          }
+        },
+        "accepted_cells": 21,
+        "cols": 6,
+        "method": "micro_rowize",
+        "ocr_calls": 2,
+        "page_index": 0,
+        "pending_cells": 8,
+        "rows": 8
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 0,
+            "patch": 0
+          }
+        },
+        "accepted_cells": 14,
+        "cols": 7,
+        "method": "micro_rowize",
+        "ocr_calls": 2,
+        "page_index": 1,
+        "pending_cells": 13,
+        "rows": 5
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 0,
+            "patch": 2
+          }
+        },
+        "accepted_cells": 28,
+        "cols": 6,
+        "method": "micro_rowize",
+        "ocr_calls": 2,
+        "page_index": 2,
+        "pending_cells": 38,
+        "rows": 8
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 0,
+            "patch": 4
+          }
+        },
+        "accepted_cells": 32,
+        "cols": 7,
+        "method": "micro_rowize",
+        "ocr_calls": 2,
+        "page_index": 3,
+        "pending_cells": 38,
+        "rows": 8
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 0,
+            "patch": 3
+          }
+        },
+        "accepted_cells": 33,
+        "cols": 7,
+        "method": "micro_rowize",
+        "ocr_calls": 2,
+        "page_index": 4,
+        "pending_cells": 37,
+        "rows": 8
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 0,
+            "patch": 0
+          }
+        },
+        "accepted_cells": 24,
+        "cols": 6,
+        "method": "micro_rowize",
+        "ocr_calls": 2,
+        "page_index": 5,
+        "pending_cells": 23,
+        "rows": 6
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 3,
+            "patch": 3
+          }
+        },
+        "accepted_cells": 25,
+        "cols": 7,
+        "method": "micro_rowize",
+        "ocr_calls": 2,
+        "page_index": 6,
+        "pending_cells": 40,
+        "rows": 8
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 0,
+            "patch": 3
+          }
+        },
+        "accepted_cells": 31,
+        "cols": 6,
+        "method": "micro_rowize",
+        "ocr_calls": 2,
+        "page_index": 7,
+        "pending_cells": 34,
+        "rows": 6
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 2,
+            "patch": 1
+          }
+        },
+        "accepted_cells": 30,
+        "cols": 6,
+        "method": "micro_rowize",
+        "ocr_calls": 2,
+        "page_index": 8,
+        "pending_cells": 32,
+        "rows": 8
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 0,
+            "patch": 2
+          }
+        },
+        "accepted_cells": 32,
+        "cols": 6,
+        "method": "micro_rowize",
+        "ocr_calls": 2,
+        "page_index": 9,
+        "pending_cells": 65,
+        "rows": 11
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 4,
+            "patch": 0
+          }
+        },
+        "accepted_cells": 21,
+        "cols": 6,
+        "method": "micro_rowize",
+        "ocr_calls": 2,
+        "page_index": 10,
+        "pending_cells": 16,
+        "rows": 8
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 5,
+            "patch": 3
+          }
+        },
+        "accepted_cells": 28,
+        "cols": 7,
+        "method": "micro_rowize",
+        "ocr_calls": 2,
+        "page_index": 11,
+        "pending_cells": 15,
+        "rows": 8
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 5,
+            "patch": 1
+          }
+        },
+        "accepted_cells": 32,
+        "cols": 7,
+        "method": "micro_rowize",
+        "ocr_calls": 2,
+        "page_index": 12,
+        "pending_cells": 30,
+        "rows": 11
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 1,
+            "patch": 0
+          }
+        },
+        "accepted_cells": 6,
+        "cols": 6,
+        "method": "micro_rowize",
+        "ocr_calls": 1,
+        "page_index": 13,
+        "pending_cells": 2,
+        "rows": 2
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 0,
+            "patch": 0
+          }
+        },
+        "accepted_cells": 15,
+        "cols": 7,
+        "method": "micro_rowize",
+        "ocr_calls": 2,
+        "page_index": 14,
+        "pending_cells": 9,
+        "rows": 3
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 3,
+            "patch": 0
+          }
+        },
+        "accepted_cells": 7,
+        "cols": 6,
+        "method": "micro_rowize",
+        "ocr_calls": 2,
+        "page_index": 15,
+        "pending_cells": 6,
+        "rows": 2
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 8,
+            "patch": 5
+          }
+        },
+        "accepted_cells": 35,
+        "cols": 7,
+        "method": "micro_rowize",
+        "ocr_calls": 2,
+        "page_index": 16,
+        "pending_cells": 31,
+        "rows": 8
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 1,
+            "patch": 0
+          }
+        },
+        "accepted_cells": 27,
+        "cols": 6,
+        "method": "micro_rowize",
+        "ocr_calls": 2,
+        "page_index": 17,
+        "pending_cells": 31,
+        "rows": 8
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 0,
+            "patch": 1
+          }
+        },
+        "accepted_cells": 14,
+        "cols": 7,
+        "method": "micro_rowize",
+        "ocr_calls": 2,
+        "page_index": 18,
+        "pending_cells": 14,
+        "rows": 2
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 0,
+            "patch": 0
+          }
+        },
+        "accepted_cells": 10,
+        "cols": 7,
+        "method": "micro_rowize",
+        "ocr_calls": 2,
+        "page_index": 19,
+        "pending_cells": 4,
+        "rows": 4
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 0,
+            "patch": 2
+          }
+        },
+        "accepted_cells": 24,
+        "cols": 7,
+        "method": "micro_rowize",
+        "ocr_calls": 2,
+        "page_index": 20,
+        "pending_cells": 20,
+        "rows": 5
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 0,
+            "patch": 1
+          }
+        },
+        "accepted_cells": 15,
+        "cols": 6,
+        "method": "micro_rowize",
+        "ocr_calls": 2,
+        "page_index": 21,
+        "pending_cells": 24,
+        "rows": 4
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 0,
+            "patch": 2
+          }
+        },
+        "accepted_cells": 28,
+        "cols": 7,
+        "method": "micro_rowize",
+        "ocr_calls": 2,
+        "page_index": 22,
+        "pending_cells": 59,
+        "rows": 10
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 0,
+            "patch": 5
+          }
+        },
+        "accepted_cells": 26,
+        "cols": 7,
+        "method": "micro_rowize",
+        "ocr_calls": 2,
+        "page_index": 23,
+        "pending_cells": 41,
+        "rows": 7
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 0,
+            "patch": 0
+          }
+        },
+        "accepted_cells": 23,
+        "cols": 7,
+        "method": "micro_rowize",
+        "ocr_calls": 0,
+        "page_index": 24,
+        "pending_cells": 0,
+        "rows": 6
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 4,
+            "patch": 0
+          }
+        },
+        "accepted_cells": 24,
+        "cols": 6,
+        "method": "micro_rowize",
+        "ocr_calls": 2,
+        "page_index": 25,
+        "pending_cells": 26,
+        "rows": 7
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 0,
+            "patch": 3
+          }
+        },
+        "accepted_cells": 20,
+        "cols": 7,
+        "method": "micro_rowize",
+        "ocr_calls": 2,
+        "page_index": 26,
+        "pending_cells": 35,
+        "rows": 5
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 1,
+            "patch": 4
+          }
+        },
+        "accepted_cells": 21,
+        "cols": 7,
+        "method": "micro_rowize",
+        "ocr_calls": 2,
+        "page_index": 27,
+        "pending_cells": 8,
+        "rows": 4
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 1,
+            "patch": 0
+          }
+        },
+        "accepted_cells": 15,
+        "cols": 5,
+        "method": "micro_rowize",
+        "ocr_calls": 2,
+        "page_index": 28,
+        "pending_cells": 16,
+        "rows": 4
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 0,
+            "patch": 7
+          }
+        },
+        "accepted_cells": 32,
+        "cols": 6,
+        "method": "micro_rowize",
+        "ocr_calls": 2,
+        "page_index": 29,
+        "pending_cells": 57,
+        "rows": 10
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 0,
+            "patch": 1
+          }
+        },
+        "accepted_cells": 19,
+        "cols": 7,
+        "method": "micro_rowize",
+        "ocr_calls": 2,
+        "page_index": 30,
+        "pending_cells": 15,
+        "rows": 5
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 0,
+            "patch": 3
+          }
+        },
+        "accepted_cells": 31,
+        "cols": 7,
+        "method": "micro_rowize",
+        "ocr_calls": 2,
+        "page_index": 31,
+        "pending_cells": 44,
+        "rows": 9
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 2,
+            "patch": 5
+          }
+        },
+        "accepted_cells": 31,
+        "cols": 7,
+        "method": "micro_rowize",
+        "ocr_calls": 2,
+        "page_index": 32,
+        "pending_cells": 27,
+        "rows": 10
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 6,
+            "patch": 1
+          }
+        },
+        "accepted_cells": 35,
+        "cols": 7,
+        "method": "micro_rowize",
+        "ocr_calls": 2,
+        "page_index": 33,
+        "pending_cells": 26,
+        "rows": 9
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 0,
+            "patch": 3
+          }
+        },
+        "accepted_cells": 37,
+        "cols": 6,
+        "method": "micro_rowize",
+        "ocr_calls": 2,
+        "page_index": 34,
+        "pending_cells": 51,
+        "rows": 9
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 0,
+            "patch": 4
+          }
+        },
+        "accepted_cells": 20,
+        "cols": 6,
+        "method": "micro_rowize",
+        "ocr_calls": 2,
+        "page_index": 35,
+        "pending_cells": 34,
+        "rows": 6
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 0,
+            "patch": 2
+          }
+        },
+        "accepted_cells": 42,
+        "cols": 7,
+        "method": "micro_rowize",
+        "ocr_calls": 2,
+        "page_index": 36,
+        "pending_cells": 55,
+        "rows": 10
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 0,
+            "patch": 0
+          }
+        },
+        "accepted_cells": 13,
+        "cols": 6,
+        "method": "micro_rowize",
+        "ocr_calls": 0,
+        "page_index": 37,
+        "pending_cells": 0,
+        "rows": 4
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 0,
+            "patch": 0
+          }
+        },
+        "accepted_cells": 5,
+        "cols": 6,
+        "method": "micro_rowize",
+        "ocr_calls": 0,
+        "page_index": 38,
+        "pending_cells": 0,
+        "rows": 2
+      },
+      {
+        "accepted": true,
+        "accepted_by_column_type": {
+          "date": {
+            "atlas": 0,
+            "patch": 0
+          },
+          "money": {
+            "atlas": 0,
+            "patch": 0
+          }
+        },
+        "accepted_cells": 7,
+        "cols": 6,
+        "method": "micro_rowize",
+        "ocr_calls": 0,
+        "page_index": 39,
+        "pending_cells": 0,
+        "rows": 2
+      }
+    ]
+  },
+  "rowization": {
+    "median_cols_per_table": 7,
+    "median_rows_per_table": 19,
+    "total_tables": 40
+  },
+  "rowize": {
+    "doc": "/Users/jryear/Desktop/NativeOCR/eobs/tests/EREMIT60pg.pdf",
+    "schema": "rowize.tokens.v1",
+    "tables": [
+      {
+        "accepted": true,
+        "cols": 6,
+        "columns": [
+          [
+            0.0,
+            477.5
+          ],
+          [
+            477.5,
+            585.5
+          ],
+          [
+            585.5,
+            661.0
+          ],
+          [
+            661.0,
+            719.0
+          ],
+          [
+            719.0,
+            778.0
+          ],
+          [
+            778.0,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 0,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 499,
+            "y1": 521
+          },
+          {
+            "y0": 612,
+            "y1": 643
+          },
+          {
+            "y0": 693,
+            "y1": 715
+          },
+          {
+            "y0": 856,
+            "y1": 868
+          },
+          {
+            "y0": 890,
+            "y1": 957
+          },
+          {
+            "y0": 981,
+            "y1": 1058
+          },
+          {
+            "y0": 1094,
+            "y1": 1151
+          },
+          {
+            "y0": 1175,
+            "y1": 1204
+          }
+        ],
+        "rows": 19,
+        "score": 34.74,
+        "source": "rowize",
+        "table_id": "rowize_p0",
+        "y_min_px": 471.5
+      },
+      {
+        "accepted": true,
+        "cols": 7,
+        "columns": [
+          [
+            0.0,
+            413.0
+          ],
+          [
+            413.0,
+            431.5
+          ],
+          [
+            431.5,
+            608.5
+          ],
+          [
+            608.5,
+            721.0
+          ],
+          [
+            721.0,
+            905.0
+          ],
+          [
+            905.0,
+            909.0
+          ],
+          [
+            909.0,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 1,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 499,
+            "y1": 521
+          },
+          {
+            "y0": 938,
+            "y1": 950
+          },
+          {
+            "y0": 983,
+            "y1": 993
+          },
+          {
+            "y0": 1007,
+            "y1": 1051
+          },
+          {
+            "y0": 1114,
+            "y1": 1204
+          }
+        ],
+        "rows": 10,
+        "score": 24.9,
+        "source": "rowize",
+        "table_id": "rowize_p1",
+        "y_min_px": 471.5
+      },
+      {
+        "accepted": true,
+        "cols": 6,
+        "columns": [
+          [
+            0.0,
+            399.5
+          ],
+          [
+            399.5,
+            411.0
+          ],
+          [
+            411.0,
+            701.5
+          ],
+          [
+            701.5,
+            845.5
+          ],
+          [
+            845.5,
+            877.0
+          ],
+          [
+            877.0,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 2,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 499,
+            "y1": 521
+          },
+          {
+            "y0": 573,
+            "y1": 638
+          },
+          {
+            "y0": 691,
+            "y1": 722
+          },
+          {
+            "y0": 760,
+            "y1": 794
+          },
+          {
+            "y0": 852,
+            "y1": 976
+          },
+          {
+            "y0": 990,
+            "y1": 1028
+          },
+          {
+            "y0": 1113,
+            "y1": 1154
+          },
+          {
+            "y0": 1175,
+            "y1": 1204
+          }
+        ],
+        "rows": 18,
+        "score": 37.72,
+        "source": "rowize",
+        "table_id": "rowize_p2",
+        "y_min_px": 471.5
+      },
+      {
+        "accepted": true,
+        "cols": 7,
+        "columns": [
+          [
+            0.0,
+            403.0
+          ],
+          [
+            403.0,
+            427.0
+          ],
+          [
+            427.0,
+            644.0
+          ],
+          [
+            644.0,
+            773.0
+          ],
+          [
+            773.0,
+            809.5
+          ],
+          [
+            809.5,
+            845.5
+          ],
+          [
+            845.5,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 3,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 499,
+            "y1": 521
+          },
+          {
+            "y0": 650,
+            "y1": 772
+          },
+          {
+            "y0": 801,
+            "y1": 806
+          },
+          {
+            "y0": 839,
+            "y1": 849
+          },
+          {
+            "y0": 863,
+            "y1": 914
+          },
+          {
+            "y0": 945,
+            "y1": 962
+          },
+          {
+            "y0": 995,
+            "y1": 1063
+          },
+          {
+            "y0": 1125,
+            "y1": 1204
+          }
+        ],
+        "rows": 19,
+        "score": 78.11,
+        "source": "rowize",
+        "table_id": "rowize_p3",
+        "y_min_px": 471.5
+      },
+      {
+        "accepted": true,
+        "cols": 7,
+        "columns": [
+          [
+            0.0,
+            403.5
+          ],
+          [
+            403.5,
+            594.0
+          ],
+          [
+            594.0,
+            654.5
+          ],
+          [
+            654.5,
+            772.0
+          ],
+          [
+            772.0,
+            809.0
+          ],
+          [
+            809.0,
+            844.5
+          ],
+          [
+            844.5,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 4,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 501,
+            "y1": 520
+          },
+          {
+            "y0": 662,
+            "y1": 770
+          },
+          {
+            "y0": 796,
+            "y1": 875
+          },
+          {
+            "y0": 902,
+            "y1": 926
+          },
+          {
+            "y0": 940,
+            "y1": 945
+          },
+          {
+            "y0": 959,
+            "y1": 978
+          },
+          {
+            "y0": 995,
+            "y1": 1115
+          },
+          {
+            "y0": 1134,
+            "y1": 1204
+          }
+        ],
+        "rows": 20,
+        "score": 63.25,
+        "source": "rowize",
+        "table_id": "rowize_p4",
+        "y_min_px": 473.5
+      },
+      {
+        "accepted": true,
+        "cols": 6,
+        "columns": [
+          [
+            0.0,
+            412.0
+          ],
+          [
+            412.0,
+            480.0
+          ],
+          [
+            480.0,
+            652.0
+          ],
+          [
+            652.0,
+            772.0
+          ],
+          [
+            772.0,
+            823.0
+          ],
+          [
+            823.0,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 5,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 501,
+            "y1": 520
+          },
+          {
+            "y0": 557,
+            "y1": 926
+          },
+          {
+            "y0": 969,
+            "y1": 983
+          },
+          {
+            "y0": 1002,
+            "y1": 1043
+          },
+          {
+            "y0": 1079,
+            "y1": 1084
+          },
+          {
+            "y0": 1134,
+            "y1": 1204
+          }
+        ],
+        "rows": 25,
+        "score": 63.24,
+        "source": "rowize",
+        "table_id": "rowize_p5",
+        "y_min_px": 473.5
+      },
+      {
+        "accepted": true,
+        "cols": 7,
+        "columns": [
+          [
+            0.0,
+            423.0
+          ],
+          [
+            423.0,
+            522.0
+          ],
+          [
+            522.0,
+            625.0
+          ],
+          [
+            625.0,
+            665.0
+          ],
+          [
+            665.0,
+            773.5
+          ],
+          [
+            773.5,
+            809.5
+          ],
+          [
+            809.5,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 6,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 504,
+            "y1": 518
+          },
+          {
+            "y0": 561,
+            "y1": 721
+          },
+          {
+            "y0": 777,
+            "y1": 782
+          },
+          {
+            "y0": 835,
+            "y1": 840
+          },
+          {
+            "y0": 854,
+            "y1": 919
+          },
+          {
+            "y0": 964,
+            "y1": 1017
+          },
+          {
+            "y0": 1041,
+            "y1": 1046
+          },
+          {
+            "y0": 1161,
+            "y1": 1166
+          }
+        ],
+        "rows": 19,
+        "score": 61.26,
+        "source": "rowize",
+        "table_id": "rowize_p6",
+        "y_min_px": 476.5
+      },
+      {
+        "accepted": true,
+        "cols": 6,
+        "columns": [
+          [
+            0.0,
+            427.5
+          ],
+          [
+            427.5,
+            633.5
+          ],
+          [
+            633.5,
+            769.0
+          ],
+          [
+            769.0,
+            773.5
+          ],
+          [
+            773.5,
+            839.5
+          ],
+          [
+            839.5,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 7,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 499,
+            "y1": 521
+          },
+          {
+            "y0": 633,
+            "y1": 818
+          },
+          {
+            "y0": 832,
+            "y1": 857
+          },
+          {
+            "y0": 873,
+            "y1": 947
+          },
+          {
+            "y0": 969,
+            "y1": 1022
+          },
+          {
+            "y0": 1036,
+            "y1": 1204
+          }
+        ],
+        "rows": 30,
+        "score": 100.43,
+        "source": "rowize",
+        "table_id": "rowize_p7",
+        "y_min_px": 471.5
+      },
+      {
+        "accepted": true,
+        "cols": 6,
+        "columns": [
+          [
+            0.0,
+            403.0
+          ],
+          [
+            403.0,
+            423.5
+          ],
+          [
+            423.5,
+            592.0
+          ],
+          [
+            592.0,
+            663.5
+          ],
+          [
+            663.5,
+            826.0
+          ],
+          [
+            826.0,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 8,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 499,
+            "y1": 521
+          },
+          {
+            "y0": 722,
+            "y1": 739
+          },
+          {
+            "y0": 758,
+            "y1": 763
+          },
+          {
+            "y0": 801,
+            "y1": 806
+          },
+          {
+            "y0": 830,
+            "y1": 849
+          },
+          {
+            "y0": 863,
+            "y1": 909
+          },
+          {
+            "y0": 940,
+            "y1": 1017
+          },
+          {
+            "y0": 1034,
+            "y1": 1204
+          }
+        ],
+        "rows": 19,
+        "score": 37.47,
+        "source": "rowize",
+        "table_id": "rowize_p8",
+        "y_min_px": 471.5
+      },
+      {
+        "accepted": true,
+        "cols": 6,
+        "columns": [
+          [
+            0.0,
+            402.0
+          ],
+          [
+            402.0,
+            429.5
+          ],
+          [
+            429.5,
+            526.0
+          ],
+          [
+            526.0,
+            802.5
+          ],
+          [
+            802.5,
+            874.5
+          ],
+          [
+            874.5,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 9,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 501,
+            "y1": 520
+          },
+          {
+            "y0": 619,
+            "y1": 669
+          },
+          {
+            "y0": 691,
+            "y1": 777
+          },
+          {
+            "y0": 791,
+            "y1": 806
+          },
+          {
+            "y0": 837,
+            "y1": 875
+          },
+          {
+            "y0": 892,
+            "y1": 909
+          },
+          {
+            "y0": 926,
+            "y1": 945
+          },
+          {
+            "y0": 974,
+            "y1": 979
+          },
+          {
+            "y0": 1026,
+            "y1": 1045
+          },
+          {
+            "y0": 1062,
+            "y1": 1074
+          },
+          {
+            "y0": 1103,
+            "y1": 1204
+          }
+        ],
+        "rows": 20,
+        "score": 59.9,
+        "source": "rowize",
+        "table_id": "rowize_p9",
+        "y_min_px": 473.5
+      },
+      {
+        "accepted": true,
+        "cols": 6,
+        "columns": [
+          [
+            0.0,
+            383.5
+          ],
+          [
+            383.5,
+            396.5
+          ],
+          [
+            396.5,
+            411.0
+          ],
+          [
+            411.0,
+            662.0
+          ],
+          [
+            662.0,
+            877.0
+          ],
+          [
+            877.0,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 10,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 499,
+            "y1": 521
+          },
+          {
+            "y0": 573,
+            "y1": 660
+          },
+          {
+            "y0": 707,
+            "y1": 755
+          },
+          {
+            "y0": 803,
+            "y1": 914
+          },
+          {
+            "y0": 969,
+            "y1": 979
+          },
+          {
+            "y0": 1026,
+            "y1": 1060
+          },
+          {
+            "y0": 1091,
+            "y1": 1115
+          },
+          {
+            "y0": 1161,
+            "y1": 1192
+          }
+        ],
+        "rows": 14,
+        "score": 25.5,
+        "source": "rowize",
+        "table_id": "rowize_p10",
+        "y_min_px": 471.5
+      },
+      {
+        "accepted": true,
+        "cols": 7,
+        "columns": [
+          [
+            0.0,
+            394.0
+          ],
+          [
+            394.0,
+            421.5
+          ],
+          [
+            421.5,
+            476.0
+          ],
+          [
+            476.0,
+            652.0
+          ],
+          [
+            652.0,
+            845.5
+          ],
+          [
+            845.5,
+            875.5
+          ],
+          [
+            875.5,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 11,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 626,
+            "y1": 645
+          },
+          {
+            "y0": 660,
+            "y1": 719
+          },
+          {
+            "y0": 791,
+            "y1": 875
+          },
+          {
+            "y0": 928,
+            "y1": 940
+          },
+          {
+            "y0": 955,
+            "y1": 969
+          },
+          {
+            "y0": 988,
+            "y1": 1000
+          },
+          {
+            "y0": 1038,
+            "y1": 1158
+          },
+          {
+            "y0": 1180,
+            "y1": 1192
+          }
+        ],
+        "rows": 15,
+        "score": 37.67,
+        "source": "rowize",
+        "table_id": "rowize_p11",
+        "y_min_px": 632.5
+      },
+      {
+        "accepted": true,
+        "cols": 7,
+        "columns": [
+          [
+            0.0,
+            420.5
+          ],
+          [
+            420.5,
+            488.0
+          ],
+          [
+            488.0,
+            582.0
+          ],
+          [
+            582.0,
+            772.0
+          ],
+          [
+            772.0,
+            810.5
+          ],
+          [
+            810.5,
+            875.5
+          ],
+          [
+            875.5,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 12,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 501,
+            "y1": 520
+          },
+          {
+            "y0": 626,
+            "y1": 708
+          },
+          {
+            "y0": 724,
+            "y1": 736
+          },
+          {
+            "y0": 753,
+            "y1": 827
+          },
+          {
+            "y0": 854,
+            "y1": 859
+          },
+          {
+            "y0": 914,
+            "y1": 942
+          },
+          {
+            "y0": 969,
+            "y1": 979
+          },
+          {
+            "y0": 1017,
+            "y1": 1027
+          },
+          {
+            "y0": 1041,
+            "y1": 1046
+          },
+          {
+            "y0": 1086,
+            "y1": 1122
+          },
+          {
+            "y0": 1161,
+            "y1": 1192
+          }
+        ],
+        "rows": 19,
+        "score": 47.74,
+        "source": "rowize",
+        "table_id": "rowize_p12",
+        "y_min_px": 473.5
+      },
+      {
+        "accepted": true,
+        "cols": 6,
+        "columns": [
+          [
+            0.0,
+            416.5
+          ],
+          [
+            416.5,
+            487.0
+          ],
+          [
+            487.0,
+            609.5
+          ],
+          [
+            609.5,
+            809.5
+          ],
+          [
+            809.5,
+            874.5
+          ],
+          [
+            874.5,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 13,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 537,
+            "y1": 592
+          },
+          {
+            "y0": 1149,
+            "y1": 1204
+          }
+        ],
+        "rows": 5,
+        "score": 14.8,
+        "source": "rowize",
+        "table_id": "rowize_p13",
+        "y_min_px": 509.5
+      },
+      {
+        "accepted": true,
+        "cols": 7,
+        "columns": [
+          [
+            0.0,
+            405.5
+          ],
+          [
+            405.5,
+            421.5
+          ],
+          [
+            421.5,
+            480.0
+          ],
+          [
+            480.0,
+            590.0
+          ],
+          [
+            590.0,
+            652.0
+          ],
+          [
+            652.0,
+            795.0
+          ],
+          [
+            795.0,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 14,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 501,
+            "y1": 520
+          },
+          {
+            "y0": 887,
+            "y1": 1031
+          },
+          {
+            "y0": 1065,
+            "y1": 1204
+          }
+        ],
+        "rows": 16,
+        "score": 43.25,
+        "source": "rowize",
+        "table_id": "rowize_p14",
+        "y_min_px": 473.5
+      },
+      {
+        "accepted": true,
+        "cols": 6,
+        "columns": [
+          [
+            0.0,
+            403.5
+          ],
+          [
+            403.5,
+            426.5
+          ],
+          [
+            426.5,
+            663.5
+          ],
+          [
+            663.5,
+            773.5
+          ],
+          [
+            773.5,
+            874.5
+          ],
+          [
+            874.5,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 15,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 499,
+            "y1": 521
+          },
+          {
+            "y0": 709,
+            "y1": 1204
+          }
+        ],
+        "rows": 10,
+        "score": 22.9,
+        "source": "rowize",
+        "table_id": "rowize_p15",
+        "y_min_px": 471.5
+      },
+      {
+        "accepted": true,
+        "cols": 7,
+        "columns": [
+          [
+            0.0,
+            385.0
+          ],
+          [
+            385.0,
+            425.5
+          ],
+          [
+            425.5,
+            444.5
+          ],
+          [
+            444.5,
+            594.0
+          ],
+          [
+            594.0,
+            696.0
+          ],
+          [
+            696.0,
+            775.0
+          ],
+          [
+            775.0,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 16,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 501,
+            "y1": 520
+          },
+          {
+            "y0": 628,
+            "y1": 664
+          },
+          {
+            "y0": 686,
+            "y1": 734
+          },
+          {
+            "y0": 789,
+            "y1": 888
+          },
+          {
+            "y0": 928,
+            "y1": 950
+          },
+          {
+            "y0": 988,
+            "y1": 993
+          },
+          {
+            "y0": 1077,
+            "y1": 1084
+          },
+          {
+            "y0": 1134,
+            "y1": 1204
+          }
+        ],
+        "rows": 18,
+        "score": 59.44,
+        "source": "rowize",
+        "table_id": "rowize_p16",
+        "y_min_px": 473.5
+      },
+      {
+        "accepted": true,
+        "cols": 6,
+        "columns": [
+          [
+            0.0,
+            393.0
+          ],
+          [
+            393.0,
+            412.0
+          ],
+          [
+            412.0,
+            444.0
+          ],
+          [
+            444.0,
+            652.0
+          ],
+          [
+            652.0,
+            809.5
+          ],
+          [
+            809.5,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 17,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 499,
+            "y1": 521
+          },
+          {
+            "y0": 619,
+            "y1": 749
+          },
+          {
+            "y0": 770,
+            "y1": 775
+          },
+          {
+            "y0": 796,
+            "y1": 801
+          },
+          {
+            "y0": 818,
+            "y1": 854
+          },
+          {
+            "y0": 868,
+            "y1": 914
+          },
+          {
+            "y0": 938,
+            "y1": 1000
+          },
+          {
+            "y0": 1098,
+            "y1": 1204
+          }
+        ],
+        "rows": 24,
+        "score": 56.67,
+        "source": "rowize",
+        "table_id": "rowize_p17",
+        "y_min_px": 471.5
+      },
+      {
+        "accepted": true,
+        "cols": 7,
+        "columns": [
+          [
+            0.0,
+            411.0
+          ],
+          [
+            411.0,
+            490.0
+          ],
+          [
+            490.0,
+            597.5
+          ],
+          [
+            597.5,
+            660.0
+          ],
+          [
+            660.0,
+            773.0
+          ],
+          [
+            773.0,
+            845.0
+          ],
+          [
+            845.0,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 18,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 501,
+            "y1": 979
+          },
+          {
+            "y0": 1005,
+            "y1": 1192
+          }
+        ],
+        "rows": 27,
+        "score": 70.15,
+        "source": "rowize",
+        "table_id": "rowize_p18",
+        "y_min_px": 473.5
+      },
+      {
+        "accepted": true,
+        "cols": 7,
+        "columns": [
+          [
+            0.0,
+            402.5
+          ],
+          [
+            402.5,
+            419.0
+          ],
+          [
+            419.0,
+            609.5
+          ],
+          [
+            609.5,
+            769.0
+          ],
+          [
+            769.0,
+            842.0
+          ],
+          [
+            842.0,
+            909.5
+          ],
+          [
+            909.5,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 19,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 501,
+            "y1": 520
+          },
+          {
+            "y0": 600,
+            "y1": 648
+          },
+          {
+            "y0": 724,
+            "y1": 736
+          },
+          {
+            "y0": 1146,
+            "y1": 1204
+          }
+        ],
+        "rows": 6,
+        "score": 17.17,
+        "source": "rowize",
+        "table_id": "rowize_p19",
+        "y_min_px": 473.5
+      },
+      {
+        "accepted": true,
+        "cols": 7,
+        "columns": [
+          [
+            0.0,
+            404.5
+          ],
+          [
+            404.5,
+            442.0
+          ],
+          [
+            442.0,
+            574.5
+          ],
+          [
+            574.5,
+            625.0
+          ],
+          [
+            625.0,
+            696.0
+          ],
+          [
+            696.0,
+            826.0
+          ],
+          [
+            826.0,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 20,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 530,
+            "y1": 537
+          },
+          {
+            "y0": 552,
+            "y1": 571
+          },
+          {
+            "y0": 592,
+            "y1": 818
+          },
+          {
+            "y0": 847,
+            "y1": 887
+          },
+          {
+            "y0": 957,
+            "y1": 1204
+          }
+        ],
+        "rows": 27,
+        "score": 70.26,
+        "source": "rowize",
+        "table_id": "rowize_p20",
+        "y_min_px": 502.5
+      },
+      {
+        "accepted": true,
+        "cols": 6,
+        "columns": [
+          [
+            0.0,
+            405.5
+          ],
+          [
+            405.5,
+            442.0
+          ],
+          [
+            442.0,
+            635.5
+          ],
+          [
+            635.5,
+            773.5
+          ],
+          [
+            773.5,
+            845.5
+          ],
+          [
+            845.5,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 21,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 504,
+            "y1": 717
+          },
+          {
+            "y0": 734,
+            "y1": 739
+          },
+          {
+            "y0": 758,
+            "y1": 768
+          },
+          {
+            "y0": 806,
+            "y1": 1204
+          }
+        ],
+        "rows": 24,
+        "score": 58.92,
+        "source": "rowize",
+        "table_id": "rowize_p21",
+        "y_min_px": 476.5
+      },
+      {
+        "accepted": true,
+        "cols": 7,
+        "columns": [
+          [
+            0.0,
+            420.0
+          ],
+          [
+            420.0,
+            481.0
+          ],
+          [
+            481.0,
+            629.0
+          ],
+          [
+            629.0,
+            699.0
+          ],
+          [
+            699.0,
+            775.0
+          ],
+          [
+            775.0,
+            832.5
+          ],
+          [
+            832.5,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 22,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 504,
+            "y1": 516
+          },
+          {
+            "y0": 578,
+            "y1": 629
+          },
+          {
+            "y0": 648,
+            "y1": 822
+          },
+          {
+            "y0": 844,
+            "y1": 849
+          },
+          {
+            "y0": 899,
+            "y1": 952
+          },
+          {
+            "y0": 969,
+            "y1": 988
+          },
+          {
+            "y0": 1017,
+            "y1": 1027
+          },
+          {
+            "y0": 1041,
+            "y1": 1046
+          },
+          {
+            "y0": 1086,
+            "y1": 1149
+          },
+          {
+            "y0": 1175,
+            "y1": 1192
+          }
+        ],
+        "rows": 25,
+        "score": 50.04,
+        "source": "rowize",
+        "table_id": "rowize_p22",
+        "y_min_px": 476.5
+      },
+      {
+        "accepted": true,
+        "cols": 7,
+        "columns": [
+          [
+            0.0,
+            420.5
+          ],
+          [
+            420.5,
+            489.5
+          ],
+          [
+            489.5,
+            737.5
+          ],
+          [
+            737.5,
+            773.5
+          ],
+          [
+            773.5,
+            809.5
+          ],
+          [
+            809.5,
+            845.5
+          ],
+          [
+            845.5,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 23,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 504,
+            "y1": 516
+          },
+          {
+            "y0": 612,
+            "y1": 928
+          },
+          {
+            "y0": 966,
+            "y1": 998
+          },
+          {
+            "y0": 1050,
+            "y1": 1055
+          },
+          {
+            "y0": 1079,
+            "y1": 1084
+          },
+          {
+            "y0": 1098,
+            "y1": 1116
+          },
+          {
+            "y0": 1134,
+            "y1": 1204
+          }
+        ],
+        "rows": 28,
+        "score": 137.75,
+        "source": "rowize",
+        "table_id": "rowize_p23",
+        "y_min_px": 476.5
+      },
+      {
+        "accepted": true,
+        "cols": 7,
+        "columns": [
+          [
+            0.0,
+            403.0
+          ],
+          [
+            403.0,
+            422.5
+          ],
+          [
+            422.5,
+            489.5
+          ],
+          [
+            489.5,
+            613.0
+          ],
+          [
+            613.0,
+            772.0
+          ],
+          [
+            772.0,
+            842.0
+          ],
+          [
+            842.0,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 24,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 501,
+            "y1": 520
+          },
+          {
+            "y0": 619,
+            "y1": 844
+          },
+          {
+            "y0": 863,
+            "y1": 873
+          },
+          {
+            "y0": 940,
+            "y1": 945
+          },
+          {
+            "y0": 983,
+            "y1": 1003
+          },
+          {
+            "y0": 1122,
+            "y1": 1204
+          }
+        ],
+        "rows": 18,
+        "score": 29.22,
+        "source": "rowize",
+        "table_id": "rowize_p24",
+        "y_min_px": 473.5
+      },
+      {
+        "accepted": true,
+        "cols": 6,
+        "columns": [
+          [
+            0.0,
+            424.5
+          ],
+          [
+            424.5,
+            554.5
+          ],
+          [
+            554.5,
+            633.5
+          ],
+          [
+            633.5,
+            768.0
+          ],
+          [
+            768.0,
+            773.5
+          ],
+          [
+            773.5,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 25,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 499,
+            "y1": 521
+          },
+          {
+            "y0": 794,
+            "y1": 947
+          },
+          {
+            "y0": 969,
+            "y1": 988
+          },
+          {
+            "y0": 1007,
+            "y1": 1022
+          },
+          {
+            "y0": 1038,
+            "y1": 1043
+          },
+          {
+            "y0": 1065,
+            "y1": 1084
+          },
+          {
+            "y0": 1127,
+            "y1": 1204
+          }
+        ],
+        "rows": 20,
+        "score": 54.65,
+        "source": "rowize",
+        "table_id": "rowize_p25",
+        "y_min_px": 471.5
+      },
+      {
+        "accepted": true,
+        "cols": 7,
+        "columns": [
+          [
+            0.0,
+            411.5
+          ],
+          [
+            411.5,
+            489.5
+          ],
+          [
+            489.5,
+            640.0
+          ],
+          [
+            640.0,
+            664.5
+          ],
+          [
+            664.5,
+            773.5
+          ],
+          [
+            773.5,
+            826.0
+          ],
+          [
+            826.0,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 26,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 501,
+            "y1": 758
+          },
+          {
+            "y0": 777,
+            "y1": 784
+          },
+          {
+            "y0": 847,
+            "y1": 854
+          },
+          {
+            "y0": 892,
+            "y1": 902
+          },
+          {
+            "y0": 928,
+            "y1": 1204
+          }
+        ],
+        "rows": 25,
+        "score": 78.2,
+        "source": "rowize",
+        "table_id": "rowize_p26",
+        "y_min_px": 476.5
+      },
+      {
+        "accepted": true,
+        "cols": 7,
+        "columns": [
+          [
+            0.0,
+            385.0
+          ],
+          [
+            385.0,
+            412.0
+          ],
+          [
+            412.0,
+            446.0
+          ],
+          [
+            446.0,
+            542.0
+          ],
+          [
+            542.0,
+            624.0
+          ],
+          [
+            624.0,
+            695.0
+          ],
+          [
+            695.0,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 27,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 499,
+            "y1": 521
+          },
+          {
+            "y0": 700,
+            "y1": 753
+          },
+          {
+            "y0": 772,
+            "y1": 779
+          },
+          {
+            "y0": 801,
+            "y1": 1206
+          }
+        ],
+        "rows": 13,
+        "score": 37.0,
+        "source": "rowize",
+        "table_id": "rowize_p27",
+        "y_min_px": 471.5
+      },
+      {
+        "accepted": true,
+        "cols": 5,
+        "columns": [
+          [
+            0.0,
+            402.5
+          ],
+          [
+            402.5,
+            485.5
+          ],
+          [
+            485.5,
+            612.0
+          ],
+          [
+            612.0,
+            736.5
+          ],
+          [
+            736.5,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 28,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 499,
+            "y1": 521
+          },
+          {
+            "y0": 811,
+            "y1": 1029
+          },
+          {
+            "y0": 1065,
+            "y1": 1070
+          },
+          {
+            "y0": 1085,
+            "y1": 1204
+          }
+        ],
+        "rows": 16,
+        "score": 33.12,
+        "source": "rowize",
+        "table_id": "rowize_p28",
+        "y_min_px": 471.5
+      },
+      {
+        "accepted": true,
+        "cols": 6,
+        "columns": [
+          [
+            0.0,
+            431.0
+          ],
+          [
+            431.0,
+            524.5
+          ],
+          [
+            524.5,
+            656.0
+          ],
+          [
+            656.0,
+            773.5
+          ],
+          [
+            773.5,
+            843.5
+          ],
+          [
+            843.5,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 29,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 504,
+            "y1": 518
+          },
+          {
+            "y0": 571,
+            "y1": 612
+          },
+          {
+            "y0": 633,
+            "y1": 650
+          },
+          {
+            "y0": 667,
+            "y1": 672
+          },
+          {
+            "y0": 691,
+            "y1": 772
+          },
+          {
+            "y0": 787,
+            "y1": 799
+          },
+          {
+            "y0": 813,
+            "y1": 844
+          },
+          {
+            "y0": 883,
+            "y1": 888
+          },
+          {
+            "y0": 907,
+            "y1": 912
+          },
+          {
+            "y0": 933,
+            "y1": 1204
+          }
+        ],
+        "rows": 25,
+        "score": 69.84,
+        "source": "rowize",
+        "table_id": "rowize_p29",
+        "y_min_px": 476.5
+      },
+      {
+        "accepted": true,
+        "cols": 7,
+        "columns": [
+          [
+            0.0,
+            385.0
+          ],
+          [
+            385.0,
+            412.0
+          ],
+          [
+            412.0,
+            477.5
+          ],
+          [
+            477.5,
+            609.5
+          ],
+          [
+            609.5,
+            663.5
+          ],
+          [
+            663.5,
+            809.5
+          ],
+          [
+            809.5,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 30,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 501,
+            "y1": 520
+          },
+          {
+            "y0": 815,
+            "y1": 880
+          },
+          {
+            "y0": 914,
+            "y1": 964
+          },
+          {
+            "y0": 983,
+            "y1": 1036
+          },
+          {
+            "y0": 1134,
+            "y1": 1204
+          }
+        ],
+        "rows": 11,
+        "score": 24.45,
+        "source": "rowize",
+        "table_id": "rowize_p30",
+        "y_min_px": 473.5
+      },
+      {
+        "accepted": true,
+        "cols": 7,
+        "columns": [
+          [
+            0.0,
+            394.0
+          ],
+          [
+            394.0,
+            421.5
+          ],
+          [
+            421.5,
+            477.5
+          ],
+          [
+            477.5,
+            526.0
+          ],
+          [
+            526.0,
+            731.5
+          ],
+          [
+            731.5,
+            809.5
+          ],
+          [
+            809.5,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 31,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 504,
+            "y1": 518
+          },
+          {
+            "y0": 554,
+            "y1": 614
+          },
+          {
+            "y0": 652,
+            "y1": 657
+          },
+          {
+            "y0": 691,
+            "y1": 734
+          },
+          {
+            "y0": 753,
+            "y1": 758
+          },
+          {
+            "y0": 815,
+            "y1": 820
+          },
+          {
+            "y0": 861,
+            "y1": 904
+          },
+          {
+            "y0": 919,
+            "y1": 962
+          },
+          {
+            "y0": 1000,
+            "y1": 1204
+          }
+        ],
+        "rows": 22,
+        "score": 53.91,
+        "source": "rowize",
+        "table_id": "rowize_p31",
+        "y_min_px": 476.5
+      },
+      {
+        "accepted": true,
+        "cols": 7,
+        "columns": [
+          [
+            0.0,
+            403.5
+          ],
+          [
+            403.5,
+            468.5
+          ],
+          [
+            468.5,
+            526.0
+          ],
+          [
+            526.0,
+            737.0
+          ],
+          [
+            737.0,
+            773.5
+          ],
+          [
+            773.5,
+            809.5
+          ],
+          [
+            809.5,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 32,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 499,
+            "y1": 521
+          },
+          {
+            "y0": 607,
+            "y1": 621
+          },
+          {
+            "y0": 672,
+            "y1": 686
+          },
+          {
+            "y0": 729,
+            "y1": 741
+          },
+          {
+            "y0": 770,
+            "y1": 775
+          },
+          {
+            "y0": 825,
+            "y1": 911
+          },
+          {
+            "y0": 931,
+            "y1": 950
+          },
+          {
+            "y0": 969,
+            "y1": 998
+          },
+          {
+            "y0": 1017,
+            "y1": 1022
+          },
+          {
+            "y0": 1134,
+            "y1": 1204
+          }
+        ],
+        "rows": 17,
+        "score": 34.76,
+        "source": "rowize",
+        "table_id": "rowize_p32",
+        "y_min_px": 471.5
+      },
+      {
+        "accepted": true,
+        "cols": 7,
+        "columns": [
+          [
+            0.0,
+            403.5
+          ],
+          [
+            403.5,
+            428.5
+          ],
+          [
+            428.5,
+            487.5
+          ],
+          [
+            487.5,
+            592.0
+          ],
+          [
+            592.0,
+            660.0
+          ],
+          [
+            660.0,
+            769.0
+          ],
+          [
+            769.0,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 33,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 501,
+            "y1": 520
+          },
+          {
+            "y0": 583,
+            "y1": 607
+          },
+          {
+            "y0": 624,
+            "y1": 691
+          },
+          {
+            "y0": 741,
+            "y1": 753
+          },
+          {
+            "y0": 830,
+            "y1": 844
+          },
+          {
+            "y0": 878,
+            "y1": 924
+          },
+          {
+            "y0": 959,
+            "y1": 1063
+          },
+          {
+            "y0": 1103,
+            "y1": 1115
+          },
+          {
+            "y0": 1146,
+            "y1": 1204
+          }
+        ],
+        "rows": 19,
+        "score": 49.16,
+        "source": "rowize",
+        "table_id": "rowize_p33",
+        "y_min_px": 473.5
+      },
+      {
+        "accepted": true,
+        "cols": 6,
+        "columns": [
+          [
+            0.0,
+            426.5
+          ],
+          [
+            426.5,
+            490.5
+          ],
+          [
+            490.5,
+            701.5
+          ],
+          [
+            701.5,
+            769.0
+          ],
+          [
+            769.0,
+            809.5
+          ],
+          [
+            809.5,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 34,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 504,
+            "y1": 518
+          },
+          {
+            "y0": 571,
+            "y1": 576
+          },
+          {
+            "y0": 592,
+            "y1": 657
+          },
+          {
+            "y0": 672,
+            "y1": 712
+          },
+          {
+            "y0": 727,
+            "y1": 791
+          },
+          {
+            "y0": 806,
+            "y1": 926
+          },
+          {
+            "y0": 950,
+            "y1": 976
+          },
+          {
+            "y0": 1007,
+            "y1": 1063
+          },
+          {
+            "y0": 1079,
+            "y1": 1204
+          }
+        ],
+        "rows": 30,
+        "score": 68.87,
+        "source": "rowize",
+        "table_id": "rowize_p34",
+        "y_min_px": 476.5
+      },
+      {
+        "accepted": true,
+        "cols": 6,
+        "columns": [
+          [
+            0.0,
+            452.5
+          ],
+          [
+            452.5,
+            701.5
+          ],
+          [
+            701.5,
+            773.5
+          ],
+          [
+            773.5,
+            829.5
+          ],
+          [
+            829.5,
+            861.0
+          ],
+          [
+            861.0,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 35,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 504,
+            "y1": 518
+          },
+          {
+            "y0": 578,
+            "y1": 645
+          },
+          {
+            "y0": 681,
+            "y1": 686
+          },
+          {
+            "y0": 727,
+            "y1": 741
+          },
+          {
+            "y0": 767,
+            "y1": 782
+          },
+          {
+            "y0": 839,
+            "y1": 1204
+          }
+        ],
+        "rows": 26,
+        "score": 109.31,
+        "source": "rowize",
+        "table_id": "rowize_p35",
+        "y_min_px": 476.5
+      },
+      {
+        "accepted": true,
+        "cols": 7,
+        "columns": [
+          [
+            0.0,
+            412.0
+          ],
+          [
+            412.0,
+            522.5
+          ],
+          [
+            522.5,
+            646.5
+          ],
+          [
+            646.5,
+            701.5
+          ],
+          [
+            701.5,
+            774.5
+          ],
+          [
+            774.5,
+            845.5
+          ],
+          [
+            845.5,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 36,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 501,
+            "y1": 520
+          },
+          {
+            "y0": 583,
+            "y1": 645
+          },
+          {
+            "y0": 669,
+            "y1": 758
+          },
+          {
+            "y0": 779,
+            "y1": 813
+          },
+          {
+            "y0": 830,
+            "y1": 859
+          },
+          {
+            "y0": 890,
+            "y1": 914
+          },
+          {
+            "y0": 928,
+            "y1": 1046
+          },
+          {
+            "y0": 1079,
+            "y1": 1084
+          },
+          {
+            "y0": 1100,
+            "y1": 1115
+          },
+          {
+            "y0": 1134,
+            "y1": 1204
+          }
+        ],
+        "rows": 28,
+        "score": 104.5,
+        "source": "rowize",
+        "table_id": "rowize_p36",
+        "y_min_px": 473.5
+      },
+      {
+        "accepted": true,
+        "cols": 6,
+        "columns": [
+          [
+            0.0,
+            403.5
+          ],
+          [
+            403.5,
+            412.0
+          ],
+          [
+            412.0,
+            609.5
+          ],
+          [
+            609.5,
+            656.0
+          ],
+          [
+            656.0,
+            833.5
+          ],
+          [
+            833.5,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 37,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 501,
+            "y1": 520
+          },
+          {
+            "y0": 905,
+            "y1": 1048
+          },
+          {
+            "y0": 1065,
+            "y1": 1084
+          },
+          {
+            "y0": 1134,
+            "y1": 1204
+          }
+        ],
+        "rows": 10,
+        "score": 25.7,
+        "source": "rowize",
+        "table_id": "rowize_p37",
+        "y_min_px": 473.5
+      },
+      {
+        "accepted": true,
+        "cols": 6,
+        "columns": [
+          [
+            0.0,
+            392.5
+          ],
+          [
+            392.5,
+            471.5
+          ],
+          [
+            471.5,
+            475.5
+          ],
+          [
+            475.5,
+            575.0
+          ],
+          [
+            575.0,
+            911.5
+          ],
+          [
+            911.5,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 38,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 499,
+            "y1": 521
+          },
+          {
+            "y0": 991,
+            "y1": 1053
+          }
+        ],
+        "rows": 3,
+        "score": 12.67,
+        "source": "rowize",
+        "table_id": "rowize_p38",
+        "y_min_px": 471.5
+      },
+      {
+        "accepted": true,
+        "cols": 6,
+        "columns": [
+          [
+            0.0,
+            385.5
+          ],
+          [
+            385.5,
+            413.0
+          ],
+          [
+            413.0,
+            609.5
+          ],
+          [
+            609.5,
+            876.0
+          ],
+          [
+            876.0,
+            911.0
+          ],
+          [
+            911.0,
+            1275.0
+          ]
+        ],
+        "method": "rowize_tokens",
+        "page_height": 1650.0,
+        "page_index": 39,
+        "page_width": 1275.0,
+        "row_spans": [
+          {
+            "y0": 501,
+            "y1": 520
+          },
+          {
+            "y0": 1177,
+            "y1": 1204
+          }
+        ],
+        "rows": 3,
+        "score": 14.0,
+        "source": "rowize",
+        "table_id": "rowize_p39",
+        "y_min_px": 473.5
+      }
+    ]
+  }
+}

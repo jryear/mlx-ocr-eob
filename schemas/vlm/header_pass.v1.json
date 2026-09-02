@@ -1,0 +1,231 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nativeocr.dev/schemas/vlm/header_pass.v1.json",
+  "title": "VLM Header Pass v1",
+  "description": "Request and response schemas for header-only VLM inference pass",
+  "oneOf": [
+    {
+      "title": "Header Pass Request",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "session_id", "roi_id", "image_sha256", "schema_hint", "decode", "budget", "compact"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "infer.headers.v1"
+        },
+        "session_id": {
+          "type": "string",
+          "pattern": "^sess-[0-9]{8}-[a-z0-9]+$",
+          "description": "Unique session identifier"
+        },
+        "roi_id": {
+          "type": "string",
+          "pattern": "^roi-[0-9a-f]{6,}$",
+          "description": "ROI identifier"
+        },
+        "image_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "image_b64": {
+          "type": "string",
+          "description": "Base64-encoded image data (optional if image_path provided)"
+        },
+        "image_path": {
+          "type": "string",
+          "description": "Alternative to image_b64"
+        },
+        "schema_hint": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["canonical_columns", "types"],
+          "properties": {
+            "canonical_columns": {
+              "type": "array",
+              "items": {"type": "string"},
+              "minItems": 1,
+              "description": "Expected canonical column names in order"
+            },
+            "types": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string",
+                "enum": ["code", "money", "date", "id", "text"]
+              },
+              "description": "Column type hints for validation"
+            }
+          }
+        },
+        "payer_hint": {
+          "type": ["string", "null"],
+          "description": "Optional payer identifier for domain-specific hints"
+        },
+        "decode": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["max_new_tokens", "timeout_s", "greedy"],
+          "properties": {
+            "max_new_tokens": {"type": "integer", "minimum": 128, "maximum": 2048},
+            "timeout_s": {"type": "integer", "minimum": 10, "maximum": 600},
+            "greedy": {"type": "boolean"}
+          }
+        },
+        "budget": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["class", "est_rows", "est_cols", "est_cells", "est_source"],
+          "properties": {
+            "class": {"type": "string", "enum": ["small", "typical", "large"]},
+            "est_rows": {"type": "integer", "minimum": 1},
+            "est_cols": {"type": "integer", "minimum": 1},
+            "est_cells": {"type": "integer", "minimum": 1},
+            "est_source": {"type": "string", "enum": ["vision_lines", "proj_peaks", "default"]}
+          }
+        },
+        "compact": {
+          "type": "boolean",
+          "description": "Request compact JSON output"
+        }
+      }
+    },
+    {
+      "title": "Header Pass Response",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "session_id", "roi_id", "detected_headers", "mapping", "canonical_order", "header_lock", "model_meta", "status"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "result.headers.v1"
+        },
+        "session_id": {
+          "type": "string",
+          "pattern": "^sess-[0-9]{8}-[a-z0-9]+$"
+        },
+        "roi_id": {
+          "type": "string",
+          "pattern": "^roi-[0-9a-f]{6,}$"
+        },
+        "detected_headers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["text", "text_norm", "bbox", "order_idx"],
+            "properties": {
+              "text": {"type": "string"},
+              "text_norm": {"type": "string"},
+              "bbox": {
+                "type": "array",
+                "items": {"type": "number"},
+                "minItems": 4,
+                "maxItems": 4,
+                "description": "[x, y, w, h]"
+              },
+              "order_idx": {"type": "integer", "minimum": 0}
+            }
+          }
+        },
+        "mapping": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["det_idx", "canonical", "cost", "cost_terms"],
+            "properties": {
+              "det_idx": {"type": "integer", "minimum": 0},
+              "canonical": {"type": "string"},
+              "cost": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+              "cost_terms": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["lev", "jacc", "pos", "syn"],
+                "properties": {
+                  "lev": {"type": "number"},
+                  "jacc": {"type": "number"},
+                  "pos": {"type": "number"},
+                  "syn": {"type": "number"}
+                }
+              }
+            }
+          }
+        },
+        "canonical_order": {
+          "type": "array",
+          "items": {"type": "string"},
+          "minItems": 1
+        },
+        "header_lock": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["canonical_order", "mapping", "unmapped", "lock_sha256"],
+          "properties": {
+            "canonical_order": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "mapping": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["canonical", "det_idx"],
+                "properties": {
+                  "canonical": {"type": "string"},
+                  "det_idx": {"type": "integer", "minimum": 0}
+                }
+              }
+            },
+            "unmapped": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Canonical columns with cost ≥0.50"
+            },
+            "lock_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$",
+              "description": "SHA256(canonical_order||mapping||image_sha256)"
+            }
+          }
+        },
+        "model_meta": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["response_sha256", "parse_repair", "decode_kwargs_accepted", "budget_class", "est_cells", "est_source", "runner_mode", "model_fingerprint"],
+          "properties": {
+            "response_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+            "parse_repair": {
+              "type": "string",
+              "enum": ["none", "balanced_braces", "row_patch", "truncation"]
+            },
+            "decode_kwargs_accepted": {
+              "type": "object",
+              "properties": {
+                "max_new_tokens": {"type": "integer"}
+              }
+            },
+            "budget_class": {"type": "string", "enum": ["small", "typical", "large"]},
+            "est_cells": {"type": "integer", "minimum": 1},
+            "est_source": {"type": "string", "enum": ["vision_lines", "proj_peaks", "default"]},
+            "runner_mode": {"type": "string", "enum": ["persistent", "per_roi"]},
+            "model_fingerprint": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["name", "revision_sha", "quant"],
+              "properties": {
+                "name": {"type": "string"},
+                "revision_sha": {"type": "string"},
+                "quant": {"type": "string"}
+              }
+            }
+          }
+        },
+        "status": {
+          "type": "string",
+          "enum": ["ok", "empty", "invalid"]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "$schema": "../../schemas/gold_truth.v1.json",
+  "patient": "DOE, JANE",
+  "provider": "EXAMPLE DENTAL",
+  "payer": "ACME PPO",
+  "member_id": "MEM000001",
+  "claim_date": "2025-06-15",
+  "claims": [
+    {
+      "claim_id": "CLM000001",
+      "rows": [
+        {
+          "proc_cd": "D2740",
+          "desc": "Porcelain Crown",
+          "dos": "2025-06-01",
+          "billed": 110000,
+          "allowed": 80000,
+          "paid": 60000,
+          "adjust": -20000,
+          "patient": 10000
+        },
+        {
+          "proc_cd": "D1110",
+          "desc": "Prophylaxis Adult",
+          "dos": "2025-06-01",
+          "billed": 8500,
+          "allowed": 8500,
+          "paid": 8500,
+          "adjust": 0,
+          "patient": 0
+        }
+      ],
+      "money_conservation": true
+    }
+  ],
+  "totals": {
+    "billed": 118500,
+    "allowed": 88500,
+    "paid": 68500,
+    "adjust": -20000,
+    "patient": 10000
+  },
+  "notes": "TEMPLATE: Replace with actual ground truth after PDF acquisition"
+}

@@ -1,0 +1,70 @@
+{
+  "type": "result.headers.v1",
+  "session_id": "sess-20251023-abc123",
+  "roi_id": "roi-000123",
+  "detected_headers": [
+    {
+      "text": "DATE OF SERVICE",
+      "text_norm": "DATE OF SERVICE",
+      "bbox": [45.2, 120.5, 85.3, 12.8],
+      "order_idx": 0
+    },
+    {
+      "text": "ALLOWED",
+      "text_norm": "ALLOWED",
+      "bbox": [340.1, 120.5, 58.2, 12.8],
+      "order_idx": 1
+    }
+  ],
+  "mapping": [
+    {
+      "det_idx": 0,
+      "canonical": "dos",
+      "cost": 0.18,
+      "cost_terms": {
+        "lev": 0.10,
+        "jacc": 0.12,
+        "pos": 0.0,
+        "syn": -0.04
+      }
+    },
+    {
+      "det_idx": 1,
+      "canonical": "allowed",
+      "cost": 0.07,
+      "cost_terms": {
+        "lev": 0.05,
+        "jacc": 0.06,
+        "pos": 0.0,
+        "syn": -0.04
+      }
+    }
+  ],
+  "canonical_order": ["proc_cd", "desc", "dos", "billed", "allowed", "paid", "adjust", "patient"],
+  "header_lock": {
+    "canonical_order": ["proc_cd", "desc", "dos", "billed", "allowed", "paid", "adjust", "patient"],
+    "mapping": [
+      {"canonical": "dos", "det_idx": 0},
+      {"canonical": "allowed", "det_idx": 1}
+    ],
+    "unmapped": ["proc_cd", "desc", "billed", "paid", "adjust", "patient"],
+    "lock_sha256": "a1b2c3d4e5f6789012345678901234567890123456789012345678901234abcd"
+  },
+  "model_meta": {
+    "response_sha256": "b2c3d4e5f6a789012345678901234567890123456789012345678901234abcde",
+    "parse_repair": "none",
+    "decode_kwargs_accepted": {
+      "max_new_tokens": 512
+    },
+    "budget_class": "typical",
+    "est_cells": 56,
+    "est_source": "vision_lines",
+    "runner_mode": "persistent",
+    "model_fingerprint": {
+      "name": "mlx-community/Qwen2-VL-2B-Instruct-4bit",
+      "revision_sha": "abc123def456",
+      "quant": "int4"
+    }
+  },
+  "status": "ok"
+}

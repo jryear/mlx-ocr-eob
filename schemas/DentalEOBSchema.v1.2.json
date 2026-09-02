@@ -100,7 +100,8 @@
         "processed_timestamp": { "type": "string", "format": "date-time" },
         "schema_ref":          { "type": "string", "const": "urn:imogen:eob:dental:1.2" },
         "source_node":         { "type": "string", "enum": ["Redis","n8n","Unstract","NativeOCR","Other"] },
-        "canonical_sha256":    { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+        "canonical_sha256":    { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "canonical_sha256_scope": { "type": "string" }
       }
     },
     "provenance": {

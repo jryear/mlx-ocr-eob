@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nativeocr.dev/schemas/hypothesis.map.v1.json",
+  "title": "Hypothesis Map v1 (deterministic generators)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "doc", "generators", "hypotheses"],
+  "properties": {
+    "schema": { "type": "string", "const": "hypothesis.map.v1" },
+    "doc": { "type": "string" },
+    "generators": {
+      "type": "array",
+      "items": { "type": "string", "enum": [
+        "vision.strict", "vision.snap", "rowize.strict", "rowize.loose"
+      ] }
+    },
+    "hypotheses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "hypothesis_id", "generator_id", "table_id", "page_index", "present",
+          "column_map"
+        ],
+        "properties": {
+          "hypothesis_id": { "type": "string" },
+          "generator_id": { "type": "string", "enum": [
+            "vision.strict", "vision.snap", "rowize.strict", "rowize.loose"
+          ] },
+          "table_id": { "type": "string" },
+          "page_index": { "type": "integer", "minimum": 0 },
+          "present": { "type": "boolean" },
+          "column_map": {
+            "type": "object",
+            "description": "Map of role → column index (0-based).",
+            "additionalProperties": { "type": "integer", "minimum": 0 }
+          },
+          "notes": { "type": ["string", "null"] }
+        }
+      }
+    }
+  }
+}
+

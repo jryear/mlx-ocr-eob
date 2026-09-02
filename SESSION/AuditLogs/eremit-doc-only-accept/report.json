@@ -1,0 +1,19 @@
+{
+  "suite": "Doc-only Acceptance",
+  "pages": "bench/doc_only_headerful",
+  "out": "/Users/jryear/Desktop/NativeOCR/out/eremit_doc_only_accept",
+  "doc_tables": {
+    "accepted": 1,
+    "rejected": 0
+  },
+  "semantics": {
+    "mapper": 1,
+    "him": 0
+  },
+  "assembly": {
+    "services": 4,
+    "rows_3of4": 4,
+    "complete_rows": 4,
+    "conservation_rate": 1.0
+  }
+}

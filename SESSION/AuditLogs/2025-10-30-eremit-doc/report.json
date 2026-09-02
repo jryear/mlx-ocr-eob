@@ -1,0 +1,171 @@
+{
+  "assembly": {
+    "canonical_sha256": "ef8506f670fcaac75d94925d942f952524f74ee88223040e59545416cb02deb5",
+    "conservation": {
+      "conservation_rate": 0.0,
+      "conserved_rows": [],
+      "incomplete_rows": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "inconsistent_rows": [],
+      "rows": [
+        {
+          "reasons": [
+            "missing:allowed,paid,patient"
+          ],
+          "row": 0,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,patient"
+          ],
+          "row": 1,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,patient"
+          ],
+          "row": 2,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged"
+          ],
+          "row": 3,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,paid,patient"
+          ],
+          "row": 4,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,patient"
+          ],
+          "row": 5,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,patient"
+          ],
+          "row": 6,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged"
+          ],
+          "row": 7,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,patient"
+          ],
+          "row": 8,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,allowed,patient"
+          ],
+          "row": 9,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,paid,patient"
+          ],
+          "row": 10,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged"
+          ],
+          "row": 11,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged,paid,patient"
+          ],
+          "row": 12,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged"
+          ],
+          "row": 13,
+          "status": "incomplete"
+        },
+        {
+          "reasons": [
+            "missing:charged"
+          ],
+          "row": 14,
+          "status": "incomplete"
+        }
+      ]
+    },
+    "deterministic_equal": true,
+    "file_sha256_first": "3db8324c57668e2e411416fc7ca5be5566f33bf5874945e5eaa022fd6106e90e",
+    "file_sha256_second": "3db8324c57668e2e411416fc7ca5be5566f33bf5874945e5eaa022fd6106e90e",
+    "out_json": "out/eremit_doc/EREMIT60pg.json",
+    "services_count": 15
+  },
+  "capture": {
+    "ndjson": "bench/eremit_doc/eremit_doc.jsonl",
+    "per_page_ms": {
+      "max_ms": 823,
+      "mean_ms": 315,
+      "min_ms": 109,
+      "p95_ms": 616,
+      "pages": 40
+    },
+    "routing": {
+      "text": 32,
+      "vlm": 8
+    },
+    "run_manifest": "runs/eremit_doc_run.json",
+    "wall_time_s": 12.895
+  },
+  "doc": "eobs/tests/EREMIT60pg.pdf",
+  "dpi": 150,
+  "kpi": {
+    "deterministic_eob": true,
+    "services_extracted": true,
+    "tables_detected": true,
+    "target_sub_1s_per_page": true
+  },
+  "lang": "en-US",
+  "mode": "document",
+  "vision_tables": {
+    "median_cells_per_table": 238,
+    "median_coverage": 1.0,
+    "pages_with_tables": 4,
+    "total_tables": 5
+  }
+}

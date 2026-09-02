@@ -1,0 +1,63 @@
+payer: 'EREMIT'
+detect:
+  name_regex: '(?i)(?:remit[tl][ae]nce|maryland.*health|payee.*id)'
+  header_left_hints: ['maryland', 'payee', 'provider']
+  header_right_hints: ['remittance', 'remilence', 'claim']
+tables:
+  - id: 'main'
+    header_row: 0
+    column_map:
+      date:        { field: service_date,   type: date,   patterns: ['%m/%d/%Y', '%Y-%m-%d', '%m/%d/%y'] }
+      code:        { field: procedure_code, type: dcode }
+      tooth:       { field: tooth_number,   type: tooth }
+      surface:     { field: tooth_surface,  type: tooth_surface }
+      description: { field: remark_description, type: text }
+      charge:      { field: charged_amount, type: money }
+      billed:      { field: charged_amount, type: money }
+      allowed:     { field: allowed_amount, type: money }
+      paid:        { field: insurance_paid, type: money }
+      patient:     { field: patient_responsibility, type: money }
+    header_aliases:
+      # EREMIT-specific patterns
+      'amount':           allowed      # Generic "Amount" defaults to allowed (middle column)
+      'patient':          patient      # "Patient" → patient_responsibility
+      'patient resp':     patient
+      'pt resp':          patient
+      'patient responsibility': patient
+      # Common variations
+      'svc date':         date
+      'dos':              date
+      'date of service':  date
+      'proc':             code
+      'procedure':        code
+      'cpt':              code
+      'd-code':           code
+      'tooth #':          tooth
+      'tooth':            tooth
+      'surf':             surface
+      'surface':          surface
+      'desc':             description
+      'description':      description
+      'billed':           charge
+      'charge':           charge
+      'charged':          charge
+      'allowed amt':      allowed
+      'allowed amount':   allowed
+      'ins paid':         paid
+      'insurance paid':   paid
+      'paid amount':      paid
+kv:
+  header_left:
+    provider_name:
+      regex: '(?i)provider\s*[:/]?\s*(.+?)(?:\s+ID|$)'
+    rendering_provider:
+      regex: '(?i)rendering\s*provider\s*[:#]?\s*(.+)'
+    office_name:
+      regex: '(?i)office\s*(?:name)?\s*[:#]?\s*(.+)'
+  header_right:
+    claim_number:
+      regex: '(?i)claim\s*(?:#|number)?\s*[:#]?\s*([A-Z0-9\-]+)'
+    patient_name:
+      regex: '(?i)patient\s*(?:name)?\s*[:#]?\s*(.+?)(?:\s|$)'
+    member_id:
+      regex: '(?i)member\s*(?:ID|#)?\s*[:#]?\s*([A-Z0-9\-]+)'

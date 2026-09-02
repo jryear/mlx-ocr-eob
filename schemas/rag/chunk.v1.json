@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rag/chunk.v1.json",
+  "title": "EOB Chunk v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["type", "text", "source_doc_sha256", "chunk_uid", "chunk_sha256"],
+  "properties": {
+    "type": { "type": "string", "enum": ["header", "claim", "service_line"] },
+    "text": { "type": "string", "minLength": 1, "maxLength": 8000 },
+    "notes": { "type": "string" },
+
+    "payer_name": { "type": ["string", "null"] },
+    "payer_id":   { "type": ["string", "null"] },
+    "member_id":  { "type": ["string", "null"] },
+    "subscriber_name": { "type": ["string", "null"] },
+    "provider_npi": { "type": ["string", "null"], "pattern": "^\\d{10}$" },
+    "office_id": { "type": ["string", "null"] },
+
+    "claim_id":   { "type": ["string", "null"] },
+    "claim_date": { "type": ["string", "null"], "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "claim_status": { "type": ["string", "null"] },
+    "claim_quarter": { "type": ["string", "null"], "pattern": "^\\d{4}Q[1-4]$" },
+
+    "proc_system": { "type": ["string", "null"], "enum": ["ADA", "CPT", null] },
+    "proc_cd": { "type": ["string", "null"] },
+    "description": { "type": ["string", "null"] },
+    "dos": { "type": ["string", "null"], "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "decision": { "type": ["string", "null"], "enum": ["Approved", "Denied", "Partial", "Pending", "Adjusted", null] },
+    "denial_reasons": { "type": "array", "items": { "type": "string" } },
+
+    "total_billed": { "type": ["number", "null"] },
+    "total_allowed": { "type": ["number", "null"] },
+    "total_paid": { "type": ["number", "null"] },
+    "total_patient": { "type": ["number", "null"] },
+
+    "billed": { "type": ["number", "null"] },
+    "allowed": { "type": ["number", "null"] },
+    "paid": { "type": ["number", "null"] },
+    "adjustment": { "type": ["number", "null"] },
+    "patient_responsibility": { "type": ["number", "null"] },
+
+    "tooth": { "type": ["string", "null"] },
+    "surface": { "type": ["string", "null"] },
+
+    "source_doc_sha256": { "type": "string", "minLength": 32 },
+    "page_idx": { "type": "array", "items": { "type": "integer" } },
+    "line_idx": { "type": ["integer", "null"] },
+    "eob_json_pointer": { "type": ["string", "null"] },
+
+    "chunk_uid": { "type": "string", "minLength": 32 },
+    "chunk_sha256": { "type": "string", "minLength": 32 },
+    "chunk_sha256_scope": { "type": "string" }
+  }
+}

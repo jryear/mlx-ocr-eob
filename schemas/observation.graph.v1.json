@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nativeocr.dev/schemas/observation.graph.v1.json",
+  "title": "Observation Graph v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "doc", "doc_byte_sha256", "page_count", "quantization", "rows"],
+  "properties": {
+    "schema": { "type": "string", "const": "observation.graph.v1" },
+    "doc": { "type": "string" },
+    "doc_byte_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "page_count": { "type": "integer", "minimum": 0 },
+    "quantization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["col_step_bp", "row_isotonic", "hash"],
+      "properties": {
+        "col_step_bp": { "type": "integer", "minimum": 1, "maximum": 10000 },
+        "row_isotonic": { "type": "boolean" },
+        "hash": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      }
+    },
+    "rows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "obs_id",
+          "page_index",
+          "row_index",
+          "observation_hash",
+          "row_bbox",
+          "tokens"
+        ],
+        "properties": {
+          "obs_id": { "type": "string" },
+          "page_index": { "type": "integer", "minimum": 0 },
+          "row_index": { "type": "integer", "minimum": 0 },
+          "observation_hash": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+          "row_bbox": { "type": "array", "items": { "type": "integer" }, "minItems": 4, "maxItems": 4 },
+          "tokens": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["text", "bbox"],
+              "properties": {
+                "text": { "type": "string" },
+                "bbox": { "type": "array", "items": { "type": "integer" }, "minItems": 4, "maxItems": 4 },
+                "ocr_conf": { "type": ["integer", "null"], "minimum": 0, "maximum": 100 }
+              }
+            }
+          },
+          "anchors": {
+            "type": ["array", "null"],
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["kind", "x"],
+              "properties": {
+                "kind": { "type": "string" },
+                "x": { "type": "integer" }
+              }
+            }
+          },
+          "prefilter": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "procedure_code": {
+                "type": ["string", "null"],
+                "pattern": "^(D\\d{4}|\\d{5})$"
+              },
+              "service_date_text": {
+                "type": ["string", "null"],
+                "pattern": "^\\d{1,2}/\\d{1,2}(/\\d{2,4})?$"
+              },
+              "charged_amount_cents": { "type": ["integer", "null"], "minimum": 0 }
+            }
+          },
+          "typedness_row_bps": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "money_bp": { "type": ["integer", "null"], "minimum": 0, "maximum": 10000 },
+              "date_bp": { "type": ["integer", "null"], "minimum": 0, "maximum": 10000 },
+              "cdt_bp": { "type": ["integer", "null"], "minimum": 0, "maximum": 10000 },
+              "tooth_bp": { "type": ["integer", "null"], "minimum": 0, "maximum": 10000 },
+              "surface_bp": { "type": ["integer", "null"], "minimum": 0, "maximum": 10000 },
+              "id_bp": { "type": ["integer", "null"], "minimum": 0, "maximum": 10000 }
+            }
+          },
+          "typedness_cells": {
+            "type": ["array", "null"],
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["x0", "x1"],
+              "properties": {
+                "x0": { "type": "integer" },
+                "x1": { "type": "integer" },
+                "money_bp": { "type": ["integer", "null"], "minimum": 0, "maximum": 10000 },
+                "date_bp": { "type": ["integer", "null"], "minimum": 0, "maximum": 10000 },
+                "cdt_bp": { "type": ["integer", "null"], "minimum": 0, "maximum": 10000 }
+              }
+            }
+          },
+          "locale_hints": {
+            "type": ["object", "null"],
+            "additionalProperties": false,
+            "properties": {
+              "decimal_mark": { "type": ["string", "null"], "enum": [",", ".", null] },
+              "thousands_sep": { "type": ["string", "null"], "enum": [",", ".", " ", null] }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+

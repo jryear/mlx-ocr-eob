@@ -1,0 +1,72 @@
+{
+  "assembly": {
+    "canonical_sha256": null,
+    "deterministic_equal": true,
+    "file_sha256_first": "ebfad14484db3de799bd2fa09617fe6992cf0db2c97ec760aab75c7a7e2dc418",
+    "file_sha256_second": "ebfad14484db3de799bd2fa09617fe6992cf0db2c97ec760aab75c7a7e2dc418",
+    "out_json": "out/eremit_fast/EREMIT60pg.conservation.json"
+  },
+  "capture": {
+    "ndjson": "bench/eremit_fast/eremit60_text.jsonl",
+    "per_page_ms": {
+      "max_ms": 357,
+      "mean_ms": 232,
+      "min_ms": 86,
+      "p95_ms": 335,
+      "pages": 40
+    },
+    "route_decisions": [
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text",
+      "text"
+    ],
+    "run_manifest": "runs/eremit60_text_run.json",
+    "wall_time_s": 9.594
+  },
+  "doc": "eobs/tests/EREMIT60pg.pdf",
+  "dpi": 150,
+  "kpi": {
+    "deterministic_eob": true,
+    "target_50_pages_under_60s": true,
+    "target_sub_1s_per_page": true
+  },
+  "lang": "en-US",
+  "mode": "text"
+}

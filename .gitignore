@@ -1,0 +1,7 @@
+# Generated benchmark/OCR run outputs. Large and reproducible — kept on disk,
+# excluded from git. Added 2026-09-02 (repo had no .gitignore; 29,783 untracked files).
+runs/
+out/
+bench/holdout/
+.build/
+*.xcuserstate

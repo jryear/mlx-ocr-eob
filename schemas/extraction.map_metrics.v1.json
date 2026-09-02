@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nativeocr.dev/schemas/extraction.map_metrics.v1.json",
+  "title": "Extraction Map Metrics v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "doc", "tables"],
+  "properties": {
+    "schema": { "type": "string", "const": "extraction.map_metrics.v1" },
+    "doc": { "type": "string" },
+    "tables": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["table_id", "page_index", "map_completeness", "assigned_roles", "anchors_per_row", "role_coverage", "applied_for_extraction"],
+        "properties": {
+          "table_id": { "type": "string" },
+          "page_index": { "type": "integer", "minimum": 0 },
+          "map_completeness": { "type": "integer", "minimum": 0, "maximum": 4 },
+          "assigned_roles": { "type": "array", "items": { "type": "string" } },
+          "anchors_per_row": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["0", "1", "2", "3"],
+            "properties": {
+              "0": { "type": "integer", "minimum": 0 },
+              "1": { "type": "integer", "minimum": 0 },
+              "2": { "type": "integer", "minimum": 0 },
+              "3": { "type": "integer", "minimum": 0 }
+            }
+          },
+          "role_coverage": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["charged_amount", "allowed_amount", "insurance_paid", "patient_responsibility"],
+            "properties": {
+              "charged_amount": { "type": "number", "minimum": 0, "maximum": 1 },
+              "allowed_amount": { "type": "number", "minimum": 0, "maximum": 1 },
+              "insurance_paid": { "type": "number", "minimum": 0, "maximum": 1 },
+              "patient_responsibility": { "type": "number", "minimum": 0, "maximum": 1 }
+            }
+          },
+          "applied_for_extraction": { "type": "boolean" },
+          "thresholds": { "type": ["object", "null"], "additionalProperties": true },
+          "reasons": { "type": ["array", "null"], "items": { "type": "string" } }
+        }
+      }
+    }
+  }
+}
+

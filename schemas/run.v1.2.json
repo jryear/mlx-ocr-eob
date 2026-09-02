@@ -104,3 +104,34 @@
     }
   }
 }
+    "runner_mode": { "type": ["string", "null"], "enum": ["persistent", "per_roi", null] },
+    "model_fingerprint": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": ["string", "null"] },
+        "revision_sha": { "type": ["string", "null"] },
+        "quant": { "type": ["string", "null"] },
+        "tokenizer_sha": { "type": ["string", "null"] },
+        "chat_template_sha": { "type": ["string", "null"] }
+      }
+    },
+    "cache_paths": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "HF_HOME": { "type": ["string", "null"] },
+        "TRANSFORMERS_CACHE": { "type": ["string", "null"] }
+      }
+    },
+    "session": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "started_ts": { "type": ["string", "null"], "format": "date-time" },
+        "ended_ts": { "type": ["string", "null"], "format": "date-time" },
+        "roi_count": { "type": ["integer", "null"], "minimum": 0 },
+        "avg_sec_per_roi": { "type": ["number", "null"], "minimum": 0 },
+        "p95_sec_per_roi": { "type": ["number", "null"], "minimum": 0 }
+      }
+    },
